@@ -33,15 +33,20 @@ def load_pickle(filename):
 
 def mock_search_response():
     """
-    Returns the mocked HTTP Response object for an amazon search
+    Returns the mocked returnvalue for search_amazon()
     can extract a dict using .json() on the returnvalue
+    See search_amazon() for return type
     """
     search_results = load_pickle("search_results.pkl")
-    return search_results
+    return search_results.json()
 
 def mock_price_history():
-    """Returns the mocked HTTP response for price history"""
-    price_history = load_pickle("price_history.pkl")
+    """
+    Returns the mocked returnvalue for fetch_price_history()
+    Returns a list of dicts, which contain keys "price" and "price_date"
+    """
+    resp = load_pickle("price_history.pkl")
+    price_history = resp.json()["price_history"]
     return price_history
 
 def search_amazon(query_text):
