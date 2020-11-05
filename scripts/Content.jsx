@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import GoogleButton from './GoogleButton';
 import Socket from './Socket';
-
+import "./Content.css"
 export default function Content() {
     const [authenticated, setAuthentication] = useState(false);
     const [input, setInput] = useState('');
@@ -20,14 +20,14 @@ export default function Content() {
         setInput('');
     };
     return(
-        <div>
-            <h2>
+        <div className={"main-container"}>
+            <h1>
                 InstaPrice
-            </h2>
+            </h1>
             {authenticated
                 ? (
                     <>
-                    <div className="footer">
+                    <div className="searchbar">
                       <form htmlFor="newitem" onSubmit={addformlist}>
                         <label htmlFor="textbox">
                           <input
