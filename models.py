@@ -25,10 +25,24 @@ class Profile(db.Model):
 
 class Queries(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    #TODO
+    itemID = db.Column(db.String(225))
+    hist_low = db.Column(db.Integer)
+    hist_high = db.Column(db.Integer)
+    mean = db.Column(db.Integer)
+    graphIMG = db.Column(db.String(225)) #URL to graph
+    productURL = db.Column(db.String(225))
     
-    def __init__(self):
-        #TODO
+    def __init__(self, item_name, itemID, hist_low, hist_high, mean, graphIMG, productURL):
+        self.item_name = item_name
+        self.itemID =  itemID
+        self.hist_low = hist_low
+        self.hist_high = hist_high
+        self.mean = mean
+        self.graphIMG = graphIMG
+        self.productURL = productURL
+    
+    def __repr__(self):
+        return "<Item: %s>" % self.item_name
 
 class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
