@@ -15,6 +15,12 @@ def hello():
 def on_new_google_user(data):
     print("Got an event for new google user input with data:", data)
     print('Someone connected! with google')
+    socketio.emit('connected', {
+        'username': data['name'],
+        'email': data['email'],
+        'profilepicture': data['profilepicture']
+    })
+
 
 @socketio.on('disconnect')
 def on_disconnect():
