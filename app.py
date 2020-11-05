@@ -26,7 +26,9 @@ def on_new_google_user(data):
 def on_disconnect():
     print('Someone disconnected!')
 
-
+@socketio.on('new item')
+def on_newitem(data):
+    print('new item recieved:',data["item"])
 
 if __name__ == '__main__':
     socketio.run(

@@ -14,7 +14,7 @@ export default function Content() {
     }, []);
     const addformlist = (e) => {
         e.preventDefault();
-        Socket.emit('new message', {
+        Socket.emit('new item', {
           item: input,
         });
         setInput('');
