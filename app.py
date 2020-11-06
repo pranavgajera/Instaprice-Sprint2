@@ -15,12 +15,20 @@ def hello():
 def on_new_google_user(data):
     print("Got an event for new google user input with data:", data)
     print('Someone connected! with google')
+    socketio.emit('connected', {
+        'username': data['name'],
+        'email': data['email'],
+        'profilepicture': data['profilepicture']
+    })
+
 
 @socketio.on('disconnect')
 def on_disconnect():
     print('Someone disconnected!')
 
-
+@socketio.on('new item')
+def on_newitem(data):
+    print('new item recieved:',data["item"])
 
 if __name__ == '__main__':
     socketio.run(
