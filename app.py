@@ -42,11 +42,6 @@ def get_price_history(data):
     
 
 if __name__ == '__main__':
-    data={}
-    data['query']='query'
-    search_request(data)
-    
-    
     socketio.run(
         app,
         host=os.getenv('IP', '0.0.0.0'),
