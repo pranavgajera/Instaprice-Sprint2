@@ -8,17 +8,9 @@ import "./Content.css"
 export default function Content() {
     const [authenticated, setAuthentication] = useState(false);
     const [input, setInput] = useState('');
-    const [loggedIn, setLoggedIn] = React.useState(false);
+    const [searched, setSearched] = React.useState(false);
     
     
-    // ------------- hacky search list request
-    function searchRequest() {
-        Socket.emit('search request', {
-            'query': 'random query'
-        });
-        console.log("sending search request")
-    }
-    // -------------
     
     // ------------- TODO make a homepage that contains these
     const [searchList, setSearchList] = React.useState([]);
@@ -27,9 +19,8 @@ export default function Content() {
         React.useEffect(() => {
             Socket.on('search response', (data) => {
                 setSearchList(data['search_list']);
-                // hacked setLoggedIn to bypass the fact that we currently
-                // dont have a way to get to this point
-                setLoggedIn(true);
+                console.log("got list: ", data);
+                setSearched(true);
             });
         }, []);
     }
@@ -37,15 +28,6 @@ export default function Content() {
     getSearchList();
     // --------------
     
-    
-    // -------------- TODO create a homepage to display this from
-    if(loggedIn)
-        return(
-            <div>
-                <SearchResults searchList={searchList}/>
-            </div>
-            );
-    // --------------
 
     useEffect(() => {
     Socket.on('connected', (data) => {
@@ -56,32 +38,38 @@ export default function Content() {
 
     const addformlist = (e) => {
         e.preventDefault();
-        Socket.emit('new item', {
-          item: input,
+        Socket.emit('search request', {
+          'query': input,
         });
         setInput('');
+        setSearched(true);
     };
     return(
         <div className={"main-container"}>
             <h1>
                 InstaPrice
             </h1>
-            <GoogleButton />
-            <button onClick={searchRequest}></button>
             {authenticated
                 ? (
-                    <div className="searchbar">
-                      <form htmlFor="newitem" onSubmit={addformlist}>
-                        <label htmlFor="textbox">
-                          <input
-                            type="text"
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                          />
-                        </label>
-                        <button variant="primary" type="submit" value="Submit">Submit</button>
-                      </form>
-                    </div>
+                    searched ? 
+                    (
+                        <div>
+                            <SearchResults searchList={ searchList } />
+                        </div>
+                    ) :
+                    (
+                        <div className="searchbar">
+                          <form htmlFor="newitem" onSubmit={addformlist}>
+                            <label htmlFor="textbox">
+                              <input
+                                type="text"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                              />
+                            </label>
+                            <button onClick={addformlist} variant="primary" type="submit" value="Submit">Submit</button>
+                          </form>
+                        </div>)
                 ) : <GoogleButton />}
 
         </div>);
