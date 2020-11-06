@@ -1,6 +1,7 @@
 import os
 import flask
 import flask_socketio
+from flask import request
 from dotenv import load_dotenv
 from api_calls import mock_search_response
 
@@ -34,7 +35,7 @@ def search_request(data):
     # search_amazon(data['query'])
     socketio.emit(SEARCH_RESPONSE_CHANNEL, {
         "search_list": search_list
-    })
+    }, room=request.sid)
     
 @socketio.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
