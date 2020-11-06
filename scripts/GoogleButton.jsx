@@ -4,7 +4,7 @@ import Socket from './Socket';
 
 const responseGoogle = (response) => {
   // eslint-disable-next-line no-alert
-  alert(response);
+  console.log(response);
 };
 
 function handleSubmit(response) {
