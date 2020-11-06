@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import GoogleButton from './GoogleButton';
 import SearchResults from './SearchResults';
+import SearchBar from './SearchBar';
 import Socket from './Socket';
 
 import "./Content.css"
 
 export default function Content() {
     const [authenticated, setAuthentication] = useState(false);
-    const [input, setInput] = useState('');
-    const [searched, setSearched] = React.useState(false);
-    
-    
-    
-    // ------------- TODO make a homepage that contains these
+    const [searched, setSearched] = React.useState(false);          // true if we need to display a search list
     const [searchList, setSearchList] = React.useState([]);
     
     function getSearchList() {
@@ -26,9 +22,7 @@ export default function Content() {
     }
     
     getSearchList();
-    // --------------
     
-
     useEffect(() => {
     Socket.on('connected', (data) => {
       setAuthentication(true);
@@ -36,42 +30,35 @@ export default function Content() {
 
     }, []);
 
-    const addformlist = (e) => {
-        e.preventDefault();
-        Socket.emit('search request', {
-          'query': input,
-        });
-        setInput('');
-        setSearched(true);
-    };
+    
+    if(!authenticated) {
+        return (
+            <div className="LoginPage">
+                <h1>
+                    InstaPrice
+                </h1>
+                <GoogleButton />
+            </div>
+        );
+    }
+
     return(
-        <div className={"main-container"}>
+        <div className="HomePage">
             <h1>
                 InstaPrice
             </h1>
-            {authenticated
-                ? (
-                    searched ? 
-                    (
-                        <div>
-                            <SearchResults searchList={ searchList } />
-                        </div>
-                    ) :
-                    (
-                        <div className="searchbar">
-                          <form htmlFor="newitem" onSubmit={addformlist}>
-                            <label htmlFor="textbox">
-                              <input
-                                type="text"
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                              />
-                            </label>
-                            <button onClick={addformlist} variant="primary" type="submit" value="Submit">Submit</button>
-                          </form>
-                        </div>)
-                ) : <GoogleButton />}
-
+            { searched ? 
+                (
+                <div>
+                    <SearchResults searchList={ searchList } />
+                </div>
+                ) :
+                (
+                <div className="searchbar">
+                  <SearchBar setSearched={ setSearched }/>
+                </div>
+                )
+            }
         </div>);
 
 }

@@ -13,10 +13,8 @@ export default function ResultItem(props) {
   
     return(
         <div>
-            
             <button onClick={handleClick}>
-                
-                <span><img src={ props.imageUrl } />{ props.imageUrl }{ props.title }</span>
+                <span><img src={ props.imageUrl } />{ props.title }</span>
             </button>
         </div>
         );
