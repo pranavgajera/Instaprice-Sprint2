@@ -20,14 +20,15 @@ export default function ResultItem(props) {
             <button onClick={handleClick}>
                 <span><img src={ props.imageUrl } />{ props.title }</span>
             </button>
-            {/*{ clicked ?*/}
-            {/*    (*/}
-            {/*    <div>*/}
-            {/*        <PriceHistoryResults />*/}
-            {/*    </div>*/}
-            {/*    ) : ()*/}
+            { clicked ?
+                (
+                <div>
+                    <PriceHistoryResults />
+                </div>
+                ) : (<div>
+                </div>)
 
-            {/*}*/}
+            }
         </div>
         );
 }

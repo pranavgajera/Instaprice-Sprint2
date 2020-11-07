@@ -17,9 +17,10 @@ export default function PriceHistoryResults() {
 
     return(
         <div>
+            <h3>Price Change History For this Item</h3>
             <ul>
                 {pricehistory.map((item) => (
-                    <li>{item.price}</li>
+                    <li>{item.price_date}-${item.price}</li>
                 ))}
             </ul>
 
