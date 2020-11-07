@@ -48,17 +48,14 @@ export default function Content() {
                 InstaPrice
             </h1>
             { searched ? 
-                (
-                <div>
-                    <SearchResults searchList={ searchList } />
-                </div>
-                ) :
-                (
-                <div className="searchbar">
-                  <SearchBar setSearched={ setSearched }/>
-                </div>
-                )
+            (
+                <SearchResults searchList={ searchList } />
+            ) : (null)
             }
+                
+            <div className="searchbar">
+              <SearchBar setSearched={ setSearched }/>
+            </div>
         </div>);
 
 }
