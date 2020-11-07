@@ -4,6 +4,8 @@ import flask_socketio
 from flask import request
 from dotenv import load_dotenv
 from api_calls import mock_search_response
+from api_calls import mock_price_history
+import json
 
 SEARCH_REQUEST_CHANNEL = "search request"
 SEARCH_RESPONSE_CHANNEL = "search response"
@@ -45,6 +47,8 @@ def search_request(data):
     
 @socketio.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
+    price_history = mock_price_history(data['query'])
+    print(json.dumps(price_history, indent=4))
     print("Got an event for price history search with data: ", data)
     
     
