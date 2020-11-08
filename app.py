@@ -59,7 +59,7 @@ def get_price_history(data):
     print("Got an event for price history search with data: ", data)
     socketio.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
         "pricehistory": return_array
-    })
+    }, room=request.sid)
     
     
 @socketio.on('new item')
