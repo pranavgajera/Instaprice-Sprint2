@@ -25,8 +25,7 @@ export default function ResultItem(props) {
                 <div>
                     <PriceHistoryResults />
                 </div>
-                ) : (<div>
-                </div>)
+                ) : (null)
 
             }
         </div>
