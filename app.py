@@ -1,7 +1,15 @@
 import os
 import flask
 import flask_socketio
+from flask import request
 from dotenv import load_dotenv
+from api_calls import mock_search_response
+
+SEARCH_REQUEST_CHANNEL = "search request"
+SEARCH_RESPONSE_CHANNEL = "search response"
+PRICE_HISTORY_REQUEST_CHANNEL = 'price history request'
+PRICE_HISTORY_RESPONSE_CHANNEL = 'price history response'
+
 app = flask.Flask(__name__)
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -15,12 +23,34 @@ def hello():
 def on_new_google_user(data):
     print("Got an event for new google user input with data:", data)
     print('Someone connected! with google')
+    socketio.emit('connected', {
+        'username': data['name'],
+        'email': data['email'],
+        'profilepicture': data['profilepicture']
+    })
+
 
 @socketio.on('disconnect')
 def on_disconnect():
     print('Someone disconnected!')
 
-
+@socketio.on(SEARCH_REQUEST_CHANNEL)
+def search_request(data):
+    print("Got an event for search request with data: ", data)
+    search_list = mock_search_response(data['query'])
+    # search_amazon(data['query'])
+    socketio.emit(SEARCH_RESPONSE_CHANNEL, {
+        "search_list": search_list
+    }, room=request.sid)
+    
+@socketio.on(PRICE_HISTORY_REQUEST_CHANNEL)
+def get_price_history(data):
+    print("Got an event for price history search with data: ", data)
+    
+    
+@socketio.on('new item')
+def on_newitem(data):
+    print('new item recieved:',data["item"])
 
 if __name__ == '__main__':
     socketio.run(
