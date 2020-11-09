@@ -8,6 +8,9 @@ from dotenv import load_dotenv
 from api_calls import mock_search_response, mock_price_history
 from db_writes import user_write, price_write
 import models
+from api_calls import mock_search_response
+from api_calls import mock_price_history
+import json
 
 SEARCH_REQUEST_CHANNEL = "search request"
 SEARCH_RESPONSE_CHANNEL = "search response"
@@ -52,6 +55,7 @@ def emit_all_items(channel):
         },
     )
     
+
 @app.route('/')
 def hello():
     return flask.render_template('index.html')
@@ -65,7 +69,7 @@ def on_new_google_user(data):
         'username': data['name'],
         'email': data['email'],
         'profilepicture': data['profilepicture']
-    })
+    }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
 
 @socketio.on('disconnect')
@@ -82,13 +86,46 @@ def search_request(data):
     
 @socketio.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
+    print(data['ASIN'])
+    price_history = mock_price_history(data['ASIN'])
+    return_array = []
+    for i in range(0, len(price_history)-1):
+        if price_history[i+1]["price"] - price_history[i]["price"] >= 1:
+            return_array.append(price_history[i])
+    # price_history = price_history[len(price_history)-10:len(price_history)]
+    print(json.dumps(return_array, indent=4))
     print("Got an event for price history search with data: ", data)
     price_write(data)
     emit_all_items(FEED_UPDATE_CHANNEL)
+    socketio.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
+        "pricehistory": return_array,
+        'ASIN': data['ASIN']
+    }, room=request.sid)
     
 @socketio.on('new item')
 def on_newitem(data):
     print('new item recieved:',data["item"])
+
+@socketio.on('post price history')
+def post_price_history(data):
+    socketio.emit('post', {
+        'pricehistory': data['priceHistory'] 
+    })
+    print("This is the price history:", data['priceHistory'])
+
+@socketio.on('ignore price history')
+def ignore_price_history(data):
+    socketio.emit('ignored', {
+        'ignored': "true"
+    })
+    print("Ignore the price history:", data['ignore'])
+
+@socketio.on('go to live feed')
+def go_to_live_feed(data):
+    socketio.emit('live feed', {
+        'sid': request.sid
+    })
+    print("Going to live feed with: ", request.sid)
 
 if __name__ == '__main__':
     socketio.run(
