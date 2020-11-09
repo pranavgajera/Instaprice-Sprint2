@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import GoogleButton from './GoogleButton';
 import SearchResults from './SearchResults';
 import SearchBar from './SearchBar';
+import Feed from './Feed';
 import Socket from './Socket';
 
 import "./Content.css"
@@ -55,6 +56,9 @@ export default function Content() {
                 
             <div className="searchbar">
               <SearchBar setSearched={ setSearched }/>
+            </div>
+            <div className="Feed">
+            <Feed />
             </div>
         </div>);
 

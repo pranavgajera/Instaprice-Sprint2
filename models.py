@@ -10,8 +10,8 @@ class Profile(db.Model):
     pfp = db.Column(db.String(225))
     likes = db.Column(db.Integer)
     profileurl = db.Column(db.String(225))
-    queries = db.relationship('Queries', backref = 'name', lazy = True)
-    comments = db.relationship('Comments', backref = 'name', lazy = True)
+    #queries = db.relationship('Queries', backref = 'name', lazy = True)
+    #comments = db.relationship('Comments', backref = 'name', lazy = True)
     
     def __init__(self, name, email, pfp, likes, profileurl):
         self.name = name
@@ -26,15 +26,20 @@ class Profile(db.Model):
 class Queries(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     itemname = db.Column(db.String(225))
-    itemID = db.Column(db.String(225))
+    itemid = db.Column(db.String(225))
+    currprice = db.Column(db.String(225))
     graphimg = db.Column(db.String(225)) #url to graph
+    productimg = db.Column(db.String(225))
     producturl = db.Column(db.String(225))
-    pricehist = db.relationship('PriceHist', backref='queries', lazy = True)
+    #user = db.Column(db.String(225), db.ForeignKey('Profile.email'))
+    #pricehist = db.relationship('PriceHist', backref='queries', lazy = True)
     
-    def __init__(self, itemname, itemid, graphimg, producturl):
+    def __init__(self, itemname, itemid, currprice, graphimg, productimg, producturl):
         self.item_name = item_name
         self.itemid =  itemid
+        self.currprice = currprice
         self.graphimg = graphimg
+        self.productimg = productimg
         self.producturl = producturl
     
     def __repr__(self):
@@ -42,6 +47,7 @@ class Queries(db.Model):
         
 class PriceHist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    itemname = db.Column(db.String(225), db.ForeignKey('Profile.email'))
     itemID = db.Column(db.String(225))
     date = db.Column(db.String(225))
     price = db.Column(db.Float)
@@ -54,13 +60,14 @@ class PriceHist(db.Model):
     
     def __repr__(self):
         return "<Item: %s>" % self.item_name
+        '''
 
 class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String(225))
     profileurl = db.Column(db.String(225))
     comment = db.Column(db.Text)
-    recipient = db.relationship('profile')
+    #recipient = db.relationship('profile')
     
     def __init__(self, user, profileurl, comment, recipient):
         self.user = ''
@@ -72,4 +79,4 @@ class Comments(db.Model):
         return "<User: %s>" % self.user
         
         
-    
+    '''

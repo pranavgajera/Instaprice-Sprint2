@@ -7,11 +7,13 @@ from flask import request
 from dotenv import load_dotenv
 from api_calls import mock_search_response, mock_price_history
 from db_writes import user_write, price_write
+import models
 
 SEARCH_REQUEST_CHANNEL = "search request"
 SEARCH_RESPONSE_CHANNEL = "search response"
 PRICE_HISTORY_REQUEST_CHANNEL = 'price history request'
 PRICE_HISTORY_RESPONSE_CHANNEL = 'price history response'
+FEED_UPDATE_CHANNEL = 'its feeding time'
 
 app = flask.Flask(__name__)
 app = flask.Flask(__name__)
@@ -30,6 +32,26 @@ db.app = app
 db.create_all()
 db.session.commit()
 
+def emit_all_items(channel):
+    all_itemnames = [db_itemname.itemname for db_itemname in db.session.query(models.Queries).all()]
+    all_itemids = [db_itemid.itemid for db_itemid in db.session.query(models.Queries).all()]
+    all_currprice = [db_currprice.currprice for db_currprice in db.session.query(models.Queries).all()]
+    all_graphimgs = [db_graphimg.graphimg for db_graphimg in db.session.query(models.Queries).all()]
+    all_productimgs = [db_productimg.productimg for db_productimg in db.session.query(models.Queries).all()]
+    all_producturls = [db_producturl.producturl for db_producturl in db.session.query(models.Queries).all()]
+
+    socketio.emit(
+        channel,
+        {
+            "allItemnames": all_itemnames,
+            "allItemids": all_itemids,
+            "allCurrprice": all_currprice,
+            "allGraphimgs": all_graphimgs,
+            "allProductimgs": all_productimgs,
+            "allProducturls": all_producturls,
+        },
+    )
+    
 @app.route('/')
 def hello():
     return flask.render_template('index.html')
@@ -44,6 +66,7 @@ def on_new_google_user(data):
         'email': data['email'],
         'profilepicture': data['profilepicture']
     })
+    emit_all_items(FEED_UPDATE_CHANNEL)
 
 @socketio.on('disconnect')
 def on_disconnect():
@@ -53,7 +76,6 @@ def on_disconnect():
 def search_request(data):
     print("Got an event for search request with data: ", data)
     search_list = mock_search_response(data['query'])
-    # search_amazon(data['query'])
     socketio.emit(SEARCH_RESPONSE_CHANNEL, {
         "search_list": search_list
     }, room=request.sid)
@@ -62,6 +84,7 @@ def search_request(data):
 def get_price_history(data):
     print("Got an event for price history search with data: ", data)
     price_write(data)
+    emit_all_items(FEED_UPDATE_CHANNEL)
     
 @socketio.on('new item')
 def on_newitem(data):
