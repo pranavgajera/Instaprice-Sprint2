@@ -31,8 +31,9 @@ def load_pickle(filename):
     file = open(filename, 'rb')
     return pickle.load(file)
 
-def mock_search_response():
+def mock_search_response(search_text):
     """
+    Input: search text for the query
     Returns the mocked returnvalue for search_amazon()
     can extract a dict using .json() on the returnvalue
     See search_amazon() for return type
@@ -40,8 +41,9 @@ def mock_search_response():
     search_results = load_pickle("search_results.pkl")
     return search_results.json()
 
-def mock_price_history():
+def mock_price_history(asin):
     """
+    Input: asin of amazon product getting analyzed
     Returns the mocked returnvalue for fetch_price_history()
     Returns a list of dicts, which contain keys "price" and "price_date"
     """

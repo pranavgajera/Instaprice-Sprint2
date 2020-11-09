@@ -4,7 +4,7 @@ import Socket from './Socket';
 
 const responseGoogle = (response) => {
   // eslint-disable-next-line no-alert
-  alert(response);
+  console.log(response);
 };
 
 function handleSubmit(response) {
@@ -21,7 +21,7 @@ function handleSubmit(response) {
 export default function GoogleButton() {
   return (
     <div className="Main-Container">
-      <h1>Login with Oauth </h1>
+      <h4>Login with Oauth </h4>
       <GoogleLogin
         clientId="938017382447-u5e1vhhggfpi3rf2ifl94gs8030v6d1s.apps.googleusercontent.com"
         buttonText="Login"
