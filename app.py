@@ -30,7 +30,7 @@ def on_new_google_user(data):
         'username': data['name'],
         'email': data['email'],
         'profilepicture': data['profilepicture']
-    })
+    }, room=request.sid)
 
 
 @socketio.on('disconnect')
