@@ -1,0 +1,22 @@
+.main-container {
+    text-align: center;
+}
+
+ol li{
+  list-style-type: none;
+}
+
+.feedbox {
+    margin: auto;
+    width: 50%;
+    border: 3px solid red;
+    padding: 10px;
+    text-align: center;
+    height: 432.624px;
+    width: 1000px;
+    overflow-y: scroll
+}
+
+h1 {
+    text-align: center;
+}

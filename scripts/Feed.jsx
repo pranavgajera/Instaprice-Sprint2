@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Socket from './Socket';
 
+import "./Feed.css"
+
 export default function Feed() {
     const [itemnames, setItemname] = useState([]);
     const [itemid, setItemid] = useState([]);
@@ -32,7 +34,7 @@ export default function Feed() {
   getNewItems();
     
     return (
-        <div id="feedBody">
+        <div className = "feedbox" id="feedBody">
         <h1>Recent searches!</h1>
                 <ol>
                     {itemnames.map((itemname, index) =>
