@@ -6,10 +6,8 @@ import psycopg2
 from flask import request
 from dotenv import load_dotenv
 from api_calls import mock_search_response, mock_price_history
-from db_writes import user_write, price_write
+from db_writes import price_write
 import models
-from api_calls import mock_search_response
-from api_calls import mock_price_history
 import json
 
 SEARCH_REQUEST_CHANNEL = "search request"
@@ -36,26 +34,25 @@ db.create_all()
 db.session.commit()
 
 def emit_all_items(channel):
-    all_itemnames = [db_itemname.itemname for db_itemname in db.session.query(models.Queries).all()]
-    all_itemids = [db_itemid.itemid for db_itemid in db.session.query(models.Queries).all()]
-    all_currprice = [db_currprice.currprice for db_currprice in db.session.query(models.Queries).all()]
-    all_graphimgs = [db_graphimg.graphimg for db_graphimg in db.session.query(models.Queries).all()]
-    all_productimgs = [db_productimg.productimg for db_productimg in db.session.query(models.Queries).all()]
-    all_producturls = [db_producturl.producturl for db_producturl in db.session.query(models.Queries).all()]
-
+    all_itemnames = [db_itemname.itemname for db_itemname in db.session.query(models.Posts).all()]
+    all_imageurls = [db_imageurl.imageurl for db_imageurl in db.session.query(models.Posts).all()]
+    all_pricehists = [db_pricehist.pricehist for db_pricehist in db.session.query(models.Posts).all()]
+    all_usernames = [db_username.username for db_username in db.session.query(models.Posts).all()]
+    all_pfps = [db_pfp.pfp for db_pfp in db.session.query(models.Posts).all()]
+    all_times = [db_time.time for db_time in db.session.query(models.Posts).all()]
+    
     socketio.emit(
         channel,
         {
             "allItemnames": all_itemnames,
-            "allItemids": all_itemids,
-            "allCurrprice": all_currprice,
-            "allGraphimgs": all_graphimgs,
-            "allProductimgs": all_productimgs,
-            "allProducturls": all_producturls,
+            "allImageurls": all_imageurls,
+            "allPricehists": all_pricehists,
+            "allUsernames": all_usernames,
+            "allPfps": all_pfps,
+            "allTimes": all_times,
         },
     )
-    
-
+  
 @app.route('/')
 def hello():
     return flask.render_template('index.html')
@@ -64,14 +61,13 @@ def hello():
 def on_new_google_user(data):
     print("Got an event for new google user input with data:", data)
     print('Someone connected! with google')
-    user_write(data)
     socketio.emit('connected', {
         'username': data['name'],
         'email': data['email'],
         'profilepicture': data['profilepicture']
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
-
+ 
 @socketio.on('disconnect')
 def on_disconnect():
     print('Someone disconnected!')
@@ -95,12 +91,13 @@ def get_price_history(data):
     # price_history = price_history[len(price_history)-10:len(price_history)]
     print(json.dumps(return_array, indent=4))
     print("Got an event for price history search with data: ", data)
-    price_write(data)
-    emit_all_items(FEED_UPDATE_CHANNEL)
     socketio.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
         "pricehistory": return_array,
-        'ASIN': data['ASIN']
+        'ASIN': data['ASIN'],
+        'title': data['title'],
+        'imgurl': data['imgurl']
     }, room=request.sid)
+    emit_all_items(FEED_UPDATE_CHANNEL)
     
 @socketio.on('new item')
 def on_newitem(data):
@@ -108,9 +105,11 @@ def on_newitem(data):
 
 @socketio.on('post price history')
 def post_price_history(data):
+    price_write(data)
     socketio.emit('post', {
         'pricehistory': data['priceHistory'] 
     })
+    emit_all_items(FEED_UPDATE_CHANNEL)
     print("This is the price history:", data['priceHistory'])
 
 @socketio.on('ignore price history')

@@ -13,6 +13,8 @@ export default function ResultItem(props) {
         setClicked(true);
         Socket.emit('price history request', {
             "ASIN": props.ASIN,
+            "title": props.title,
+            "imgurl": props.imageUrl
         });
     }
     

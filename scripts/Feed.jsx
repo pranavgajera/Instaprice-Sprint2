@@ -5,19 +5,19 @@ import "./Feed.css"
 
 export default function Feed() {
     const [itemnames, setItemname] = useState([]);
-    const [itemid, setItemid] = useState([]);
-    const [currprice, setCurrPrice] = useState([]);
-    const [graphimg, setGraphimg] = useState([]);
-    const [productimg, setProductimg] = useState([]);
-    const [producturl, setProducturl] = useState([]);
+    const [imageurls, setImageurl] = useState([]);
+    const [pricehists, setPricehist] = useState([]);
+    const [usernames, setUsername] = useState([]);
+    const [pfps, setPfp] = useState([]);
+    const [times, setTime] = useState([]);
         
     function updateItems(data) {
     setItemname(data.allItemnames);
-    setItemid(data.allItemids);
-    setGraphimg(data.allGraphimgs);
-    setCurrPrice(data.allCurrprice);
-    setProductimg(data.allProductimgs);
-    setProducturl(data.allProducturls);
+    setImageurl(data.allImageurls);
+    setPricehist(data.allPricehists);
+    setUsername(data.allUsernames)
+    setPfp(data.allPfps);
+    setTime(data.allTimes);
     const feedBody = document.querySelector('#feedBody');
     feedBody.scrollTop = feedBody.scrollHeight - feedBody.clientHeight;
   }
@@ -38,7 +38,7 @@ export default function Feed() {
         <h1>Recent searches!</h1>
                 <ol>
                     {itemnames.map((itemname, index) =>
-                        <li key={index}><img src={ productimg[index] } alt = 'product image' /><br></br>{ itemnames[index] } <br></br> Current price:{ currprice[index] } <a href={ producturl[index] }>Check it out on Amazon!</a> </li>)}
+                        <li key={index}><img src={ imageurls[index] } alt = 'product image' /><br></br>{ itemnames[index] } <br></br> Historical price:{ pricehists[index] } <br></br> Posted by: { usernames[index] } on { times[index] } </li>)}
                 </ol>
         </div>
     );
