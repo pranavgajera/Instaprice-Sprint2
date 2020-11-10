@@ -52,7 +52,7 @@ def emit_all_items(channel):
             "allTimes": all_times,
         },
     )
-  
+
 @app.route('/')
 def hello():
     return flask.render_template('index.html')
