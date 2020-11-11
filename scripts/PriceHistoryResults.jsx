@@ -11,8 +11,10 @@ export default function PriceHistoryResults(props) {
     useEffect(() => {
         console.log("we in useeffects");
         Socket.on('price history response', (data) => {
-          setPricehistory(data['pricehistory']),
-          setShow(true);
+          if(props.ASIN == data['ASIN']) {
+            setPricehistory(data['pricehistory']),
+            setShow(true);
+          }
         });
 
     }, []);
