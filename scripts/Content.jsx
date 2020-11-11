@@ -3,15 +3,14 @@ import GoogleButton from './GoogleButton';
 import SearchResults from './SearchResults';
 import SearchBar from './SearchBar';
 import Socket from './Socket';
-import LiveFeedButton from './LiveFeedButton';
+import LiveFeed from './LiveFeed';
 
-import "./Content.css"
+import "./Content.css";
 
 export default function Content() {
     const [authenticated, setAuthentication] = useState(false);
     const [searched, setSearched] = React.useState(false);          // true if we need to display a search list
     const [searchList, setSearchList] = React.useState([]);
-    const [feed, setFeed] = React.useState(false);
     
     function getSearchList() {
         React.useEffect(() => {
@@ -24,17 +23,7 @@ export default function Content() {
     }
     
     getSearchList();
-    
-    function getLiveFeed() {
-        React.useEffect(() => {
-            Socket.on('go to live feed', (data) => {
-                setFeed(true);
-            });
-        });
-    }
-    
-    getLiveFeed();
-    
+
     useEffect(() => {
     Socket.on('connected', (data) => {
       setAuthentication(true);
@@ -58,7 +47,7 @@ export default function Content() {
         <div className="HomePage">
             <h1>
                 InstaPrice
-                <LiveFeedButton />
+                <LiveFeed />
             </h1>
             { searched ? 
                 (
@@ -71,13 +60,6 @@ export default function Content() {
                   <SearchBar setSearched={ setSearched }/>
                 </div>
                 )
-            }
-            { feed ?
-                (
-                <div>
-                    <LiveFeed />
-                </div>
-                ) : (null)
             }
         </div>);
 

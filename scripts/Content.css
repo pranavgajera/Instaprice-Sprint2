@@ -16,3 +16,14 @@ button {
     margin: 4px 2px;
     cursor: pointer;
 }
+
+.livefeed {
+    list-style-type: none;
+    background-color: #eee;
+    width: 250px;
+    height: 500px;
+    overflow: auto;
+    font-size: 28px;
+    font-weight: bold;
+    color: black;
+}
