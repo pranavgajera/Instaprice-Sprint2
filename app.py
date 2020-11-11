@@ -56,6 +56,8 @@ def get_price_history(data):
             return_array.append(price_history[i])
     # price_history = price_history[len(price_history)-10:len(price_history)]
     print(json.dumps(return_array, indent=4))
+    if len(return_array) >=11:
+        return_array = return_array[ len(return_array)- 11 : len(return_array) - 1 ]
     print("Got an event for price history search with data: ", data)
     socketio.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
         "pricehistory": return_array,
