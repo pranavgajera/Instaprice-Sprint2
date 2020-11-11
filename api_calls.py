@@ -11,7 +11,8 @@ import dotenv
 DOTENV_PATH = os.path.join(os.path.dirname(__file__), "secret_tokens.env")
 dotenv.load_dotenv(DOTENV_PATH)
 
-API_URL = "https://rapidapi.p.rapidapi.com/search"
+API_URL_SEARCH = "https://rapidapi.p.rapidapi.com/search"
+API_URL_PRICE_HISTORY = "https://rapidapi.p.rapidapi.com/api/us/price_history"
 RAPID_API_KEY = os.environ["RAPID_API_KEY"]
 
 def save_pickle(filename, obj):
@@ -66,7 +67,7 @@ def search_amazon(query_text):
         "keywords": query_text,
         "marketplace":"US"
     }
-    resp = requests.get(API_URL, headers=headers, params=params)
+    resp = requests.get(API_URL_SEARCH, headers=headers, params=params)
     if resp.status_code != 200:
         print("There was an error with getting amazon search results. Error: {}"\
         .format(resp.status_code))
@@ -92,7 +93,7 @@ def fetch_price_history(asin):
         "price_type": "amazon"
     }
 
-    resp = requests.get(API_URL, headers=headers, params=params)
+    resp = requests.get(API_URL_PRICE_HISTORY, headers=headers, params=params)
     if resp.status_code != 200:
         print("There is an error with fetching price history. Error: {}".format(resp.status_code))
         return None

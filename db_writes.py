@@ -20,10 +20,10 @@ def price_write(price_data):
         price_list = price_data['priceHistory']
         price_list_str = ''
         for entry in price_list:
-            price_list_str += entry['price_date'] + ' ' + str(entry['price']) + ' '
-        item = price_data['item_name']
-        imageurl = price_data['img_url']
-        poster = price_data['name']
-        pfp = price_data['pfp']
+            price_list_str += entry['price_date'] + ' - ' + str(entry['price']) + ' '
+        item = price_data['title']
+        imageurl = price_data['imgurl']
+        poster = price_data['user']
+        pfp = "temp profile picture"
         time = price_data['time']
         cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time) VALUES (%s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time))

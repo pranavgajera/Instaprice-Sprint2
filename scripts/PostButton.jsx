@@ -1,21 +1,24 @@
 import * as React from 'react';
 import Socket from './Socket';
+import {useState, useEffect} from "react";
+import ResultItem from "./ResultItem";
+import PriceHistoryResults from './PriceHistoryResults'
 
-function handlePost(response) {
-    console.log("Button worked!");
-    React.useEffect(() => {
-        Socket.on('price history request', (data) => {
-            Socket.emit('post price history', {
-                ASIN: data['ASIN']
-            });
+export default function PostButton(props) {
+    
+    function handlePost(e) {
+        e.preventDefault();
+        console.log("Button worked with: " + props.ASIN);
+        Socket.emit('post price history', {
+            ASIN: props.ASIN,
+            priceHistory: props.priceHistory,
+            title: props.title,
+            imgurl: props.imgurl,
+            user: props.user,
+            time: props.time
         });
-    });
-    // Socket.emit('post price history', {
-    //     priceHistory: "TODO price history"
-    // });
-}
+    }
 
-export default function PostButton() {
   return (
       <button onClick={handlePost}> Post </button>
   );
