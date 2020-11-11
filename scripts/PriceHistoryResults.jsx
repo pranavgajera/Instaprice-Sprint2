@@ -7,11 +7,17 @@ import PostButton from './PostButton';
 export default function PriceHistoryResults(props) {
     const [pricehistory, setPricehistory] = useState([]);
     const [show, setShow] = useState(false);
+    const [title, setTitle] = useState("");
+    const [imgurl, setImgurl] = useState("");
+    const [user, setUser] = useState("temp user");
+    const [time, setTime] = useState("temp time");
 
     useEffect(() => {
         console.log("we in useeffects");
         Socket.on('price history response', (data) => {
           if(props.ASIN == data['ASIN']) {
+            setTitle(data['title'])
+            setImgurl(data['imgurl'])
             setPricehistory(data['pricehistory']),
             setShow(true);
           }
@@ -33,6 +39,10 @@ export default function PriceHistoryResults(props) {
                     <PostButton
                         ASIN={props.ASIN}
                         priceHistory={pricehistory}
+                        title={title}
+                        imgurl={imgurl}
+                        user = {user}
+                        time = {time}
                     />
                 </div>
                 ) : (null)

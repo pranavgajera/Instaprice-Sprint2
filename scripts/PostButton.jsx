@@ -11,7 +11,11 @@ export default function PostButton(props) {
         console.log("Button worked with: " + props.ASIN);
         Socket.emit('post price history', {
             ASIN: props.ASIN,
-            priceHistory: props.priceHistory
+            priceHistory: props.priceHistory,
+            title: props.title,
+            imgurl: props.imgurl,
+            user: props.user,
+            time: props.time
         });
     }
 

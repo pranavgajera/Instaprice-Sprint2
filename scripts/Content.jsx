@@ -4,6 +4,7 @@ import SearchResults from './SearchResults';
 import SearchBar from './SearchBar';
 import Socket from './Socket';
 import LiveFeed from './LiveFeed';
+import Feed from './Feed';
 
 import "./Content.css";
 
@@ -58,7 +59,9 @@ export default function Content() {
             <div className="searchbar">
               <SearchBar setSearched={ setSearched }/>
             </div>
-
+            <div className="Feed">
+            <Feed />
+            </div>
         </div>);
 
 }
