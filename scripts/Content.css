@@ -17,6 +17,7 @@ button {
     cursor: pointer;
 }
 
+
 .livefeed {
     list-style-type: none;
     background-color: #eee;
@@ -26,4 +27,8 @@ button {
     font-size: 28px;
     font-weight: bold;
     color: black;
+}
+    
+h1 {
+    text-align: center;
 }

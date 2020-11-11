@@ -1,6 +1,7 @@
 import * as React from 'react';
 import ResultItem from './ResultItem';
 import { useState } from "react";
+import './SearchResults.css';
 
 export default function SearchResults(props) {
     const [state, setState] = useState({
@@ -14,8 +15,8 @@ export default function SearchResults(props) {
     
     return (
         <div>
-            {state.objects.map((item, index) => (
-                <div key={ index } onClick={() => {setActive(index)}}>
+            {state.objects.map((item) => (
+                <div key={ item["ASIN"] } onClick={() => {setActive(item["ASIN"])}}>
                     <ResultItem
                         ASIN={ item["ASIN"] }
                         title={ item["title"] }
