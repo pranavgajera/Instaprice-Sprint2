@@ -69,26 +69,15 @@ def get_price_history(data):
 def on_newitem(data):
     print('new item recieved:',data["item"])
 
+postList = []
 @socketio.on('post price history')
 def post_price_history(data):
-    socketio.emit('post', {
-        'pricehistory': data['priceHistory'] 
+    # postList.update({data['ASIN']: data['priceHistory']})
+    postList.append(data['priceHistory'])
+    socketio.emit('post price history', {
+        'postList': postList
     })
-    print("This is the price history:", data['priceHistory'])
-
-@socketio.on('ignore price history')
-def ignore_price_history(data):
-    socketio.emit('ignored', {
-        'ignored': "true"
-    })
-    print("Ignore the price history:", data['ignore'])
-
-@socketio.on('go to live feed')
-def go_to_live_feed(data):
-    socketio.emit('live feed', {
-        'sid': request.sid
-    })
-    print("Going to live feed with: ", request.sid)
+    print("This is the price history:", data['ASIN'], data['priceHistory'])
 
 if __name__ == '__main__':
     socketio.run(

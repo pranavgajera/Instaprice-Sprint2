@@ -1,27 +1,21 @@
 import * as React from 'react';
 import Socket from './Socket';
 import PriceHistoryResults from "./PriceHistoryResults";
-import { useState, useEffect } from "react";
-import IgnoreButton from "./IgnoreButton";
+import { useState } from "react";
 
 export default function ResultItem(props) {
     const [clicked, setClicked] = useState(false);
 
     function handleClick(e) {
         e.preventDefault();
-        console.log("we in function");
-        setClicked(true);
-        Socket.emit('price history request', {
-            "ASIN": props.ASIN,
-        });
+        console.log("this is: " + props.ASIN);
+        setClicked(clicked => !clicked);
+        if (!clicked) {
+            Socket.emit('price history request', {
+                "ASIN": props.ASIN,
+            });
+        }
     }
-    
-    useEffect(() => {
-        Socket.on('ignored', (data) => {
-            setClicked(false);
-            console.log(data);
-        });
-    });
     
     return(
         <div>
@@ -31,8 +25,9 @@ export default function ResultItem(props) {
             { clicked ?
                 (
                 <div>
-                    <PriceHistoryResults />
-                    <IgnoreButton />
+                    <PriceHistoryResults 
+                        ASIN={props.ASIN}
+                    />
                 </div>
                 ) : (null)
             }
