@@ -10,7 +10,7 @@ from api_calls import mock_price_history
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from db_writes import price_write
-import models
+
 import json
 
 SEARCH_REQUEST_CHANNEL = "search request"
@@ -33,6 +33,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
 db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
 db.app = app
+import models
 db.create_all()
 db.session.commit()
 
