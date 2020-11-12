@@ -10,9 +10,10 @@ dotenv.load_dotenv(DOTENV_PATH)
 
 SQL_USER = os.environ["SQL_USER"]
 SQL_PWD = os.environ["SQL_PASSWORD"]
-DBUSER = os.environ["USER"]
+SQL_DB = os.environ["SQL_DB"]
 DATABASE_URI = os.environ["DATABASE_URL"]
-con = psycopg2.connect(database='postgres', user=SQL_USER, password=SQL_PWD)
+con = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host="localhost")
+
 
 def price_write(price_data):
     with con:

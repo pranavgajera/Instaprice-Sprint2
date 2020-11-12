@@ -2,3 +2,4 @@ python-dotenv
 tweepy
 Flask
 requests
+psycopg2-binary==2.8.6
