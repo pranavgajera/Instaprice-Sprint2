@@ -81,8 +81,12 @@ def search_request(data):
     print("Got an event for search request with data: ", data)
     #search_list = mock_search_response(data['query'])
     search_list = search_amazon(data['query'])
+<<<<<<< HEAD
     # print(search_list)
     # search_amazon(data['query'])
+=======
+    #search_amazon(data['query'])
+>>>>>>> 982f0db8c1da28ecc833c61c849508e3348444f1
     socketio.emit(SEARCH_RESPONSE_CHANNEL, {
         "search_list": search_list
     }, room=request.sid)
@@ -118,7 +122,6 @@ postList = []
 def post_price_history(data):
     # postList.update({data['ASIN']: data['priceHistory']})
     postList.append(data['priceHistory'])
-    print(data)
     price_write(data)
     socketio.emit('post price history', {
         'postList': postList

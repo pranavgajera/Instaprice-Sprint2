@@ -37,7 +37,7 @@ export default function Content() {
         return (
             <div className="LoginPage">
                 <h1>
-                    InstaPrice
+                    <img src={ "./static/instapricelogo.png" } alt = 'InstaPrice' />
                 </h1>
                 <GoogleButton />
             </div>
@@ -47,7 +47,7 @@ export default function Content() {
     return(
         <div className="HomePage">
             <h1>
-                InstaPrice
+                <img src={ "./static/instapricelogo.png" } alt = 'InstaPrice' />
                 <LiveFeed />
             </h1>
             { searched ? 
