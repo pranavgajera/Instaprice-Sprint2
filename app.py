@@ -10,7 +10,6 @@ from api_calls import mock_price_history
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from db_writes import *
-
 import json
 
 SEARCH_REQUEST_CHANNEL = "search request"
