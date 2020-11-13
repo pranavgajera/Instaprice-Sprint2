@@ -81,6 +81,7 @@ def search_request(data):
     print("Got an event for search request with data: ", data)
     #search_list = mock_search_response(data['query'])
     search_list = search_amazon(data['query'])
+    # print(search_list)
     # search_amazon(data['query'])
     socketio.emit(SEARCH_RESPONSE_CHANNEL, {
         "search_list": search_list
@@ -96,7 +97,7 @@ def get_price_history(data):
         if price_history[i+1]["price"] != price_history[i]["price"]:
             return_array.append(price_history[i])
     # price_history = price_history[len(price_history)-10:len(price_history)]
-    print(json.dumps(return_array, indent=4))
+    # print(json.dumps(return_array, indent=4))
     if len(return_array) >=11:
         return_array = return_array[ len(return_array)- 11 : len(return_array) - 1 ]
     print("Got an event for price history search with data: ", data)
