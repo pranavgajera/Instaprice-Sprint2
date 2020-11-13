@@ -10,7 +10,7 @@ from api_calls import mock_price_history
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from db_writes import price_write
-import models
+
 import json
 
 SEARCH_REQUEST_CHANNEL = "search request"
@@ -33,6 +33,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
 db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
 db.app = app
+import models
 db.create_all()
 db.session.commit()
 
@@ -80,7 +81,12 @@ def search_request(data):
     print("Got an event for search request with data: ", data)
     #search_list = mock_search_response(data['query'])
     search_list = search_amazon(data['query'])
+<<<<<<< HEAD
+    # print(search_list)
+    # search_amazon(data['query'])
+=======
     #search_amazon(data['query'])
+>>>>>>> 982f0db8c1da28ecc833c61c849508e3348444f1
     socketio.emit(SEARCH_RESPONSE_CHANNEL, {
         "search_list": search_list
     }, room=request.sid)
@@ -95,7 +101,7 @@ def get_price_history(data):
         if price_history[i+1]["price"] != price_history[i]["price"]:
             return_array.append(price_history[i])
     # price_history = price_history[len(price_history)-10:len(price_history)]
-    print(json.dumps(return_array, indent=4))
+    # print(json.dumps(return_array, indent=4))
     if len(return_array) >=11:
         return_array = return_array[ len(return_array)- 11 : len(return_array) - 1 ]
     print("Got an event for price history search with data: ", data)
