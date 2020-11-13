@@ -9,8 +9,7 @@ from api_calls import mock_search_response
 from api_calls import mock_price_history
 from api_calls import search_amazon
 from api_calls import fetch_price_history
-from db_writes import price_write
-
+from db_writes import *
 import json
 
 SEARCH_REQUEST_CHANNEL = "search request"
@@ -24,11 +23,7 @@ app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
 
-SQL_USER = os.environ["SQL_USER"]
-SQL_PWD = os.environ["SQL_PASSWORD"]
-DBUSER = os.environ["USER"]
-DATABASE_URI = os.environ["DATABASE_URL"]
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
+app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://{SQL_USER}:{SQL_PWD}@localhost/{SQL_DB}'
 
 db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
@@ -81,7 +76,9 @@ def search_request(data):
     print("Got an event for search request with data: ", data)
     #search_list = mock_search_response(data['query'])
     search_list = search_amazon(data['query'])
-    #search_amazon(data['query'])
+    # print(search_list)
+    # search_amazon(data['query'])
+
     socketio.emit(SEARCH_RESPONSE_CHANNEL, {
         "search_list": search_list
     }, room=request.sid)
@@ -92,11 +89,12 @@ def get_price_history(data):
     #price_history = mock_price_history(data['ASIN'])
     price_history = fetch_price_history(data['ASIN'])
     return_array = []
+    return_array.append(price_history[0])
     for i in range(0, len(price_history)-1):
         if price_history[i+1]["price"] != price_history[i]["price"]:
-            return_array.append(price_history[i])
+            return_array.append(price_history[i+1])
     # price_history = price_history[len(price_history)-10:len(price_history)]
-    print(json.dumps(return_array, indent=4))
+    # print(json.dumps(return_array, indent=4))
     if len(return_array) >=11:
         return_array = return_array[ len(return_array)- 11 : len(return_array) - 1 ]
     print("Got an event for price history search with data: ", data)

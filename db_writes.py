@@ -5,15 +5,14 @@ import os
 import dotenv
 import psycopg2
 
-DOTENV_PATH = os.path.join(os.path.dirname(__file__), "secret_tokens.env")
-dotenv.load_dotenv(DOTENV_PATH)
 
 SQL_USER = os.environ["SQL_USER"]
 SQL_PWD = os.environ["SQL_PASSWORD"]
 SQL_DB = os.environ["SQL_DB"]
+DBUSER = os.environ["USER"]
 DATABASE_URI = os.environ["DATABASE_URL"]
-con = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host="localhost")
 
+con = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host="localhost")
 
 def price_write(price_data):
     with con:
