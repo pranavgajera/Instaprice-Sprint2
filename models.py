@@ -1,12 +1,27 @@
-# models.py
-import flask_sqlalchemy
-from app import db
+"""table layout"""
 
-class Posts(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    itemname = db.Column(db.String(225))
-    imageurl = db.Column(db.String(225))
-    pricehist = db.Column(db.String(400))
-    username = db.Column(db.String(225))
-    pfp = db.Column(db.String(225))
-    time = db.Column(db.String(225))
+# models.py
+from app import DB
+
+class Posts(DB.Model):
+    id = DB.Column(DB.Integer, primary_key=True)
+    itemname = DB.Column(DB.String(225))
+    imageurl = DB.Column(DB.String(225))
+    pricehist = DB.Column(DB.String(400))
+    username = DB.Column(DB.String(225))
+    pfp = DB.Column(DB.String(225))
+    time = DB.Column(DB.String(225))
+
+    def __init__(self, username, pfp, time, itemname, imageurl, pricehist):
+        self.username = username
+        self.pfp = pfp
+        self.time = time
+        self.itemname = itemname
+        self.imageurl = imageurl
+        self.pricehist = pricehist
+
+    def __repr__(self):
+        return "<Message by user %s with content: %s>" % (
+            self.username,
+            self.pricehist,
+        )
