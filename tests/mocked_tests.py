@@ -132,40 +132,6 @@ class TestBot(unittest.TestCase):
     #         self.assertEquals(KEY_EXPECTED, feteched_data)
 
 
-
-
-    # def test_searchamazon(self):
-    #     with patch('api_calls.search_amazon') as mocked_return:
-    #         mocked_return.return_value = {
-    #             "ASIN": "B07X6C9RMF",
-    #             "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
-    #             "price": "$34.99",
-    #             "listPrice": "",
-    #             "imageUrl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
-    #             "detailPageURL": "https://www.amazon.com/dp/B07X6C9RMF",
-    #             "rating": "4.5",
-    #             "totalReviews": "30292",
-    #             "subtitle": "",
-    #             "isPrimeEligible": "1"
-    #
-    #         }
-    #         test_result = api_calls.search_amazon("camera")
-    #         print(test_result)
-    #         return_result = {
-    #             "ASIN": "B07X6C9RMF",
-    #             "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
-    #             "price": "$34.99",
-    #             "listPrice": "",
-    #             "imageUrl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
-    #             "detailPageURL": "https://www.amazon.com/dp/B07X6C9RMF",
-    #             "rating": "4.5",
-    #             "totalReviews": "30292",
-    #             "subtitle": "",
-    #             "isPrimeEligible": "1"
-    #         }
-    #         self.assertEquals(mocked_return.return_value["ASIN"], "B07X6C9RMF")
-    #         self.assertEquals(test_result,return_result)
-
     def test_amazon_search(self):
         with patch('api_calls.search_amazon', api_calls.mock_search_response):
             flask_test_client = app.app.test_client()
