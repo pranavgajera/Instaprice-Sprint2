@@ -4,6 +4,7 @@
 from app import DB
 
 class Posts(DB.Model):
+    """columns for post table"""
     id = DB.Column(DB.Integer, primary_key=True)
     itemname = DB.Column(DB.String(225))
     imageurl = DB.Column(DB.String(225))
