@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Socket from './Socket';
 
-import "./Feed.css"
+import './Feed.css';
 
 export default function Feed() {
-    const [itemnames, setItemname] = useState([]);
-    const [imageurls, setImageurl] = useState([]);
-    const [pricehists, setPricehist] = useState([]);
-    const [usernames, setUsername] = useState([]);
-    const [pfps, setPfp] = useState([]);
-    const [times, setTime] = useState([]);
-        
-    function updateItems(data) {
+  const [itemnames, setItemname] = useState([]);
+  const [imageurls, setImageurl] = useState([]);
+  const [pricehists, setPricehist] = useState([]);
+  const [usernames, setUsername] = useState([]);
+  const [pfps, setPfp] = useState([]);
+  const [times, setTime] = useState([]);
+
+  function updateItems(data) {
     setItemname(data.allItemnames);
     setImageurl(data.allImageurls);
     setPricehist(data.allPricehists);
-    setUsername(data.allUsernames)
+    setUsername(data.allUsernames);
     setPfp(data.allPfps);
     setTime(data.allTimes);
     const feedBody = document.querySelector('#feedBody');
@@ -32,14 +32,35 @@ export default function Feed() {
   }
 
   getNewItems();
-    
-    return (
-        <div className = "feedbox" id="feedBody">
-        <h1>Recent searches!</h1>
-                <ol>
-                    {itemnames.map((itemname, index) =>
-                        <li key={index}><img src={ imageurls[index] } alt = 'product image' /><br></br>{ itemnames[index] } <br></br> Historical price:{ pricehists[index] } <br></br> Posted by: { usernames[index] } on { times[index] } </li>)}
-                </ol>
-        </div>
-    );
+
+  return (
+    <div className="feedbox" id="feedBody">
+      <h1>Recent searches!</h1>
+      <ol>
+        {itemnames.map((itemname, index) => (
+          <li key={itemname}>
+            <img src={imageurls[index]} alt="product" />
+            <br />
+            { itemnames[index] }
+            {' '}
+            <br />
+            {' '}
+            Historical price:
+            { pricehists[index] }
+            {' '}
+            <br />
+            {' '}
+            Posted by:
+            {' '}
+            { usernames[index] }
+            {' '}
+            on
+            {' '}
+            { times[index] }
+            {' '}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
 }
