@@ -13,6 +13,12 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-loader": "^8.0.5",
     "css-loader": "^3.4.2",
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.11.2",
     "jquery": "^3.2.1",
@@ -30,5 +36,23 @@
       "@babel/preset-env",
       "@babel/preset-react"
     ]
-  }
+  },
+  "name": "instaprice",
+  "description": "A browser-based price tracker application where users can type in about a product and the application will respond with the price history of that specific product.",
+  "version": "1.0.0",
+  "main": "webpack.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pranavgajera/InstaPrice.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pranavgajera/InstaPrice/issues"
+  },
+  "homepage": "https://github.com/pranavgajera/InstaPrice#readme"
 }
