@@ -25,3 +25,4 @@ class Posts(DB.Model):
             self.username,
             self.pricehist,
         )
+        
