@@ -30,5 +30,5 @@ export default function SearchResults({ searchList }) {
 }
 
 SearchResults.propTypes = {
-  searchList: PropTypes.array.isRequired,
+  searchList: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
