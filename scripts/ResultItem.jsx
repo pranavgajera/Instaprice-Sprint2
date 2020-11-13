@@ -9,7 +9,7 @@ export default function ResultItem({ ASIN, title, imageUrl }) {
 
   function handleClick(e) {
     e.preventDefault();
-    console.log(`this is: ${ASIN}`);
+    //console.log(`this is: ${ASIN}`);
     setClicked((clicked) => !clicked);
     if (!clicked) {
       Socket.emit('price history request', {
