@@ -4,8 +4,8 @@ import sys
 import os
 import json
 from os.path import join, dirname
-sys.path.insert(1, os.getcwd())
-
+# sys.path.insert(1, os.getcwd())
+sys.path.insert(1, join(dirname(__file__), '../'))
 import app
 import api_calls
 import db_writes
@@ -105,30 +105,78 @@ class TestBot(unittest.TestCase):
     def test_db(self):
         with patch('psycopg2.connect') as mock_connect:
             KEY_INPUT = [{
-                    'ASIN': 'B0897VCSXQ', 
-                    'priceHistory': [{'price': 420.42, 'price_date': '08/04/2020'}], 
-                    'title': 'PlayStation 6', 
-                    'imgurl': 'playstation6.jpg', 
-                    'user': 'john', 
+                    'ASIN': 'B0897VCSXQ',
+                    'priceHistory': [{'price': 420.42, 'price_date': '08/04/2020'}],
+                    'title': 'PlayStation 6',
+                    'imgurl': 'playstation6.jpg',
+                    'user': 'john',
                     'time': '12:00'}]
             KEY_EXPECTED = [{
-                    'itemname': 'PlayStation 6', 
-                    'imgurl': 'playstation6.jpg', 
-                    'pricehistory': '08/04/2020 - 420.42 ', 
-                    'user': 'john', 
-                    'pfp': 'temp profile picture', 
+                    'itemname': 'PlayStation 6',
+                    'imgurl': 'playstation6.jpg',
+                    'pricehistory': '08/04/2020 - 420.42 ',
+                    'user': 'john',
+                    'pfp': 'temp profile picture',
                     'time': '12:00'}]
             USER_INPUT = 'john'
-        
+
             price_write(KEY_INPUT)
-            mock_con = mock_connect.return_value 
-            mock_cur = mock_con.cursor.return_value 
-            mock_cur = mock_con.cursor.return_value 
+            mock_con = mock_connect.return_value
+            mock_cur = mock_con.cursor.return_value
+            mock_cur = mock_con.cursor.return_value
             feteched_data = get_posts(USER_INPUT)
-            mock_con = mock_connect.return_value 
-            mock_cur = mock_con.cursor.return_value 
-            mock_cur = mock_con.cursor.return_value 
+            mock_con = mock_connect.return_value
+            mock_cur = mock_con.cursor.return_value
+            mock_cur = mock_con.cursor.return_value
             mock_cur.fetchall.return_value = KEY_EXPECTED
             self.assertEquals(KEY_EXPECTED, feteched_data)
-            
-        
+
+    def test_mocksearchresponse(self):
+        with patch('api_calls.mock_search_response') as mocked_return:
+            mocked_return.return_value = {
+                "ASIN": "B07X6C9RMF",
+                "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
+                "price": "$34.99",
+                "listPrice": "",
+                "imageUrl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
+                "detailPageURL": "https://www.amazon.com/dp/B07X6C9RMF",
+                "rating": "4.5",
+                "totalReviews": "30292",
+                "subtitle": "",
+                "isPrimeEligible": "1"
+
+            }
+            self.assertEquals(mocked_return.return_value["ASIN"], "B07X6C9RMF")
+
+
+    def test_searchamazon(self):
+        with patch('api_calls.search_amazon') as mocked_return:
+            mocked_return.return_value = {
+                "ASIN": "B07X6C9RMF",
+                "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
+                "price": "$34.99",
+                "listPrice": "",
+                "imageUrl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
+                "detailPageURL": "https://www.amazon.com/dp/B07X6C9RMF",
+                "rating": "4.5",
+                "totalReviews": "30292",
+                "subtitle": "",
+                "isPrimeEligible": "1"
+
+            }
+            test_result = api_calls.search_amazon("camera")
+            print(test_result)
+            return_result = {
+                "ASIN": "B07X6C9RMF",
+                "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
+                "price": "$34.99",
+                "listPrice": "",
+                "imageUrl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
+                "detailPageURL": "https://www.amazon.com/dp/B07X6C9RMF",
+                "rating": "4.5",
+                "totalReviews": "30292",
+                "subtitle": "",
+                "isPrimeEligible": "1"
+            }
+            self.assertEquals(mocked_return.return_value["ASIN"], "B07X6C9RMF")
+            self.assertEquals(test_result,return_result)
