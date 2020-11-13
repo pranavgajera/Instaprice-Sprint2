@@ -12,6 +12,8 @@ export default function Content() {
     const [authenticated, setAuthentication] = useState(false);
     const [searched, setSearched] = React.useState(false);          // true if we need to display a search list
     const [searchList, setSearchList] = React.useState([]);
+    const [username, setUsername] = useState('')
+    const [profpic, setProfpic] = useState('')
     
     function getSearchList() {
         React.useEffect(() => {
@@ -28,6 +30,8 @@ export default function Content() {
     useEffect(() => {
     Socket.on('connected', (data) => {
       setAuthentication(true);
+      setUsername(data['username'])
+      setProfpic(data['profilepicture'])
     });
 
     }, []);
@@ -51,7 +55,7 @@ export default function Content() {
             </h1>
             { searched ? 
             (
-                <SearchResults searchList={ searchList } closeSearchList={ () => setSearched(false) }/>
+                <SearchResults searchList={ searchList } username={username} pfp = {profpic} closeSearchList={ () => setSearched(false) }/>
             ) : (null)
             }
 

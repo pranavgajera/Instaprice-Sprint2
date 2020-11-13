@@ -9,12 +9,15 @@ export default function ResultItem(props) {
     function handleClick(e) {
         e.preventDefault();
         console.log("this is: " + props.ASIN);
+        console.log("pfp is: " + props.pfp)
         setClicked(clicked => !clicked);
         if (!clicked) {
             Socket.emit('price history request', {
                 "ASIN": props.ASIN,
                 "title": props.title,
-                "imgurl": props.imageUrl
+                "imgurl": props.imageUrl,
+                "username": props.username,
+                "pfp": props.pfp
             });
         }
     }

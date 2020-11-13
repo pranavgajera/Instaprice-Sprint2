@@ -12,6 +12,7 @@ export default function SearchResults(props) {
     function setActive(index) {
         setState({...state, activeObject: state.objects[index]});
     }
+    console.log(props.pfp)
     
     return (
         <div>
@@ -21,7 +22,10 @@ export default function SearchResults(props) {
                     <ResultItem
                         ASIN={ item["ASIN"] }
                         title={ item["title"] }
-                        imageUrl={ item["imageUrl"] } />
+                        imageUrl={ item["imageUrl"] } 
+                        username = { props.username }
+                        pfp = { props.pfp }
+                        />
                 </div>
             ))}
         </div>

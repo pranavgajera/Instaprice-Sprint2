@@ -11,6 +11,7 @@ from api_calls import search_amazon
 from api_calls import fetch_price_history
 from db_writes import *
 import json
+from datetime import datetime
 
 SEARCH_REQUEST_CHANNEL = "search request"
 SEARCH_RESPONSE_CHANNEL = "search response"
@@ -60,6 +61,7 @@ def hello():
 def on_new_google_user(data):
     print("Got an event for new google user input with data:", data)
     print('Someone connected! with google')
+    print(data['profilepicture'])
     socketio.emit('connected', {
         'username': data['name'],
         'email': data['email'],
@@ -86,6 +88,7 @@ def search_request(data):
 @socketio.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
     print(data['ASIN'])
+    print(data)
     #price_history = mock_price_history(data['ASIN'])
     price_history = fetch_price_history(data['ASIN'])
     return_array = []
@@ -102,7 +105,9 @@ def get_price_history(data):
         "pricehistory": return_array,
         'ASIN': data['ASIN'],
         'title': data['title'],
-        'imgurl': data['imgurl']
+        'imgurl': data['imgurl'],
+        'username': data['username'],
+        'profpic': data['pfp']
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
     
@@ -115,6 +120,9 @@ postList = []
 def post_price_history(data):
     # postList.update({data['ASIN']: data['priceHistory']})
     postList.append(data['priceHistory'])
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M")
+    data['time'] = dt_string
     price_write(data)
     socketio.emit('post price history', {
         'postList': postList
