@@ -89,9 +89,10 @@ def get_price_history(data):
     #price_history = mock_price_history(data['ASIN'])
     price_history = fetch_price_history(data['ASIN'])
     return_array = []
+    return_array.append(price_history[0])
     for i in range(0, len(price_history)-1):
         if price_history[i+1]["price"] != price_history[i]["price"]:
-            return_array.append(price_history[i])
+            return_array.append(price_history[i+1])
     # price_history = price_history[len(price_history)-10:len(price_history)]
     # print(json.dumps(return_array, indent=4))
     if len(return_array) >=11:
