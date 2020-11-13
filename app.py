@@ -91,8 +91,8 @@ def search_request(data):
 @socketio.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
     print(data['ASIN'])
-    price_history = mock_price_history(data['ASIN'])
-    #price_history = fetch_price_history(data['ASIN'])
+    #price_history = mock_price_history(data['ASIN'])
+    price_history = fetch_price_history(data['ASIN'])
     return_array = []
     for i in range(0, len(price_history)-1):
         if price_history[i+1]["price"] != price_history[i]["price"]:
