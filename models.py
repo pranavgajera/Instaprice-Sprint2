@@ -10,15 +10,3 @@ class Posts(db.Model):
     username = db.Column(db.String(225))
     pfp = db.Column(db.String(225))
     time = db.Column(db.String(225))
-    
-    def __init__(self, itemname, imageurl, pricehist, username, profilepic, time):
-        self.itemname = itemname
-        self.imageurl = imageurl
-        self.pricehist = pricehist
-        self.username = username
-        self.pfp = profilepic
-        self.time = time
-        
-    def __repr__(self):
-        return "<Item: %s>" % self.item_name
-        

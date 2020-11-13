@@ -28,3 +28,18 @@ def price_write(price_data):
         pfp = "temp profile picture"
         time = price_data['time']
         cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time) VALUES (%s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time))
+        
+def get_posts(username):
+    with con:
+        cur = con.cursor()
+        cur.execute(f"SELECT * FROM posts WHERE username = '{username}'")
+        rows = cur.fetchall()
+        item_data = {
+            'itemname': rows[0][1], 
+            'imgurl': rows[0][2], 
+            'pricehistory': rows[0][3], 
+            'user': rows[0][4], 
+            'pfp': rows[0][5],
+            'time': rows[0][6]
+            }
+        return item_data
