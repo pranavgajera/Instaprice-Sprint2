@@ -5,6 +5,7 @@ import os
 import json
 from os.path import join, dirname
 sys.path.insert(1, os.getcwd())
+import api_calls
 from models import Posts
 from db_writes import price_write, get_posts
 
@@ -57,6 +58,21 @@ class DbWriteTestCase(unittest.TestCase):
             
             self.assertEqual(postdata['itemname'], expected['itemname'])
             self.assertEqual(postdata['user'], expected['user'])
-        
+
+    def test_mocksearchresponse(self):
+        test_result = api_calls.mock_search_response("Test")
+        # print(test_result)
+        return_result = {
+            'ASIN': 'B0897VCSXQ',
+            'title': 'Aoozi Webcam with Microphone, Webcam 1080P USB Computer Web Camera with Facial-Enhancement Technology, Widescreen Video Calling and Recording, Streaming Camera with Tripod',
+            'price': '$22.99',
+            'listPrice': '', 'imageUrl': 'https://m.media-amazon.com/images/I/41jeAVPimNL._SL160_.jpg',
+            'detailPageURL': 'https://www.amazon.com/dp/B0897VCSXQ',
+            'rating': '4.1',
+            'totalReviews': '1241',
+            'subtitle': '',
+            'isPrimeEligible': '1'
+        }
+        self.assertEqual(test_result[0], return_result)
 if __name__ == '__main__':
     unittest.main()

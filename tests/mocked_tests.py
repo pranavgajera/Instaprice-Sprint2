@@ -209,7 +209,10 @@ class TestBot(unittest.TestCase):
             })
 
             socket_response = socketio_test_client.get_received()
-            # print(socket_response)
             response = socket_response[0]['args'][0]['pricehistory'][0]
 
             self.assertEquals(response["price"], 58.84)
+
+
+if __name__ == '__main__':
+    unittest.main()
