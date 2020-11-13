@@ -1,9 +1,12 @@
 import unittest
+from unittest.mock import patch
+import sys
+import os
+import json
+from os.path import join, dirname
+sys.path.insert(1, os.getcwd())
 from models import Posts
 from db_writes import price_write, get_posts
-import os
-import sys
-sys.path.insert(1, os.getcwd())
 
 KEY_INPUT = "input"
 KEY_EXPECTED = "expected"

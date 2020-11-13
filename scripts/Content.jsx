@@ -48,16 +48,15 @@ export default function Content() {
         <div className="HomePage">
             <h1>
                 <img src={ "./static/instapricelogo.png" } alt = 'InstaPrice' />
-                <LiveFeed />
             </h1>
             { searched ? 
             (
-                <SearchResults searchList={ searchList } />
+                <SearchResults searchList={ searchList } closeSearchList={ () => setSearched(false) }/>
             ) : (null)
             }
 
             <div className="searchbar">
-              <SearchBar setSearched={ setSearched }/>
+              <SearchBar />
             </div>
             <div className="Feed">
             <Feed />

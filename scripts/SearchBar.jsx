@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Socket from './Socket';
 
-export default function SearchBar(props) {
+export default function SearchBar() {
     const [input, setInput] = useState('');
         
     const makeSearchRequest = (e) => {
