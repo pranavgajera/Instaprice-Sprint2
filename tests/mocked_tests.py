@@ -84,3 +84,18 @@ class TestBot(unittest.TestCase):
 
             self.assertEquals(response["price"], 58.84)
 
+    def test_onnewitem(self):
+        flask_test_client = app.app.test_client()
+        socketio_test_client = app.socketio.test_client(
+            app.app, flask_test_client=flask_test_client
+        )
+
+        socketio_test_client.emit("new item", {
+            "item":"data"
+        })
+        socket_response = socketio_test_client.get_received()
+
+    def test_home(self):
+        flask_test_client = app.app.test_client()
+        response = flask_test_client.get('/', content_type='html')
+        self.assertEqual(response.status_code, 200)

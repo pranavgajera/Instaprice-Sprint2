@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for app.py: 88%</title>
+    <title>Coverage for app.py: 91%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="jquery.hotkeys.js"></script>
@@ -17,13 +17,13 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>app.py</b> :
-            <span class="pc_cov">88%</span>
+            <span class="pc_cov">91%</span>
         </h1>
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
         <h2 class="stats">
             85 statements &nbsp;
-            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">75 run</button>
-            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">10 missing</button>
+            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">77 run</button>
+            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">8 missing</button>
             <button type="button" class="exc show_exc shortkey_x button_toggle_exc" title="Toggle lines excluded">0 excluded</button>
         </h2>
     </div>
@@ -112,7 +112,7 @@
     <p id="t59" class="pln"><span class="n"><a href="#t59">59</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t60" class="run"><span class="n"><a href="#t60">60</a></span><span class="t"><span class="op">@</span><span class="nam">app</span><span class="op">.</span><span class="nam">route</span><span class="op">(</span><span class="str">'/'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t61" class="run"><span class="n"><a href="#t61">61</a></span><span class="t"><span class="key">def</span> <span class="nam">hello</span><span class="op">(</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t62" class="mis show_mis"><span class="n"><a href="#t62">62</a></span><span class="t">    <span class="key">return</span> <span class="nam">flask</span><span class="op">.</span><span class="nam">render_template</span><span class="op">(</span><span class="str">'index.html'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t62" class="run"><span class="n"><a href="#t62">62</a></span><span class="t">    <span class="key">return</span> <span class="nam">flask</span><span class="op">.</span><span class="nam">render_template</span><span class="op">(</span><span class="str">'index.html'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t63" class="pln"><span class="n"><a href="#t63">63</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t64" class="run"><span class="n"><a href="#t64">64</a></span><span class="t"><span class="op">@</span><span class="nam">socketio</span><span class="op">.</span><span class="nam">on</span><span class="op">(</span><span class="str">'new google user'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t65" class="run"><span class="n"><a href="#t65">65</a></span><span class="t"><span class="key">def</span> <span class="nam">on_new_google_user</span><span class="op">(</span><span class="nam">data</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
@@ -164,7 +164,7 @@
     <p id="t111" class="pln"><span class="n"><a href="#t111">111</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t112" class="run"><span class="n"><a href="#t112">112</a></span><span class="t"><span class="op">@</span><span class="nam">socketio</span><span class="op">.</span><span class="nam">on</span><span class="op">(</span><span class="str">'new item'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t113" class="run"><span class="n"><a href="#t113">113</a></span><span class="t"><span class="key">def</span> <span class="nam">on_newitem</span><span class="op">(</span><span class="nam">data</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t114" class="mis show_mis"><span class="n"><a href="#t114">114</a></span><span class="t">    <span class="nam">print</span><span class="op">(</span><span class="str">'new item recieved:'</span><span class="op">,</span><span class="nam">data</span><span class="op">[</span><span class="str">"item"</span><span class="op">]</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t114" class="run"><span class="n"><a href="#t114">114</a></span><span class="t">    <span class="nam">print</span><span class="op">(</span><span class="str">'new item recieved:'</span><span class="op">,</span><span class="nam">data</span><span class="op">[</span><span class="str">"item"</span><span class="op">]</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t115" class="pln"><span class="n"><a href="#t115">115</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t116" class="run"><span class="n"><a href="#t116">116</a></span><span class="t"><span class="nam">postList</span> <span class="op">=</span> <span class="op">[</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
     <p id="t117" class="run"><span class="n"><a href="#t117">117</a></span><span class="t"><span class="op">@</span><span class="nam">socketio</span><span class="op">.</span><span class="nam">on</span><span class="op">(</span><span class="str">'post price history'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -191,7 +191,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.3</a>,
-            created at 2020-11-13 10:35 -0500
+            created at 2020-11-13 11:04 -0500
         </p>
     </div>
 </div>
