@@ -59,8 +59,8 @@ class DbWriteTestCase(unittest.TestCase):
             self.assertEqual(postdata['itemname'], expected['itemname'])
             self.assertEqual(postdata['user'], expected['user'])
 
-    def test_mocksearchresponse(self):
-        test_result = api_calls.mock_search_response("Test")
+    def test_mock_search_response(self):
+        test_result = api_calls.mock_search_response('query')
         # print(test_result)
         return_result = {
             'ASIN': 'B0897VCSXQ',
@@ -73,6 +73,16 @@ class DbWriteTestCase(unittest.TestCase):
             'subtitle': '',
             'isPrimeEligible': '1'
         }
-        self.assertEqual(test_result[0], return_result)
+        self.assertDictEqual(test_result[0], return_result)
+        
+    def test_mock_price_history(self):
+        test_result = api_calls.mock_price_history('query')
+        return_result = {
+            'price': 6.05, 
+            'price_date': '12/07/2019'
+        }
+        
+        self.assertDictEqual(test_result[0], return_result)
+        
 if __name__ == '__main__':
     unittest.main()
