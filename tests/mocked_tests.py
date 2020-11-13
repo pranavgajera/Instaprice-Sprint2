@@ -102,7 +102,6 @@ class TestBot(unittest.TestCase):
         response = flask_test_client.get('/', content_type='html')
         self.assertEqual(response.status_code, 200)
         
-
     def test_db(self):
         with patch('psycopg2.connect') as mock_connect:
             KEY_INPUT = [{
