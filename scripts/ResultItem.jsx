@@ -2,6 +2,7 @@ import * as React from 'react';
 import Socket from './Socket';
 import PriceHistoryResults from "./PriceHistoryResults";
 import { useState } from "react";
+import './ResultItem.css';
 
 export default function ResultItem(props) {
     const [clicked, setClicked] = useState(false);
@@ -25,7 +26,7 @@ export default function ResultItem(props) {
     return(
         <div>
             <button onClick={handleClick}>
-                <span><img src={ props.imageUrl } />{ props.title }</span>
+                <span><img class = 'itempicture' src={ props.imageUrl } />{ props.title }</span>
             </button>
             { clicked ?
                 (

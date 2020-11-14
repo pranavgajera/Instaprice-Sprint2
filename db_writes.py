@@ -9,10 +9,11 @@ import psycopg2
 SQL_USER = os.environ["SQL_USER"]
 SQL_PWD = os.environ["SQL_PASSWORD"]
 SQL_DB = os.environ["SQL_DB"]
-DBUSER = os.environ["USER"]
+DB_USER = os.environ["USER"]
+DB_HOST = os.environ["DB_HOST"]
 DATABASE_URI = os.environ["DATABASE_URL"]
 
-con = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host="localhost")
+con = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
 
 def price_write(price_data):
     with con:

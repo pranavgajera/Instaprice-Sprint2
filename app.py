@@ -24,7 +24,8 @@ app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://{SQL_USER}:{SQL_PWD}@localhost/{SQL_DB}'
+DATABASE_URI = os.environ["DATABASE_URL"]
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
 
 db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
