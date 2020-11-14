@@ -96,8 +96,8 @@ def on_disconnect():
 def search_request(data):
     """send a search request to api_calls with given data"""
     print("Got an event for search request with data: ", data)
-    search_list = mock_search_response(data['query'])
-    #search_list = search_amazon(data['query'])
+    #search_list = mock_search_response(data['query'])
+    search_list = search_amazon(data['query'])
     # print(search_list)
     # search_amazon(data['query'])
 
@@ -110,8 +110,8 @@ def get_price_history(data):
     """send price histoy request to api_calls with given data"""
     print(data['ASIN'])
     print(data)
-    price_history = mock_price_history(data['ASIN'])
-    #price_history = fetch_price_history(data['ASIN'])
+    #price_history = mock_price_history(data['ASIN'])
+    price_history = fetch_price_history(data['ASIN'])
     return_array = []
     return_array.append(price_history[0])
     for i in range(0, len(price_history) - 1):
