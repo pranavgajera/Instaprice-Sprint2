@@ -3,6 +3,7 @@ import Socket from './Socket';
 import {useEffect, useState} from "react";
 import ResultItem from "./ResultItem";
 import PostButton from './PostButton';
+import PropTypes from 'prop-types';
 
 export default function PriceHistoryResults(props) {
     const [pricehistory, setPricehistory] = useState([]);
@@ -54,3 +55,7 @@ export default function PriceHistoryResults(props) {
         </div>
         );
 }
+
+PriceHistoryResults.propTypes = {
+  ASIN: PropTypes.string.isRequired,
+};

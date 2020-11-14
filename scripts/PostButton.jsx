@@ -1,8 +1,6 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import Socket from './Socket';
-import {useState, useEffect} from "react";
-import ResultItem from "./ResultItem";
-import PriceHistoryResults from './PriceHistoryResults'
 
 export default function PostButton(props) {
     
@@ -21,6 +19,15 @@ export default function PostButton(props) {
     }
 
   return (
-      <button onClick={handlePost}> Post </button>
+    <button type="button" onClick={handlePost}> Post </button>
   );
 }
+
+PostButton.propTypes = {
+  ASIN: PropTypes.string.isRequired,
+  priceHistory: PropTypes.arrayOf(PropTypes.string).isRequired,
+  title: PropTypes.string.isRequired,
+  imgurl: PropTypes.string.isRequired,
+  user: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+};

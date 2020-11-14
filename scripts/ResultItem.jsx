@@ -1,3 +1,4 @@
+  
 import * as React from 'react';
 import Socket from './Socket';
 import PriceHistoryResults from "./PriceHistoryResults";
@@ -9,8 +10,6 @@ export default function ResultItem(props) {
 
     function handleClick(e) {
         e.preventDefault();
-        console.log("this is: " + props.ASIN);
-        console.log("pfp is: " + props.pfp)
         setClicked(clicked => !clicked);
         if (!clicked) {
             Socket.emit('price history request', {
@@ -26,7 +25,7 @@ export default function ResultItem(props) {
     return(
         <div>
             <button onClick={handleClick}>
-                <span><img class = 'itempicture' src={ props.imageUrl } />{ props.title }</span>
+                <span><img class='itempicture' src={ props.imageUrl } />{ props.title }</span>
             </button>
             { clicked ?
                 (

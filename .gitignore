@@ -4,3 +4,4 @@ package-lock.json
 */__pycache__/*
 postgres-data
 docker-compose.yml
+.eslintrc.js

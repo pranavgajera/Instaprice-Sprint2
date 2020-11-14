@@ -12,7 +12,6 @@ export default function SearchResults(props) {
     function setActive(index) {
         setState({...state, activeObject: state.objects[index]});
     }
-    console.log(props.pfp)
     
     return (
         <div>

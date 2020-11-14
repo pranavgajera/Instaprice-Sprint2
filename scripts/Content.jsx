@@ -3,10 +3,9 @@ import GoogleButton from './GoogleButton';
 import SearchResults from './SearchResults';
 import SearchBar from './SearchBar';
 import Socket from './Socket';
-import LiveFeed from './LiveFeed';
 import Feed from './Feed';
 
-import "./Content.css";
+import './Content.css';
 
 export default function Content() {
     const [authenticated, setAuthentication] = useState(false);
@@ -27,7 +26,7 @@ export default function Content() {
     
     getSearchList();
 
-    useEffect(() => {
+  useEffect(() => {
     Socket.on('connected', (data) => {
       setAuthentication(true);
       setUsername(data['username'])
@@ -36,7 +35,6 @@ export default function Content() {
 
     }, []);
 
-    
     if(!authenticated) {
         return (
             <div className="LoginPage">
@@ -66,5 +64,4 @@ export default function Content() {
             <Feed />
             </div>
         </div>);
-
 }

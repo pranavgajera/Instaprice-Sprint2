@@ -1,14 +1,18 @@
+"""Flask backend for InstaPrice"""
+
 import os
+#import json
 import flask
 import flask_socketio
 import flask_sqlalchemy
-import psycopg2
+#import psycopg2
 from flask import request
-from dotenv import load_dotenv
-from api_calls import mock_search_response
-from api_calls import mock_price_history
+#from dotenv import load_dotenv
+import models
 from api_calls import search_amazon
 from api_calls import fetch_price_history
+from api_calls import mock_price_history
+from api_calls import mock_search_response
 from db_writes import *
 import json
 from datetime import datetime
@@ -19,30 +23,40 @@ PRICE_HISTORY_REQUEST_CHANNEL = 'price history request'
 PRICE_HISTORY_RESPONSE_CHANNEL = 'price history response'
 FEED_UPDATE_CHANNEL = 'its feeding time'
 
-app = flask.Flask(__name__)
-app = flask.Flask(__name__)
-socketio = flask_socketio.SocketIO(app)
-socketio.init_app(app, cors_allowed_origins="*")
+APP = flask.Flask(__name__)
+APP = flask.Flask(__name__)
+SOCKETIO = flask_socketio.SocketIO(APP)
+SOCKETIO.init_app(APP, cors_allowed_origins="*")
 
 DATABASE_URI = os.environ["DATABASE_URL"]
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
+APP.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
 
-db = flask_sqlalchemy.SQLAlchemy(app)
-db.init_app(app)
-db.app = app
-import models
-db.create_all()
-db.session.commit()
+DB = flask_sqlalchemy.SQLAlchemy(APP)
+DB.init_app(APP)
+DB.app = APP
+DB.create_all()
+DB.session.commit()
 
 def emit_all_items(channel):
-    all_itemnames = [db_itemname.itemname for db_itemname in db.session.query(models.Posts).all()]
-    all_imageurls = [db_imageurl.imageurl for db_imageurl in db.session.query(models.Posts).all()]
-    all_pricehists = [db_pricehist.pricehist for db_pricehist in db.session.query(models.Posts).all()]
-    all_usernames = [db_username.username for db_username in db.session.query(models.Posts).all()]
-    all_pfps = [db_pfp.pfp for db_pfp in db.session.query(models.Posts).all()]
-    all_times = [db_time.time for db_time in db.session.query(models.Posts).all()]
-    
-    socketio.emit(
+    """socket emits information on every item in the database"""
+    all_itemnames = [
+        db_itemname.itemname for db_itemname in DB.session.query(
+            models.Posts).all()]
+    all_imageurls = [
+        db_imageurl.imageurl for db_imageurl in DB.session.query(
+            models.Posts).all()]
+    all_pricehists = [
+        db_pricehist.pricehist for db_pricehist in DB.session.query(
+            models.Posts).all()]
+    all_usernames = [
+        db_username.username for db_username in DB.session.query(
+            models.Posts).all()]
+    all_pfps = [db_pfp.pfp for db_pfp in DB.session.query(models.Posts).all()]
+    all_times = [
+        db_time.time for db_time in DB.session.query(
+            models.Posts).all()]
+
+    SOCKETIO.emit(
         channel,
         {
             "allItemnames": all_itemnames,
@@ -54,55 +68,62 @@ def emit_all_items(channel):
         },
     )
 
-@app.route('/')
+@APP.route('/')
 def hello():
+    """load webpage from html"""
     return flask.render_template('index.html')
 
-@socketio.on('new google user')
+@SOCKETIO.on('new google user')
 def on_new_google_user(data):
+    """authenticates user and sends them their user information"""
     print("Got an event for new google user input with data:", data)
     print('Someone connected! with google')
     print(data['profilepicture'])
-    socketio.emit('connected', {
+    SOCKETIO.emit('connected', {
         'username': data['name'],
         'email': data['email'],
         'profilepicture': data['profilepicture']
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
- 
-@socketio.on('disconnect')
+
+
+@SOCKETIO.on('disconnect')
 def on_disconnect():
+    """disconnect"""
     print('Someone disconnected!')
 
-@socketio.on(SEARCH_REQUEST_CHANNEL)
+@SOCKETIO.on(SEARCH_REQUEST_CHANNEL)
 def search_request(data):
+    """send a search request to api_calls with given data"""
     print("Got an event for search request with data: ", data)
-    #search_list = mock_search_response(data['query'])
-    search_list = search_amazon(data['query'])
+    search_list = mock_search_response(data['query'])
+    #search_list = search_amazon(data['query'])
     # print(search_list)
     # search_amazon(data['query'])
 
-    socketio.emit(SEARCH_RESPONSE_CHANNEL, {
+    SOCKETIO.emit(SEARCH_RESPONSE_CHANNEL, {
         "search_list": search_list
     }, room=request.sid)
-    
-@socketio.on(PRICE_HISTORY_REQUEST_CHANNEL)
+
+@SOCKETIO.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
+    """send price histoy request to api_calls with given data"""
     print(data['ASIN'])
     print(data)
-    #price_history = mock_price_history(data['ASIN'])
-    price_history = fetch_price_history(data['ASIN'])
+    price_history = mock_price_history(data['ASIN'])
+    #price_history = fetch_price_history(data['ASIN'])
     return_array = []
     return_array.append(price_history[0])
-    for i in range(0, len(price_history)-1):
-        if price_history[i+1]["price"] != price_history[i]["price"]:
-            return_array.append(price_history[i+1])
+    for i in range(0, len(price_history) - 1):
+        if price_history[i + 1]["price"] != price_history[i]["price"]:
+            return_array.append(price_history[i + 1])
     # price_history = price_history[len(price_history)-10:len(price_history)]
     # print(json.dumps(return_array, indent=4))
-    if len(return_array) >=11:
-        return_array = return_array[ len(return_array)- 11 : len(return_array) - 1 ]
+    if len(return_array) >= 11:
+        return_array = return_array[len(
+            return_array) - 11: len(return_array) - 1]
     print("Got an event for price history search with data: ", data)
-    socketio.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
+    SOCKETIO.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
         "pricehistory": return_array,
         'ASIN': data['ASIN'],
         'title': data['title'],
@@ -111,30 +132,36 @@ def get_price_history(data):
         'profpic': data['pfp']
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
-    
-@socketio.on('new item')
-def on_newitem(data):
-    print('new item recieved:',data["item"])
 
-postList = []
-@socketio.on('post price history')
+
+@SOCKETIO.on('new item')
+def on_newitem(data):
+    """unused"""
+    print('new item recieved:', data["item"])
+
+@SOCKETIO.on('post price history')
 def post_price_history(data):
+    """sends post information to database, updates posts, and
+    sends updated list of posts to users"""
+    post_list = []
     # postList.update({data['ASIN']: data['priceHistory']})
-    postList.append(data['priceHistory'])
+    post_list.append(data['priceHistory'])
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M")
     data['time'] = dt_string
     price_write(data)
-    socketio.emit('post price history', {
-        'postList': postList
+    SOCKETIO.emit('post price history', {
+        'postList': post_list
     })
     print("This is the price history:", data['ASIN'], data['priceHistory'])
     emit_all_items(FEED_UPDATE_CHANNEL)
 
+
 if __name__ == '__main__':
-    socketio.run(
-        app,
+    SOCKETIO.run(
+        APP,
         host=os.getenv('IP', '0.0.0.0'),
         port=int(os.getenv('PORT', 8080)),
         debug=True
     )
+    
