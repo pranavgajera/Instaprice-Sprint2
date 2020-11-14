@@ -33,6 +33,8 @@ A browser-based price tracker application where users can type in about a produc
 
 # Linting
 
+## ES-lint
+
 no-unused-vars: These lint errors remain as they refer to variables we are not currently using, but will need to scale our app in Sprint 2. For ease of
 coherence and scalability we included these variables already.
 
@@ -46,3 +48,23 @@ physically impaired, but adding a different key to each button in our list seems
 
 react/forbid-prop-types: Our array in this case contains elements that are dictionaries of multiple strings, so expanding the proptype to be array of 
 dicts of strings seems unhelpful, and we are electing to ignore this rule as well.
+
+## PY-lint
+
+ Instance of 'SQLAlchemy' has no {x} member: Doesn't detect inherited members. Not actual issues.
+ Instance of 'scoped_session' has no {x} member: Same as above
+ 
+ Import "import models" should be placed at the top of the module (wrong-import-position): Importing at the top causes the program to break due to cyclical
+ import nature of app.DB and models.
+ 
+Cyclic import (app -> models) (cyclic-import): They are co-dependent, so this is unavoidable as far as we can tell.
+
+Too many arguments (7/5) (too-many-arguments): Separating some arguments into dicts/arrays would make no sense here, so adhering to 
+this rule would be more harmful to our codebase than useful.
+
+Too few public methods (1/2) (too-few-public-methods): We have no need for more public methods. models.py is not used for the same 
+purposes classes are usually used for, so rules created as guidelines also do not apply the same, and we elected to ignore it.
+ 
+Unused argument 'search_text' (unused-argument)
+Unused argument 'asin' (unused-argument): Both of these arguments are to provide consistency in how we call the actual API calls, and the
+mocked API calls in api_calls.py.
