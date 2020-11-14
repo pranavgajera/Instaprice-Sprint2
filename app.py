@@ -8,7 +8,6 @@ import flask_sqlalchemy
 #import psycopg2
 from flask import request
 #from dotenv import load_dotenv
-import models
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from api_calls import mock_price_history
@@ -34,6 +33,8 @@ APP.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
 DB = flask_sqlalchemy.SQLAlchemy(APP)
 DB.init_app(APP)
 DB.app = APP
+
+import models
 DB.create_all()
 DB.session.commit()
 
@@ -133,11 +134,6 @@ def get_price_history(data):
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
 
-
-@SOCKETIO.on('new item')
-def on_newitem(data):
-    """unused"""
-    print('new item recieved:', data["item"])
 
 @SOCKETIO.on('post price history')
 def post_price_history(data):
