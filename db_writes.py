@@ -25,7 +25,7 @@ def price_write(price_data):
         item = price_data['title']
         imageurl = price_data['imgurl']
         poster = price_data['user']
-        pfp = "temp profile picture"
+        pfp = price_data['profpic']
         time = price_data['time']
         cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time) " + \
             "VALUES (%s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time))

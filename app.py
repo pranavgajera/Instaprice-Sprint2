@@ -102,7 +102,6 @@ def search_request(data):
 def get_price_history(data):
     """send price histoy request to api_calls with given data"""
     print(data['ASIN'])
-    print(data)
     #price_history = mock_price_history(data['ASIN'])
     price_history = fetch_price_history(data['ASIN'])
     return_array = []
@@ -122,7 +121,7 @@ def get_price_history(data):
         'title': data['title'],
         'imgurl': data['imgurl'],
         'username': data['username'],
-        'profpic': data['pfp']
+        'pfp': data['pfp']
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
 

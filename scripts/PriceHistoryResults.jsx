@@ -21,7 +21,7 @@ export default function PriceHistoryResults({ ASIN }) {
         setImgurl(data.imgurl);
         setPricehistory(data.pricehistory);
         setUser(data.username);
-        setProfpic(data.profpic);
+        setProfpic(data.pfp);
         setShow(true);
       }
     });

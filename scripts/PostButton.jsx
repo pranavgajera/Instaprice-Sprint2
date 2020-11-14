@@ -12,7 +12,7 @@ export default function PostButton(props) {
       title: props.title,
       imgurl: props.imgurl,
       user: props.user,
-      profpic: props.pfp,
+      profpic: props.profpic,
       time: props.time,
     });
   }
