@@ -73,14 +73,12 @@ def on_new_google_user(data):
     """authenticates user and sends them their user information"""
     print("Got an event for new google user input with data:", data)
     print('Someone connected! with google')
-    print(data['profilepicture'])
     SOCKETIO.emit('connected', {
         'username': data['name'],
         'email': data['email'],
         'profilepicture': data['profilepicture']
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
-
 
 @SOCKETIO.on('disconnect')
 def on_disconnect():
@@ -128,7 +126,6 @@ def get_price_history(data):
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
 
-
 @SOCKETIO.on('post price history')
 def post_price_history(data):
     """sends post information to database, updates posts, and
@@ -142,7 +139,6 @@ def post_price_history(data):
     price_write(data)
     print("This is the price history:", data['ASIN'], data['priceHistory'])
     emit_all_items(FEED_UPDATE_CHANNEL)
-
 
 if __name__ == '__main__':
     SOCKETIO.run(

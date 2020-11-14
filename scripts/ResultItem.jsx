@@ -18,7 +18,7 @@ export default function ResultItem({
         ASIN,
         title,
         imgurl: imageUrl,
-        username: pfp,
+        username,
         pfp,
       });
     }
