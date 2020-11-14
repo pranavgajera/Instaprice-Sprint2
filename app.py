@@ -1,20 +1,14 @@
 """Flask backend for InstaPrice"""
 
 import os
-#import json
+from datetime import datetime
 import flask
 import flask_socketio
 import flask_sqlalchemy
-#import psycopg2
 from flask import request
-#from dotenv import load_dotenv
 from api_calls import search_amazon
 from api_calls import fetch_price_history
-from api_calls import mock_price_history
-from api_calls import mock_search_response
-from db_writes import *
-import json
-from datetime import datetime
+from db_writes import price_write
 
 SEARCH_REQUEST_CHANNEL = "search request"
 SEARCH_RESPONSE_CHANNEL = "search response"
@@ -154,7 +148,7 @@ if __name__ == '__main__':
     SOCKETIO.run(
         APP,
         host=os.getenv('IP', '0.0.0.0'),
-        port=int(os.getenv('PORT', 8080)),
+        port=int(os.getenv('PORT', '8080')),
         debug=True
     )
     

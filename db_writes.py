@@ -2,7 +2,6 @@
 Handles the database writes for app
 """
 import os
-import dotenv
 import psycopg2
 
 
