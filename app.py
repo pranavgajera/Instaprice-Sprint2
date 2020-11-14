@@ -150,9 +150,6 @@ def post_price_history(data):
     dt_string = now.strftime("%d/%m/%Y %H:%M")
     data['time'] = dt_string
     price_write(data)
-    SOCKETIO.emit('post price history', {
-        'postList': post_list
-    })
     print("This is the price history:", data['ASIN'], data['priceHistory'])
     emit_all_items(FEED_UPDATE_CHANNEL)
 
