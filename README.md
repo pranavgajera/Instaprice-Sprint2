@@ -25,9 +25,16 @@ A browser-based price tracker application where users can type in about a produc
    - Then after finishing that step, go to credintials -> Create Credentials -> OAuth client ID. Click "web application" and your application 
      should be readt to go .
    - Then replace the clientID in the the GoogleButton.jsx file and the application should be ready to start.
-6. Run the application by running `yarn run watch` on one terminal and `python app.py` in other terminal
+6. Prep SQLAlchemy by running these commands:
+   ```
+   $python
+   $import models
+   $models.db.create_all()
+   $models.db.session.commit()
+   ```
+7. Run the application by running `yarn run watch` on one terminal and `python app.py` in other terminal
     to start the application. 
-7. To push the application to heroku follow this steps:
+8. To push the application to heroku follow this steps:
     - Firstly create a new app on heroku.
     - Then to have a postgres databse on heroku install heroku postgres through add ons.
     - Then follow the steps provided by heroku after creating the application for this project.
