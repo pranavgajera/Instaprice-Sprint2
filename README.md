@@ -1,3 +1,7 @@
+# InstaPrice
+
+A browser-based price tracker application where users can type in about a product and the application will respond with the price history of that specific product.
+
 ## Heroku Link: https://cs490-instaprice.herokuapp.com/
 # Cloning this project to the local enviroment
 1. To start using this project clone this repository by running 
@@ -48,11 +52,6 @@
     * Enabled each search result to be toggleable by the user
     * Added a post button that each search result that will post the search details to the live feed
     * Finalized README
-
-# InstaPrice
-
-A browser-based price tracker application where users can type in about a product and the application will respond with the price history of that specific product.
-
 
 # Linting
 
