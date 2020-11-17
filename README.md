@@ -1,5 +1,28 @@
 ## Heroku Link: https://cs490-instaprice.herokuapp.com/
-
+# Cloning this project to the local enviroment
+1. To start using this project clone this repository by running 
+` https://github.com/pranavgajera/InstaPrice`
+2. Then install all the dependencies by running
+ ` npm install && pip install -r requirements.txt`
+3. To setup the API's used in the project sign up for both the API's through RapidAPI at https://rapidapi.com/
+   to use https://rapidapi.com/ajmorenodelarosa/api/amazon-price1 
+   and https://rapidapi.com/Megatvini/api/amazon-price-history.
+4. After signing up for the API's create a secret_tokens.env file and add the following lines int the file:
+  ` RAPID_API_KEY=Your Key `
+5. To setup the google login button while starting up the application install this npm package by typing `npm install react-google-login`
+   before starting up the application. Additional information about the npm package could be found at https://www.npmjs.com/package/react-google-login.
+   After installing the npm package, follow the below steps to get the google login button setup:
+   - Firstly go to https://console.developers.google.com/ and sign up using for the google developer account using your personal email.
+   - Create a new project and name it based on your preference.
+   - To initally setup a OAuth ID on a new project, the product name on the consent screen needs to be set up by following the steps below:
+     1. Click the "CONFIGURE CONSENT SCREEN" button.
+     2. Choose "External" and pick a application name.
+     3. Press save.
+   - Then after finishing that step, go to credintials -> Create Credentials -> OAuth client ID. Click "web application" and your application 
+     should be readt to go .
+   - Then replace the clientID in the the GoogleButton.jsx file and the application should be ready to start.
+6. Run the application by running `yarn run watch` on one terminal and `python app.py` in other terminal
+    to start the application. 
 ## Task Distribution
 * Pranavkumar Gajera
     * Boilerplate Code for React and Flask
