@@ -27,6 +27,16 @@ A browser-based price tracker application where users can type in about a produc
    - Then replace the clientID in the the GoogleButton.jsx file and the application should be ready to start.
 6. Run the application by running `yarn run watch` on one terminal and `python app.py` in other terminal
     to start the application. 
+7. To push the application to heroku follow this steps:
+    - Firstly create a new app on heroku.
+    - Then to have a postgres databse on heroku install heroku postgres through add ons.
+    - Then follow the steps provided by heroku after creating the application for this project.
+    - To get the bots working on heroku the API keys from the .env files needs to be inputted in the 
+     config variables in the heroku app settings
+    - After following the above steps push onto heroku by running the following command
+      `git push heroku main`
+      and the application should be ready to go.
+    - Open the application by clicking open app and the application should be ready to go.
 ## Task Distribution
 * Pranavkumar Gajera
     * Boilerplate Code for React and Flask
