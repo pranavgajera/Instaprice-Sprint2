@@ -148,7 +148,7 @@ class TestBot(unittest.TestCase):
             response_items = []
             for item in response:
                 response_items.append(item['title'])
-            self.assertEquals(response_items[0:3], ["Apaches", "Completeness", "Contrition"])
+            self.assertEquals(response_items[0:3], ["Completeness","Apaches", "Contrition"])
 
     def test_fetchamazonprice(self):
         with patch('api_calls.fetch_price_history') as mocked_return:
