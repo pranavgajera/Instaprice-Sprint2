@@ -1,6 +1,11 @@
 .main-container {
     text-align: center;
 }
+
+.Content {
+    position: absolute;
+}
+
 input[type=text] {
     width: 70%;
     padding: 12px 20px;

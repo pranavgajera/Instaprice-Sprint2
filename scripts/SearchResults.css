@@ -5,4 +5,6 @@
     width: 40%;
     height: 80%;
     overflow: scroll;
+    z-index: 10;
+    background-color: gray;
 }

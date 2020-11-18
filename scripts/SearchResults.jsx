@@ -17,7 +17,7 @@ export default function SearchResults({
   }
 
   return (
-    <div>
+    <div className="SearchResults">
       <button type="button" onClick={closeSearchList}>X</button>
       {state.objects.map((item) => (
         <div key={item.ASIN} onClick={() => { setActive(item.ASIN); }}>
