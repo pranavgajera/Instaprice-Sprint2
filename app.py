@@ -1,13 +1,16 @@
 """Flask backend for InstaPrice"""
-
+import json
 import os
 from datetime import datetime
 import flask
 import flask_socketio
 import flask_sqlalchemy
 from flask import request
+
 from api_calls import search_amazon
 from api_calls import fetch_price_history
+from api_calls import mock_search_response
+from api_calls import mock_price_history
 from db_writes import price_write
 
 SEARCH_REQUEST_CHANNEL = "search request"
@@ -90,8 +93,10 @@ def search_request(data):
     """send a search request to api_calls with given data"""
     print("Got an event for search request with data: ", data)
     #search_list = mock_search_response(data['query'])
-    search_list = search_amazon(data['query'])
+    search_list = mock_search_response(data['query'])
     # print(search_list)
+    print(json.dumps(search_list, indent=4))
+
     # search_amazon(data['query'])
 
     SOCKETIO.emit(SEARCH_RESPONSE_CHANNEL, {
@@ -103,7 +108,7 @@ def get_price_history(data):
     """send price histoy request to api_calls with given data"""
     print(data['ASIN'])
     #price_history = mock_price_history(data['ASIN'])
-    price_history = fetch_price_history(data['ASIN'])
+    price_history = mock_price_history(data['ASIN'])
     return_array = []
     return_array.append(price_history[0])
     for i in range(0, len(price_history) - 1):
