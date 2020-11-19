@@ -25,12 +25,18 @@ export default function ResultItem({
   }
 
   return (
-    <div>
+    <div className="Result">
       <button type="button" onClick={handleClick}>
-        <span>
-          <img className="itempicture" src={imageUrl} alt="item" />
-          { title }
-        </span>
+        <div className="ResultGrid">
+          <div className="ResultImage">
+            <img src={imageUrl} alt="item" />
+          </div>
+          <div className="ResultInfo">
+            <span>
+              { title }
+            </span>
+          </div>
+        </div>
       </button>
       { clicked
         ? (
