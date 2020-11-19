@@ -17,8 +17,11 @@ export default function Content() {
   function getSearchList() {
     React.useEffect(() => {
       Socket.on('search response', (data) => {
-        setSearchList(data.search_list);
-        // console.log('got list: ', data);
+        if(Array.isArray(data.search_list)) {
+          setSearchList(data.search_list);
+        } else {
+          setSearchList([]);
+        }
         setSearched(true);
       });
     }, []);
