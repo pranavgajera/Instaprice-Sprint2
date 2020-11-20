@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Socket from './Socket';
+import { Link } from 'react-router-dom';
+import ProfileButton from './ProfileButton'
 
 import './Feed.css';
 
@@ -52,7 +54,12 @@ export default function Feed() {
             {' '}
             Posted by:
             {' '}
-            { usernames[index] }
+            <ProfileButton
+              activeOnlyWhenExact={true}
+              to={'/' + usernames[index]}
+              label={ usernames[index] }
+              username ={ usernames[index] }
+            />
             {' '}
             on
             {' '}

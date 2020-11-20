@@ -5,7 +5,8 @@ from datetime import datetime
 import flask
 import flask_socketio
 import flask_sqlalchemy
-from flask import request
+from flask import request, jsonify
+from sqlalchemy import text
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from db_writes import price_write
@@ -68,6 +69,11 @@ def hello():
     """load webpage from html"""
     return flask.render_template('index.html')
 
+@APP.errorhandler(404)
+def cool(e):
+    """load webpage from html"""
+    return flask.render_template('index.html')
+
 @SOCKETIO.on('new google user')
 def on_new_google_user(data):
     """authenticates user and sends them their user information"""
@@ -124,6 +130,40 @@ def get_price_history(data):
         'pfp': data['pfp']
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
+    
+@SOCKETIO.on('get profile page')
+def get_profile_page(data):
+    #make it so that i can loop through db with data['username'] and find only those posts then make Feed in propage with those posts as well as display propic name and other stuff
+    itemnames = []
+    imageurls = []
+    pricehists = []
+    usernames = []
+    pfps = []
+    times = []
+    posts = DB.session.query(models.Posts).filter_by(username=data['username']).all()
+    for post in posts:
+        itemnames.append(post.itemname)
+        imageurls.append(post.imageurl)
+        pricehists.append(post.pricehist)
+        usernames.append(post.username)
+        pfps.append(post.pfp)
+        times.append(post.time)
+    SOCKETIO.emit('make profile page', {
+        'username': data['username'],
+        'itemnames': itemnames,
+        'imageurls': imageurls,
+        'pricehists': pricehists,
+        'usernames': usernames,
+        'pfps': pfps,
+        'times': times,
+        
+    })
+    print ("This is the profile page for: " + data['username'])
+
+@SOCKETIO.on('go back')
+def go_back():
+    emit_all_items(FEED_UPDATE_CHANNEL)
+    SOCKETIO.close('go back')
 
 @SOCKETIO.on('post price history')
 def post_price_history(data):
