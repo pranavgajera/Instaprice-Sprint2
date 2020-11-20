@@ -93,7 +93,7 @@ def search_request(data):
     """send a search request to api_calls with given data"""
     print("Got an event for search request with data: ", data)
     #search_list = mock_search_response(data['query'])
-    search_list = mock_search_response(data['query'])
+    search_list = search_amazon(data['query'])
     # print(search_list)
     print(json.dumps(search_list, indent=4))
 
@@ -108,7 +108,20 @@ def get_price_history(data):
     """send price histoy request to api_calls with given data"""
     print(data['ASIN'])
     #price_history = mock_price_history(data['ASIN'])
-    price_history = mock_price_history(data['ASIN'])
+    price_history = fetch_price_history(data['ASIN'])
+    print(price_history)
+    if "404" in price_history:
+        SOCKETIO.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
+            "pricehistory": price_history,
+            'ASIN': data['ASIN'],
+            'title': data['title'],
+            'imgurl': data['imgurl'],
+            'username': data['username'],
+            'pfp': data['pfp'],
+            'error':True
+        }, room=request.sid)
+        emit_all_items(FEED_UPDATE_CHANNEL)
+        return
     return_array = []
     return_array.append(price_history[0])
     for i in range(0, len(price_history) - 1):
@@ -126,7 +139,8 @@ def get_price_history(data):
         'title': data['title'],
         'imgurl': data['imgurl'],
         'username': data['username'],
-        'pfp': data['pfp']
+        'pfp': data['pfp'],
+        'error':False
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
 
