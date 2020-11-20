@@ -16,10 +16,7 @@ def generate_graph(entry_list, post_id="test"):
     date_list = []
     price_list = []
     num_points = int(len(entry_list))
-    first_point = len(entry_list) - num_points
-    last_point = len(entry_list)
-    for i in range(first_point, last_point):
-        entry = entry_list[i]
+    for entry in entry_list:
         date_string = entry["price_date"]
         entry_datetime = datetime.datetime.strptime(date_string, "%m/%d/%Y")
         date_list.append(entry_datetime)
@@ -45,15 +42,8 @@ def generate_graph(entry_list, post_id="test"):
     plt.gca().yaxis.set_major_formatter(formatter)
 
     # Display in window
-    # plt.show()
     file_name = "graphs/graph_{}.png".format(post_id)
     plt.savefig(file_name)
-
-
-def load_pickle(filename):
-    """Local helper function to open a pickled response"""
-    file = open(filename, "rb")
-    return pickle.load(file)
 
 
 def main():
