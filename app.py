@@ -71,11 +71,11 @@ def hello():
     """load webpage from html"""
     return flask.render_template('index.html')
 
-@SOCKETIO.on('new google user')
+@SOCKETIO.on('new user')
 def on_new_google_user(data):
     """authenticates user and sends them their user information"""
-    print("Got an event for new google user input with data:", data)
-    print('Someone connected! with google')
+    print("Got an event for new user input with data:", data)
+    print('Someone connected!')
     SOCKETIO.emit('connected', {
         'username': data['name'],
         'email': data['email'],
@@ -109,7 +109,7 @@ def get_price_history(data):
     print(data['ASIN'])
     #price_history = mock_price_history(data['ASIN'])
     price_history = fetch_price_history(data['ASIN'])
-    print(price_history)
+    # print(price_history)
     if "404" in price_history:
         SOCKETIO.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
             "pricehistory": price_history,
