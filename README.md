@@ -29,8 +29,8 @@ A browser-based price tracker application where users can type in about a produc
    ```
    $python
    $import models
-   $models.db.create_all()
-   $models.db.session.commit()
+   $models.DB.create_all()
+   $models.DB.session.commit()
    ```
 7. Run the application by running `yarn run watch` on one terminal and `python app.py` in other terminal
     to start the application. 
