@@ -30,6 +30,9 @@ export default function SearchResults({
               imageUrl={item.imageUrl}
               username={username}
               pfp={pfp}
+              price={item.price}
+              rating={item.rating}
+              totalReviews={item.totalReviews}
             />
           </div>
         ))}

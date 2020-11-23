@@ -6,7 +6,7 @@ import PriceHistoryResults from './PriceHistoryResults';
 import './ResultItem.css';
 
 export default function ResultItem({
-  ASIN, title, imageUrl, username, pfp,
+  ASIN, title, imageUrl, username, pfp,price,rating,totalReviews
 }) {
   const [clicked, setClicked] = useState(false);
 
@@ -33,7 +33,10 @@ export default function ResultItem({
           </div>
           <div className="ResultInfo">
             <span>
-              { title }
+              <h4>Title - { title }</h4>
+              <h4>Current Price - {price}</h4>
+              <h4>Total Reviews - {totalReviews}</h4>
+              <h4>Rating - {rating}</h4>
             </span>
           </div>
         </div>
