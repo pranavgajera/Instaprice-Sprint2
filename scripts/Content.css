@@ -4,6 +4,16 @@
 
 .Content {
     position: absolute;
+  
+}
+
+.searchbar{
+    position: absolute;
+    top: 70%;
+    left: 20%;
+    align-items: center;
+    height: 10px;
+    width: 1500px;
 }
 
 input[type=text] {

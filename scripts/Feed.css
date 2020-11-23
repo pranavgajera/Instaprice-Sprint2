@@ -4,19 +4,20 @@
 
 ol li{
   list-style-type: none;
-}
-
-.feedbox {
-    margin: auto;
-    width: 50%;
-    border: 3px solid red;
-    padding: 10px;
-    text-align: center;
-    height: 432.624px;
-    width: 1000px;
-    overflow-y: scroll
+  text-align: center;
 }
 
 h1 {
     text-align: center;
+}
+
+.feedbox {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    align-items: center;
+    height: 500px;
+    width: 1500px;
+    border: 3px solid red;
+    overflow-y: scroll
 }

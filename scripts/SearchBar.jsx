@@ -1,6 +1,7 @@
 import React from 'react';
 import Socket from './Socket';
 
+
 export default function SearchBar() {
   const [input, setInput] = React.useState('');
 
@@ -13,7 +14,7 @@ export default function SearchBar() {
   };
 
   return (
-    <form htmlFor="newitem" onSubmit={makeSearchRequest}>
+    <form htmlFor="newitem" onSubmit={makeSearchRequest} className="searchbar">
       <label htmlFor="textbox">
         <input
           type="text"
