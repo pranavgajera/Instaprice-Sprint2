@@ -92,8 +92,8 @@ def on_disconnect():
 def search_request(data):
     """send a search request to api_calls with given data"""
     print("Got an event for search request with data: ", data)
-    #search_list = mock_search_response(data['query'])
-    search_list = search_amazon(data['query'])
+    search_list = mock_search_response(data['query'])
+    #search_list = search_amazon(data['query'])
     # print(search_list)
     print(json.dumps(search_list, indent=4))
 
@@ -107,8 +107,8 @@ def search_request(data):
 def get_price_history(data):
     """send price histoy request to api_calls with given data"""
     print(data['ASIN'])
-    #price_history = mock_price_history(data['ASIN'])
-    price_history = fetch_price_history(data['ASIN'])
+    price_history = mock_price_history(data['ASIN'])
+    #price_history = fetch_price_history(data['ASIN'])
     # print(price_history)
     if "404" in price_history:
         SOCKETIO.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
@@ -149,6 +149,7 @@ def post_price_history(data):
     """sends post information to database, updates posts, and
     sends updated list of posts to users"""
     post_list = []
+    print(data)
     # postList.update({data['ASIN']: data['priceHistory']})
     post_list.append(data['priceHistory'])
     now = datetime.now()
