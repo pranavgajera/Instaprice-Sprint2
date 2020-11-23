@@ -48,9 +48,6 @@ export default function Content() {
 
   return (
     <div className="HomePage">
-      <h1>
-        <img src="./static/instapricelogo.png" alt="InstaPrice" />
-      </h1>
       { searched
         ? (
           <SearchResults
@@ -60,13 +57,20 @@ export default function Content() {
             closeSearchList={() => setSearched(false)}
           />
         ) : (null)}
-
-      <div className="searchbar">
-        <SearchBar />
-      </div>
-      <div className="Feed">
-        <Feed />
+        
+      <div className="Content">
+        <h1>
+          <img src="./static/instapricelogo.png" alt="InstaPrice" />
+        </h1>
+        <div className="searchbar">
+          <SearchBar />
+        </div>
+        <div className="Feed">
+          <Feed />
+        </div>
       </div>
     </div>
+    
+    
   );
 }

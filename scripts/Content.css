@@ -1,12 +1,19 @@
 .main-container {
     text-align: center;
 }
+
+.Content {
+    position: absolute;
+}
+
 input[type=text] {
     width: 70%;
     padding: 12px 20px;
     border-radius: 10px;
     box-sizing: border-box;
 }
+
+/*
 button {
     background-color: cornflowerblue;
     border: none;
@@ -16,6 +23,7 @@ button {
     margin: 4px 2px;
     cursor: pointer;
 }
+*/
 
 img {
     display: block;
