@@ -92,10 +92,8 @@ def on_disconnect():
 def search_request(data):
     """send a search request to api_calls with given data"""
     print("Got an event for search request with data: ", data)
-    if(data['query'] == ""):
-        search_list = mock_search_response(data['query'])
-    else:
-        search_list = search_amazon(data['query'])
+    #search_list = mock_search_response(data['query'])
+    search_list = search_amazon(data['query'])
     # print(search_list)
     print(json.dumps(search_list, indent=4))
 
@@ -151,6 +149,22 @@ def post_price_history(data):
     """sends post information to database, updates posts, and
     sends updated list of posts to users"""
     post_list = []
+    print(data)
+    # postList.update({data['ASIN']: data['priceHistory']})
+    post_list.append(data['priceHistory'])
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M")
+    data['time'] = dt_string
+    price_write(data)
+    print("This is the price history:", data['ASIN'], data['priceHistory'])
+    emit_all_items(FEED_UPDATE_CHANNEL)
+    
+@SOCKETIO.on('view post details')
+def post_price_history(data):
+    """sends post information to database, updates posts, and
+    sends updated list of posts to users"""
+    post_list = []
+    print(data)
     # postList.update({data['ASIN']: data['priceHistory']})
     post_list.append(data['priceHistory'])
     now = datetime.now()
