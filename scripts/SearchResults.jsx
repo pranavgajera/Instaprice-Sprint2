@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ResultItem from './ResultItem';
-import './SearchResults.css';
+import '../style/SearchResults.css';
 
 export default function SearchResults({
   username, pfp, searchList, closeSearchList,
