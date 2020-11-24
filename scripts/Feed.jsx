@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Socket from './Socket';
 
-import './Feed.css';
+import '../style/Feed.css';
 
 export default function Feed() {
   const [itemnames, setItemname] = useState([]);

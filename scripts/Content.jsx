@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 import Socket from './Socket';
 import Feed from './Feed';
 import FacebookButton from "./FacebookButton"
-import './Content.css';
+import '../style/Content.css';
 
 export default function Content() {
   const [authenticated, setAuthentication] = useState(false);
