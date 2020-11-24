@@ -3,7 +3,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Socket from './Socket';
 import PriceHistoryResults from './PriceHistoryResults';
-import './ResultItem.css';
+import '../style/ResultItem.css';
 
 export default function ResultItem({
   ASIN, title, imageUrl, username, pfp,price,rating,totalReviews
