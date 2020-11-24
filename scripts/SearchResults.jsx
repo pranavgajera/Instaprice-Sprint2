@@ -18,18 +18,25 @@ export default function SearchResults({
 
   return (
     <div className="SearchResults">
-      <button type="button" onClick={closeSearchList}>X</button>
-      {state.objects.map((item) => (
-        <div key={item.ASIN} onClick={() => { setActive(item.ASIN); }}>
-          <ResultItem
-            ASIN={item.ASIN}
-            title={item.title}
-            imageUrl={item.imageUrl}
-            username={username}
-            pfp={pfp}
-          />
-        </div>
-      ))}
+      <div className="Xbutton">
+        <button type="button" onClick={closeSearchList}>X</button>
+      </div>
+      <div className="ResultsContainer">
+        {state.objects.map((item) => (
+          <div key={item.ASIN} onClick={() => { setActive(item.ASIN); }}>
+            <ResultItem
+              ASIN={item.ASIN}
+              title={item.title}
+              imageUrl={item.imageUrl}
+              username={username}
+              pfp={pfp}
+              price={item.price}
+              rating={item.rating}
+              totalReviews={item.totalReviews}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

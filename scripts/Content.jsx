@@ -4,7 +4,7 @@ import SearchResults from './SearchResults';
 import SearchBar from './SearchBar';
 import Socket from './Socket';
 import Feed from './Feed';
-
+import FacebookButton from "./FacebookButton"
 import './Content.css';
 
 export default function Content() {
@@ -44,6 +44,7 @@ export default function Content() {
           <img src="./static/instapricelogo.png" alt="InstaPrice" />
         </h1>
         <GoogleButton />
+        <FacebookButton />
       </div>
     );
   }

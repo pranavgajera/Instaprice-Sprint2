@@ -1,13 +1,16 @@
 """Flask backend for InstaPrice"""
-
+import json
 import os
 from datetime import datetime
 import flask
 import flask_socketio
 import flask_sqlalchemy
 from flask import request
+
 from api_calls import search_amazon
 from api_calls import fetch_price_history
+from api_calls import mock_search_response
+from api_calls import mock_price_history
 from db_writes import price_write
 
 SEARCH_REQUEST_CHANNEL = "search request"
@@ -68,11 +71,11 @@ def hello():
     """load webpage from html"""
     return flask.render_template('index.html')
 
-@SOCKETIO.on('new google user')
+@SOCKETIO.on('new user')
 def on_new_google_user(data):
     """authenticates user and sends them their user information"""
-    print("Got an event for new google user input with data:", data)
-    print('Someone connected! with google')
+    print("Got an event for new user input with data:", data)
+    print('Someone connected!')
     SOCKETIO.emit('connected', {
         'username': data['name'],
         'email': data['email'],
@@ -92,6 +95,8 @@ def search_request(data):
     #search_list = mock_search_response(data['query'])
     search_list = search_amazon(data['query'])
     # print(search_list)
+    print(json.dumps(search_list, indent=4))
+
     # search_amazon(data['query'])
 
     SOCKETIO.emit(SEARCH_RESPONSE_CHANNEL, {
@@ -104,6 +109,19 @@ def get_price_history(data):
     print(data['ASIN'])
     #price_history = mock_price_history(data['ASIN'])
     price_history = fetch_price_history(data['ASIN'])
+    # print(price_history)
+    if "404" in price_history:
+        SOCKETIO.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
+            "pricehistory": price_history,
+            'ASIN': data['ASIN'],
+            'title': data['title'],
+            'imgurl': data['imgurl'],
+            'username': data['username'],
+            'pfp': data['pfp'],
+            'error':True
+        }, room=request.sid)
+        emit_all_items(FEED_UPDATE_CHANNEL)
+        return
     return_array = []
     return_array.append(price_history[0])
     for i in range(0, len(price_history) - 1):
@@ -121,7 +139,8 @@ def get_price_history(data):
         'title': data['title'],
         'imgurl': data['imgurl'],
         'username': data['username'],
-        'pfp': data['pfp']
+        'pfp': data['pfp'],
+        'error':False
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
 

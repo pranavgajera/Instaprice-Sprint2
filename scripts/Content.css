@@ -12,6 +12,8 @@ input[type=text] {
     border-radius: 10px;
     box-sizing: border-box;
 }
+
+/*
 button {
     background-color: cornflowerblue;
     border: none;
@@ -21,6 +23,7 @@ button {
     margin: 4px 2px;
     cursor: pointer;
 }
+*/
 
 img {
     display: block;
