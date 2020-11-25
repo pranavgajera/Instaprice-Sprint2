@@ -12,14 +12,20 @@ class Posts(DB.Model):
     username = DB.Column(DB.String(225))
     pfp = DB.Column(DB.String(225))
     time = DB.Column(DB.String(225))
+    likes = DB.Column(DB.Integer)
+    graphurl = DB.Column(DB.String(225))
+    asin = DB.Column(DB.String(225))
 
-    def __init__(self, username, pfp, time, itemname, imageurl, pricehist):
+    def __init__(self, username, pfp, time, itemname, imageurl, pricehist, likes, graphurl, asin):
         self.username = username
         self.pfp = pfp
         self.time = time
         self.itemname = itemname
         self.imageurl = imageurl
         self.pricehist = pricehist
+        self.likes = likes
+        self.graphurl = graphurl
+        self.asin = asin
 
     def __repr__(self):
         return "<Message by user %s with content: %s>" % (

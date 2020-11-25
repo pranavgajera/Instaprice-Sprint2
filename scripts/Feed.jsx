@@ -12,6 +12,7 @@ export default function Feed() {
   const [usernames, setUsername] = useState([]);
   const [pfps, setPfp] = useState([]);
   const [times, setTime] = useState([]);
+  const [likes, setLikes] = useState([]);
 
   function updateItems(data) {
     setItemname(data.allItemnames);
@@ -20,6 +21,7 @@ export default function Feed() {
     setUsername(data.allUsernames);
     setPfp(data.allPfps);
     setTime(data.allTimes);
+    setLikes(data.allLikes);
     const feedBody = document.querySelector('#feedBody');
     feedBody.scrollTop = feedBody.scrollHeight - feedBody.clientHeight;
   }
@@ -55,6 +57,8 @@ export default function Feed() {
                 />
                 on 
                 { times[index] }</h4>
+                <h4>Likes:
+                { likes[index] }</h4>
             </div>
           </li>
         ))}
