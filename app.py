@@ -163,7 +163,6 @@ def get_profile_page(data):
 @SOCKETIO.on('go back')
 def go_back():
     emit_all_items(FEED_UPDATE_CHANNEL)
-    SOCKETIO.close('go back')
 
 @SOCKETIO.on('post price history')
 def post_price_history(data):

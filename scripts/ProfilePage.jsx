@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Socket from './Socket';
 import { Link } from 'react-router-dom';
-
+import Biography from './Biography';
 
 export default function ProfilePage(props) {
   const [user, setUser] = useState("");
@@ -56,7 +56,11 @@ return (
   <div>
     <h1>
       <img src="./static/instapricelogo.png" alt="InstaPrice" />
-      {user}'s Profile
+      <Biography
+        name = {user}
+        pfp = {pfps}
+        bio = "Hello, this is my profile page."
+      />
     </h1>
     <div>
       <Link to='/' onClick={handleBack}> Go back to searches </Link>

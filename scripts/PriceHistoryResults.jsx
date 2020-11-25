@@ -5,8 +5,7 @@ import Socket from './Socket';
 import PostButton from './PostButton';
 
 export default function PriceHistoryResults({ ASIN }) {
-  const [pricehistory, setPricehistory] = useState([]);
-  const [show, setShow] = useState(false);
+  const [pricehistory, setPricehistory] = useState(null);
   const [title, setTitle] = useState('');
   const [imgurl, setImgurl] = useState('');
   const [user, setUser] = useState('');
@@ -22,14 +21,13 @@ export default function PriceHistoryResults({ ASIN }) {
         setPricehistory(data.pricehistory);
         setUser(data.username);
         setProfpic(data.pfp);
-        setShow(true);
       }
     });
   }, []);
 
   return (
     <div>
-      { show
+      { pricehistory
         ? (
           <div>
             <h3>Price Change History For this Item</h3>
@@ -52,7 +50,7 @@ export default function PriceHistoryResults({ ASIN }) {
               time={time}
             />
           </div>
-        ) : (null)}
+        ) : "Loading..."}
     </div>
   );
 }
