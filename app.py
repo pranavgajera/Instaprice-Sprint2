@@ -6,7 +6,7 @@ import flask
 import flask_socketio
 import flask_sqlalchemy
 from flask import request
-
+import numpy as np
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from api_calls import mock_search_response
@@ -124,15 +124,28 @@ def get_price_history(data):
             'imgurl': data['imgurl'],
             'username': data['username'],
             'pfp': data['pfp'],
-            'error':True
+            'error':True,
+            'min':0,
+            'max':0,
+            'mean_price':0,
+            'var_price':0,
         }, room=request.sid)
         emit_all_items(FEED_UPDATE_CHANNEL)
         return
     return_array = []
-    return_array.append(price_history[0])
+    statistical_array =[]
+    for i in range(0,len(price_history)-1):
+        statistical_array.append(int(price_history[i]["price"]))
+    min_price = min(statistical_array)
+    max_price = max(statistical_array)
+    mean_price = np.mean(statistical_array)
+    var_price = np.var(statistical_array)
+
     for i in range(0, len(price_history) - 1):
         if price_history[i + 1]["price"] != price_history[i]["price"]:
             return_array.append(price_history[i + 1])
+    if len(return_array) == 0:
+        return_array.append(price_history[len(price_history) - 1])
     # price_history = price_history[len(price_history)-10:len(price_history)]
     # print(json.dumps(return_array, indent=4))
     if len(return_array) >= 11:
@@ -146,7 +159,11 @@ def get_price_history(data):
         'imgurl': data['imgurl'],
         'username': data['username'],
         'pfp': data['pfp'],
-        'error':False
+        'error':False,
+        'min':min_price,
+        'max':max_price,
+        'mean_price':mean_price,
+        'var_price':var_price
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
 
