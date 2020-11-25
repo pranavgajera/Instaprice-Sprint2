@@ -118,7 +118,11 @@ def get_price_history(data):
             'imgurl': data['imgurl'],
             'username': data['username'],
             'pfp': data['pfp'],
-            'error':True
+            'error':True,
+            'min':0,
+            'max':0,
+            'mean_price':0,
+            'var_price':0,
         }, room=request.sid)
         emit_all_items(FEED_UPDATE_CHANNEL)
         return
