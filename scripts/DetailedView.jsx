@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import DetailedItem from './DetailedItem';
 
 export default function SearchResults({
   detailedList, closeDetailedList,
@@ -18,6 +19,7 @@ export default function SearchResults({
     <div className="SearchResults">
       <div className="Xbutton">
         <button type="button" onClick={closeDetailedList}>X</button>
+        <DetailedItem />
       </div>
       
     </div>

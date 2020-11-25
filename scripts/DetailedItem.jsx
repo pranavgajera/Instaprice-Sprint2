@@ -18,8 +18,7 @@ export default function DetailedView(props) {
   const [stdv, setStdv] = useState(0);
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
-  const { open, onClose } = props; 
-  
+
   useEffect(() => {
     Socket.on('detail view response', (data) => {
         setTitle(data.itemname);
@@ -39,6 +38,6 @@ export default function DetailedView(props) {
   }, []);
 
   return (
-    { title }
+    <div>696969</div>
   );
 }
