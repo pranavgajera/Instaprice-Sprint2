@@ -3,7 +3,7 @@ import Socket from './Socket';
 import { Link } from 'react-router-dom';
 import ProfileButton from './ProfileButton'
 
-import './Feed.css';
+import '../style/Feed.css';
 
 export default function Feed() {
   const [itemnames, setItemname] = useState([]);

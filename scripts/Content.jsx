@@ -6,8 +6,9 @@ import Socket from './Socket';
 import Feed from './Feed';
 import ProfilePage from './ProfilePage';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import FacebookButton from "./FacebookButton"
+import '../style/Content.css';
 
-import './Content.css';
 
 export default function Content() {
   const [authenticated, setAuthentication] = useState(false);
@@ -20,8 +21,11 @@ export default function Content() {
   function getSearchList() {
     React.useEffect(() => {
       Socket.on('search response', (data) => {
-        setSearchList(data.search_list);
-        console.log('got list: ', data);
+        if(Array.isArray(data.search_list)) {
+          setSearchList(data.search_list);
+        } else {
+          setSearchList([]);
+        }
         setSearched(true);
       });
     }, []);
@@ -54,6 +58,7 @@ export default function Content() {
           <img src="./static/instapricelogo.png" alt="InstaPrice" />
         </h1>
         <GoogleButton />
+        <FacebookButton />
       </div>
     );
   }
@@ -64,9 +69,6 @@ export default function Content() {
         <Switch>
           <Route exact path='/'>
             <div className="HomePage">
-              <h1>
-                <img src="./static/instapricelogo.png" alt="InstaPrice" />
-              </h1>
               { searched
                 ? (
                   <SearchResults
@@ -76,14 +78,19 @@ export default function Content() {
                     closeSearchList={() => setSearched(false)}
                   />
                 ) : (null)}
-        
-              <div className="searchbar">
-                <SearchBar />
+                
+              <div className="Content">
+                <h1>
+                  <img src="./static/instapricelogo.png" alt="InstaPrice" />
+                </h1>
+                <div className="searchbar">
+                  <SearchBar />
+                </div>
+                <div className="Feed">
+                  <Feed />
+                </div>
               </div>
-              <div className="Feed">
-                <Feed />
-              </div>
-            </div>
+          </div>
           </Route>
           <Route path={'/' + profileOf}>
             <ProfilePage
@@ -93,5 +100,7 @@ export default function Content() {
         </Switch>
       </BrowserRouter>
     </div>
+    
+    
   );
 }

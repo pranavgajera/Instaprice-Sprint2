@@ -1,12 +1,29 @@
 .main-container {
     text-align: center;
 }
+
+.Content {
+    position: absolute;
+  
+}
+
+.searchbar{
+    position: absolute;
+    top: 70%;
+    left: 20%;
+    align-items: center;
+    height: 10px;
+    width: 1500px;
+}
+
 input[type=text] {
     width: 70%;
     padding: 12px 20px;
     border-radius: 10px;
     box-sizing: border-box;
 }
+
+/*
 button {
     background-color: cornflowerblue;
     border: none;
@@ -16,6 +33,7 @@ button {
     margin: 4px 2px;
     cursor: pointer;
 }
+*/
 
 img {
     display: block;

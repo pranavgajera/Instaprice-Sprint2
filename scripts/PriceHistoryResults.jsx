@@ -11,7 +11,7 @@ export default function PriceHistoryResults({ ASIN }) {
   const [user, setUser] = useState('');
   const [profpic, setProfpic] = useState('');
   const [time, setTime] = useState('');
-
+  const [error, setError] = useState(true);
   useEffect(() => {
     // console.log('we in useeffects');
     Socket.on('price history response', (data) => {
@@ -19,10 +19,14 @@ export default function PriceHistoryResults({ ASIN }) {
         setTitle(data.title);
         setImgurl(data.imgurl);
         setPricehistory(data.pricehistory);
-        setUser(data.username);
         setProfpic(data.pfp);
+        setError(data.error);
+        setUser(data.username);
+        console.log(error);
       }
     });
+    console.log(pricehistory);
+    console.log(error);
   }, []);
 
   return (
@@ -31,15 +35,19 @@ export default function PriceHistoryResults({ ASIN }) {
         ? (
           <div>
             <h3>Price Change History For this Item</h3>
-            <ul>
-              {pricehistory.map((item) => (
-                <li>
-                  {item.price_date}
-                  -$
-                  {item.price}
-                </li>
-              ))}
-            </ul>
+            {error
+                ?(<div>Sorry no price history</div>)
+                :
+                (<ul>
+                  {pricehistory.map((item) => (
+                    <li>
+                      {item.price_date}
+                      -$
+                      {item.price}
+                    </li>
+                  ))}
+                </ul>)
+            }
             <PostButton
               ASIN={ASIN}
               priceHistory={pricehistory}

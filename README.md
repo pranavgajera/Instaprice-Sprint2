@@ -2,7 +2,7 @@
 
 A browser-based price tracker application where users can type in about a product and the application will respond with the price history of that specific product.
 
-## Heroku Link: https://cs490-instaprice.herokuapp.com/
+## Heroku Link: https://instaprice490.herokuapp.com/
 # Cloning this project to the local enviroment
 1. To start using this project clone this repository by running 
 ` https://github.com/pranavgajera/InstaPrice`
@@ -29,8 +29,8 @@ A browser-based price tracker application where users can type in about a produc
    ```
    $python
    $import models
-   $models.db.create_all()
-   $models.db.session.commit()
+   $models.DB.create_all()
+   $models.DB.session.commit()
    ```
 7. Run the application by running `yarn run watch` on one terminal and `python app.py` in other terminal
     to start the application. 
@@ -44,31 +44,6 @@ A browser-based price tracker application where users can type in about a produc
       `git push heroku main`
       and the application should be ready to go.
     - Open the application by clicking open app and the application should be ready to go.
-## Task Distribution
-* Pranavkumar Gajera
-    * Boilerplate Code for React and Flask
-    * Google OAuth login functionality
-    * Implemented a search bar used to look up Amazon products
-    * Enabled the price history of a search result to be displayed after being selected
-    * Unit testing for python files
-* Shuo Zhang
-    * Set up database to store all of our persistent data
-    * Enabled price history along with user details to be added to database as a post
-    * Unit testing for database
-    * Added a live feed to the main page
-* Erik Eckenberg
-    * Linted the front and backend of our application
-    * Added the functionality of displaying search results after using the search bar
-    * Debugged parts of code related to certain API calls
-    * Debugged parts of code related to socket calls
-* Jason Morgado
-    * Handled Heroku deployment
-    * Found and implemented the API that we used
-    * Created mocked API calls to help with initial development
-* Jeffrey Kuo
-    * Enabled each search result to be toggleable by the user
-    * Added a post button that each search result that will post the search details to the live feed
-    * Finalized README
 
 # Linting
 

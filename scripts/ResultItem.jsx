@@ -3,10 +3,10 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Socket from './Socket';
 import PriceHistoryResults from './PriceHistoryResults';
-import './ResultItem.css';
+import '../style/ResultItem.css';
 
 export default function ResultItem({
-  ASIN, title, imageUrl, username, pfp,
+  ASIN, title, imageUrl, username, pfp,price,rating,totalReviews
 }) {
   const [clicked, setClicked] = useState(false);
 
@@ -25,12 +25,21 @@ export default function ResultItem({
   }
 
   return (
-    <div>
+    <div className="Result">
       <button type="button" onClick={handleClick}>
-        <span>
-          <img className="itempicture" src={imageUrl} alt="item" />
-          { title }
-        </span>
+        <div className="ResultGrid">
+          <div className="ResultImage">
+            <img src={imageUrl} alt="item" />
+          </div>
+          <div className="ResultInfo">
+            <span>
+              <h4>Title - { title }</h4>
+              <h4>Current Price - {price}</h4>
+              <h4>Total Reviews - {totalReviews}</h4>
+              <h4>Rating - {rating}</h4>
+            </span>
+          </div>
+        </div>
       </button>
       { clicked
         ? (

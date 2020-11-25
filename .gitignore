@@ -1,7 +1,7 @@
 node_modules/
 package-lock.json
 *.env
-*/__pycache__/*
+__pycache__/
 postgres-data
 docker-compose.yml
 .eslintrc.js

@@ -44,7 +44,7 @@ export default function ProfilePage(props) {
         Socket.off('make profile page', updateItems);
       };
     });
-  }
+  }  
   
   getNewItems();
   

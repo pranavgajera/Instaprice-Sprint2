@@ -1,0 +1,34 @@
+.Result {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.Result button {
+    height: auto;
+    width: 100%;
+}
+
+.ResultGrid {
+    display: grid;
+    grid-template-columns: 140px auto;
+}
+
+.ResultImage {
+    position: relative;
+    width: 20%;
+}
+
+.ResultImage img {
+    position: relative;
+    left: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 140px;
+    height: auto;
+}
+
+.ResultInfo {
+    position: relative;
+}
