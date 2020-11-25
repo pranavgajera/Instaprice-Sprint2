@@ -28,7 +28,7 @@ def price_write(price_data):
         pfp = price_data['profpic']
         time = price_data['time']
         cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time) " + \
-            "VALUES (%s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time))
+            "VALUES (%s, %s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time, 0))
 
 def get_posts(username):
     """get posts from a specific user from the database"""
