@@ -49,9 +49,14 @@ def emit_all_items(channel):
     all_usernames = [
         db_username.username for db_username in DB.session.query(
             models.Posts).all()]
-    all_pfps = [db_pfp.pfp for db_pfp in DB.session.query(models.Posts).all()]
+    all_pfps = [
+        db_pfp.pfp for db_pfp in DB.session.query(
+            models.Posts).all()]
     all_times = [
         db_time.time for db_time in DB.session.query(
+            models.Posts).all()]
+    all_likes = [
+        db_likes.likes for db_likes in DB.session.query(
             models.Posts).all()]
 
     SOCKETIO.emit(
@@ -63,6 +68,7 @@ def emit_all_items(channel):
             "allUsernames": all_usernames,
             "allPfps": all_pfps,
             "allTimes": all_times,
+            "allLikes": all_likes
         },
     )
 
