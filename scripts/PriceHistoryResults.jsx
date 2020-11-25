@@ -13,6 +13,10 @@ export default function PriceHistoryResults({ ASIN }) {
   const [profpic, setProfpic] = useState('');
   const [time, setTime] = useState('');
   const [error, setError] = useState(true)
+  const[min,setMin]=useState(0)
+  const [max,setMax]=useState(0)
+  const [mean,setMean]=useState(0)
+  const [variance,setVariance]=useState(0)
   useEffect(() => {
     // console.log('we in useeffects');
     Socket.on('price history response', (data) => {
@@ -23,7 +27,10 @@ export default function PriceHistoryResults({ ASIN }) {
         setProfpic(data.pfp);
         setShow(true);
         setError(data.error)
-        console.log(error)
+        setMin(data.min)
+        setMax(data.max)
+        setMean(data.mean_price)
+        setVariance(data.var_price)
 
       }
     });
@@ -47,6 +54,11 @@ export default function PriceHistoryResults({ ASIN }) {
                       -${item.price}
                     </li>
                   ))}
+                  <li>Minimum Historical Price - ${min}</li>
+                  <li>Maximum Historical Price - ${max}</li>
+                  <li>Mean- {mean}</li>
+                  <li>Variance - {variance}</li>
+
                 </ul>)
             }
             <PostButton
