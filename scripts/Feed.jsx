@@ -46,13 +46,16 @@ export default function Feed() {
                 <h4>{ itemnames[index] }</h4>
                 <h4>Historical price:
                 { pricehists[index] }</h4>
-                <h4>Posted by:
-                { usernames[index] }
-                on
+                <h4>Posted by: 
+                <ProfileButton
+                  activeOnlyWhenExact={true}
+                  to={'/' + usernames[index]}
+                  label={ usernames[index] }
+                  username ={ usernames[index] }
+                />
+                on 
                 { times[index] }</h4>
             </div>
-
-
           </li>
         ))}
       </ol>
