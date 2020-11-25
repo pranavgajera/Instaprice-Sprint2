@@ -27,8 +27,11 @@ def price_write(price_data):
         poster = price_data['user']
         pfp = price_data['profpic']
         time = price_data['time']
-        cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time) " + \
-            "VALUES (%s, %s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time, 0))
+        likes = 99
+        graphurl ='temp'
+        asin = price_data['ASIN']
+        cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time, likes, graphurl, asin) " + \
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time, likes, graphurl, asin))
 
 def get_posts(username):
     """get posts from a specific user from the database"""
@@ -42,6 +45,30 @@ def get_posts(username):
             'pricehistory': rows[0][3],
             'user': rows[0][4],
             'pfp': rows[0][5],
-            'time': rows[0][6]
+            'time': rows[0][6],
+            'likes': rows[0][7],
+            'graphurl': rows[0][8],
+            'asin': rows[0][9]
             }
         return item_data
+        
+def get_item_data(itemdata):
+    """get data on an item from the database"""
+    with CON:
+        cur = CON.cursor()
+        cur.execute(f"SELECT * FROM posts WHERE itemname = '{itemdata}'")
+        rows = cur.fetchall()
+        print(rows)
+        item_data = {
+            'itemname': rows[0][1],
+            'imgurl': rows[0][2],
+            'pricehistory': rows[0][3],
+            'user': rows[0][4],
+            'pfp': rows[0][5],
+            'time': rows[0][6],
+            'likes': rows[0][7],
+            'graphurl': rows[0][8],
+            'asin': rows[0][9]
+            }
+        return item_data
+
