@@ -28,4 +28,9 @@ class Posts(DB.Model):
             self.username,
             self.pricehist,
         )
-        
+
+class Likes(DB.Model):
+    """Likes for each post"""
+    like_id = DB.Column(DB.Integer, primary_key=True)
+    post_id = DB.Column(DB.Integer)
+    username = DB.Column(DB.String(225))
