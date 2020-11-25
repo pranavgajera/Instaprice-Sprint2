@@ -42,8 +42,7 @@ export default function PriceHistoryResults({ ASIN }) {
                   {pricehistory.map((item) => (
                     <li>
                       {item.price_date}
-                      -$
-                      {item.price}
+                      -${item.price}
                     </li>
                   ))}
                 </ul>)
