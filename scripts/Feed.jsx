@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Socket from './Socket';
+import DetailedViewButton from './DetailedViewButton';
 
 import '../style/Feed.css';
 
@@ -58,6 +59,10 @@ export default function Feed() {
             {' '}
             { times[index] }
             {' '}
+            <br />
+            <DetailedViewButton
+            itemname={ itemnames[index] }
+            />
           </li>
         ))}
       </ol>
