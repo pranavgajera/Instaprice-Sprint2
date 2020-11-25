@@ -6,7 +6,7 @@ import Socket from './Socket';
 import Feed from './Feed';
 import ProfilePage from './ProfilePage';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import FacebookButton from "./FacebookButton"
+import FacebookButton from "./FacebookButton";
 import '../style/Content.css';
 
 

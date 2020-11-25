@@ -1,6 +1,7 @@
 import * as React from 'react';
 import GoogleLogin from 'react-google-login';
 import Socket from './Socket';
+import { AiFillGoogleCircle } from 'react-icons/ai'
 
 const responseGoogle = (response) => {
   // eslint-disable-next-line no-alert
@@ -25,6 +26,9 @@ export default function GoogleButton() {
       <GoogleLogin
         clientId="938017382447-u5e1vhhggfpi3rf2ifl94gs8030v6d1s.apps.googleusercontent.com"
         buttonText="Login"
+        render={renderProps => (
+          <button variant="outlined" onClick={renderProps.onClick} disabled={renderProps.disabled}><AiFillGoogleCircle /></button>
+        )}
         onSuccess={handleSubmit}
         onFailure={responseGoogle}
         cookiePolicy="single_host_origin"
