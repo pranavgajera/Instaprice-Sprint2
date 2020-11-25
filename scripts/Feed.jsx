@@ -43,22 +43,24 @@ export default function Feed() {
       <ol>
         {itemnames.map((itemname, index) => (
           <li key={itemname}>
-            <img className={"product-image"} src={imageurls[index]} alt="product" />
-            <div className={"other-information"}>
-                <h4>{ itemnames[index] }</h4>
-                <h4>Historical price:
-                { pricehists[index] }</h4>
-                <h4>Posted by: 
-                <ProfileButton
-                  activeOnlyWhenExact={true}
-                  to={'/' + usernames[index]}
-                  label={ usernames[index] }
-                  username ={ usernames[index] }
-                />
-                on 
-                { times[index] }</h4>
-                <h4>Likes:
-                { likes[index] }</h4>
+            <div className="PostGrid">
+              <img className={"product-image"} src={imageurls[index]} alt="product" />
+              <div className={"other-information"}>
+                  <h4>{ itemnames[index] }</h4>
+                  <h4>Historical price:
+                  { pricehists[index] }</h4>
+                  <h4>Posted by: 
+                  <ProfileButton
+                    activeOnlyWhenExact={true}
+                    to={'/' + usernames[index]}
+                    label={ usernames[index] }
+                    username ={ usernames[index] }
+                  />
+                  on 
+                  { times[index] }</h4>
+                  <h4>Likes:
+                  { likes[index] }</h4>
+              </div>
             </div>
           </li>
         ))}

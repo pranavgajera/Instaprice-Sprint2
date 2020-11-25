@@ -19,5 +19,26 @@ h1 {
     height: 500px;
     width:1200px;
     border: 3px solid red;
-    overflow-y: scroll
+    overflow-y: scroll;
+    background-color: gray;
+    border-radius: 10px;
+}
+
+.PostGrid {
+    display: grid;
+    grid-template-columns: 140px auto;
+}
+
+.product-image {
+    position: relative;
+    left: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 140px;
+    height: auto;
+}
+
+.other-information {
+    position: relative;
 }

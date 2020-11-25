@@ -1,7 +1,8 @@
 import * as React from 'react';
 import GoogleLogin from 'react-google-login';
 import Socket from './Socket';
-import { AiFillGoogleCircle } from 'react-icons/ai'
+import "../style/Buttons.css";
+import { FcGoogle } from "react-icons/fc";
 
 const responseGoogle = (response) => {
   // eslint-disable-next-line no-alert
@@ -12,28 +13,28 @@ function handleSubmit(response) {
   const { name } = response.profileObj;
   const { email } = response.profileObj;
   const profilepicture = response.profileObj.imageUrl;
-  Socket.emit('new user', {
+  Socket.emit("new user", {
     name,
     email,
-    profilepicture,
+    profilepicture
   });
 }
 
 export default function GoogleButton() {
   return (
     <div className="Main-Container">
-      <h4>Login with Oauth </h4>
       <GoogleLogin
         clientId="938017382447-u5e1vhhggfpi3rf2ifl94gs8030v6d1s.apps.googleusercontent.com"
         buttonText="Login"
-        render={renderProps => (
-          <button variant="outlined" onClick={renderProps.onClick} disabled={renderProps.disabled}><AiFillGoogleCircle /></button>
+        render={(renderProps) => (
+          <button onClick={renderProps.onClick} disabled={renderProps.disabled}>
+            <FcGoogle class="loginButton" />
+          </button>
         )}
         onSuccess={handleSubmit}
         onFailure={responseGoogle}
         cookiePolicy="single_host_origin"
       />
     </div>
-
   );
 }

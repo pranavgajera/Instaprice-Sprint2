@@ -105,8 +105,10 @@ def on_disconnect():
 def search_request(data):
     """send a search request to api_calls with given data"""
     print("Got an event for search request with data: ", data)
-    #search_list = mock_search_response(data['query'])
-    search_list = search_amazon(data['query'])
+    if data['query'] == "":
+        search_list = mock_search_response(data['query'])
+    else:
+        search_list = search_amazon(data['query'])
     # print(search_list)
     print(json.dumps(search_list, indent=4))
 
