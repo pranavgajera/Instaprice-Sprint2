@@ -13,8 +13,10 @@ class Posts(DB.Model):
     pfp = DB.Column(DB.String(225))
     time = DB.Column(DB.String(225))
     likes = DB.Column(DB.Integer)
+    graphurl = DB.Column(DB.String(225))
+    asin = DB.Column(DB.String(225))
 
-    def __init__(self, username, pfp, time, itemname, imageurl, pricehist, likes):
+    def __init__(self, username, pfp, time, itemname, imageurl, pricehist, likes, graphurl, asin):
         self.username = username
         self.pfp = pfp
         self.time = time
@@ -22,15 +24,12 @@ class Posts(DB.Model):
         self.imageurl = imageurl
         self.pricehist = pricehist
         self.likes = likes
+        self.graphurl = graphurl
+        self.asin = asin
 
     def __repr__(self):
         return "<Message by user %s with content: %s>" % (
             self.username,
             self.pricehist,
         )
-
-class Likes(DB.Model):
-    """Likes for each post"""
-    like_id = DB.Column(DB.Integer, primary_key=True)
-    post_id = DB.Column(DB.Integer)
-    username = DB.Column(DB.String(225))
+        
