@@ -12,6 +12,7 @@ from api_calls import fetch_price_history
 from api_calls import mock_search_response
 from api_calls import mock_price_history
 from db_writes import price_write
+from db_writes import get_item_data
 
 SEARCH_REQUEST_CHANNEL = "search request"
 SEARCH_RESPONSE_CHANNEL = "search response"
@@ -159,6 +160,31 @@ def post_price_history(data):
     print("This is the price history:", data['ASIN'], data['priceHistory'])
     emit_all_items(FEED_UPDATE_CHANNEL)
 
+@SOCKETIO.on('detail view request')
+def get_post_details(data):
+    """sends itemname to database, and fetches
+    graph data, and math"""
+    item_data = get_item_data(data['title'])
+    print('in detail view request')
+    print(item_data)
+    mean = 99 #TODO: math
+    stdv = 99 ## TODO: math
+    min_price = 99 ## TODO: math
+    max_price = 99 ## TODO: math
+    SOCKETIO.emit('detail view response', {
+        "pricehistory": item_data['pricehistory'],
+        'asin': item_data['asin'],
+        'itemname': item_data['itemname'],
+        'imgurl': item_data['imgurl'],
+        'mean': mean,
+        'stdv': stdv,
+        'min_price': min_price,
+        'max_price': max_price,
+        'username': item_data['user'],
+        'pfp': item_data['pfp'],
+        'graphurl': item_data['graphurl']
+    }, room=request.sid)
+
 if __name__ == '__main__':
     SOCKETIO.run(
         APP,
@@ -166,4 +192,3 @@ if __name__ == '__main__':
         port=int(os.getenv('PORT', '8080')),
         debug=True
     )
-    

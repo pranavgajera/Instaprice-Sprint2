@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import GoogleButton from './GoogleButton';
 import SearchResults from './SearchResults';
 import SearchBar from './SearchBar';
+import DetailedView from './DetailedView';
 import Socket from './Socket';
 import Feed from './Feed';
 import FacebookButton from "./FacebookButton"
@@ -13,6 +14,8 @@ export default function Content() {
   const [searchList, setSearchList] = React.useState([]);
   const [username, setUsername] = useState('');
   const [profpic, setProfpic] = useState('');
+  const [detailed, setDetailed] = React.useState(false) // true if there is a detailed request
+  const [detailedList, setDetailedList] = React.useState([]);
 
   function getSearchList() {
     React.useEffect(() => {
@@ -23,8 +26,18 @@ export default function Content() {
       });
     }, []);
   }
+  
+  function getDetailedView() {
+    React.useEffect(() => {
+      Socket.on('detail view response', (data) => {
+        setDetailedList(data);
+        setDetailed(true);
+      });
+    }, []);
+  }
 
   getSearchList();
+  getDetailedView();
 
   useEffect(() => {
     Socket.on('connected', (data) => {
@@ -55,6 +68,13 @@ export default function Content() {
             username={username}
             pfp={profpic}
             closeSearchList={() => setSearched(false)}
+          />
+        ) : (null)}
+      { detailed
+        ? (
+          <DetailedView
+            detailedList={detailedList}
+            closeDetailedList={() => setDetailed(false)}
           />
         ) : (null)}
         

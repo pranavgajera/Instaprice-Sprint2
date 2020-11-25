@@ -56,8 +56,9 @@ def get_item_data(itemdata):
     """get data on an item from the database"""
     with CON:
         cur = CON.cursor()
-        cur.execute(f"SELECT * FROM posts WHERE username = '{itemdata}'")
+        cur.execute(f"SELECT * FROM posts WHERE itemname = '{itemdata}'")
         rows = cur.fetchall()
+        print(rows)
         item_data = {
             'itemname': rows[0][1],
             'imgurl': rows[0][2],

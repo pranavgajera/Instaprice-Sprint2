@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Socket from './Socket';
 import DetailedViewButton from './DetailedViewButton';
+import DetailedView from './DetailedView';
 
 import '../style/Feed.css';
 
@@ -11,6 +12,7 @@ export default function Feed() {
   const [usernames, setUsername] = useState([]);
   const [pfps, setPfp] = useState([]);
   const [times, setTime] = useState([]);
+  const [clicked, setClicked] = useState(false);
 
   function updateItems(data) {
     setItemname(data.allItemnames);

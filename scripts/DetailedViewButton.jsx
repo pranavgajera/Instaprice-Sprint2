@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import Socket from './Socket';
 
 export default function DetailedViewButton(props) {
-  function handlePost(e) {
+
+  function handleClick(e) {
     e.preventDefault();
     // console.log(`Button worked with: ${props.ASIN}`);
     Socket.emit('detail view request', {
@@ -12,6 +13,6 @@ export default function DetailedViewButton(props) {
   }
 
   return (
-    <button type="button" onClick={handlePost}> View Details </button>
+    <button type="button" onClick={handleClick}> View Details </button>
   );
 }
