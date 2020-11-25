@@ -24,7 +24,6 @@ export default function PriceHistoryResults({ ASIN }) {
         setShow(true);
         setError(data.error)
         console.log(error)
-
       }
     });
     console.log(pricehistory)

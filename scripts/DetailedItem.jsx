@@ -31,13 +31,11 @@ export default function DetailedView(props) {
         setMin(data.min_price);
         setMax(data.max_price);
         setAsin(data.asin);
-        setShow(true);
-        setError(data.error);
       
     });
   }, []);
 
   return (
-    <div>696969</div>
+    <div><img alt="timer" src={require('./graphs/graph_Test ID.png')} /> <a href={"https://www.amazon.com/dp/" + asin} >Buy this shit</a></div>
   );
 }

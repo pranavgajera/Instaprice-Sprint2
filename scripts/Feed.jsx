@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Socket from './Socket';
 import DetailedViewButton from './DetailedViewButton';
-import DetailedView from './DetailedView';
 
 import '../style/Feed.css';
 
