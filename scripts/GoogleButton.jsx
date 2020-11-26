@@ -2,7 +2,7 @@ import * as React from 'react';
 import GoogleLogin from 'react-google-login';
 import Socket from './Socket';
 import "../style/Buttons.css";
-import { FcGoogle } from "react-icons/fc";
+
 
 const responseGoogle = (response) => {
   // eslint-disable-next-line no-alert

@@ -28,11 +28,7 @@ def price_write(price_data):
         pfp = price_data['profpic']
         time = price_data['time']
         likes = 99
-<<<<<<< HEAD
         graphurl ='./graphs/graph_Test ID.png'
-=======
-        graphurl ='temp'
->>>>>>> master
         asin = price_data['ASIN']
         cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time, likes, graphurl, asin) " + \
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time, likes, graphurl, asin))

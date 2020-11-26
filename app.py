@@ -106,15 +106,10 @@ def on_disconnect():
 def search_request(data):
     """send a search request to api_calls with given data"""
     print("Got an event for search request with data: ", data)
-<<<<<<< HEAD
-    search_list = mock_search_response(data['query'])
-    #search_list = search_amazon(data['query'])
-=======
     if data['query'] == "":
         search_list = mock_search_response(data['query'])
     else:
         search_list = search_amazon(data['query'])
->>>>>>> master
     # print(search_list)
     print(json.dumps(search_list, indent=4))
 
@@ -221,8 +216,7 @@ def post_price_history(data):
     sends updated list of posts to users"""
     post_list = []
     print(data)
-<<<<<<< HEAD
-=======
+
     # postList.update({data['ASIN']: data['priceHistory']})
     post_list.append(data['priceHistory'])
     now = datetime.now()
@@ -238,7 +232,6 @@ def post_price_history(data):
     sends updated list of posts to users"""
     post_list = []
     print(data)
->>>>>>> master
     # postList.update({data['ASIN']: data['priceHistory']})
     post_list.append(data['priceHistory'])
     now = datetime.now()
