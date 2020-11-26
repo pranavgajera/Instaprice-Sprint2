@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import NavBar from './NavBar';
 
 import '../style/LandingPage.css';
 
@@ -48,7 +47,7 @@ export default function LandingPage() {
       <section className="hero-section3">
         <div className="hero3-content">
           <h1 className="hero3-title">
-            WHAT WE MADE
+            HOW WE DID IT
           </h1>
           <ul className="hero3-subtitle"> 
             <li> Flask </li>
