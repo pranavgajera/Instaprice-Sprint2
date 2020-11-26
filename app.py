@@ -5,8 +5,10 @@ from datetime import datetime
 import flask
 import flask_socketio
 import flask_sqlalchemy
+from flask import request, jsonify
+from sqlalchemy import text
 from flask import request
-
+import numpy as np
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from api_calls import mock_search_response
@@ -50,9 +52,14 @@ def emit_all_items(channel):
     all_usernames = [
         db_username.username for db_username in DB.session.query(
             models.Posts).all()]
-    all_pfps = [db_pfp.pfp for db_pfp in DB.session.query(models.Posts).all()]
+    all_pfps = [
+        db_pfp.pfp for db_pfp in DB.session.query(
+            models.Posts).all()]
     all_times = [
         db_time.time for db_time in DB.session.query(
+            models.Posts).all()]
+    all_likes = [
+        db_likes.likes for db_likes in DB.session.query(
             models.Posts).all()]
 
     SOCKETIO.emit(
@@ -64,11 +71,17 @@ def emit_all_items(channel):
             "allUsernames": all_usernames,
             "allPfps": all_pfps,
             "allTimes": all_times,
+            "allLikes": all_likes
         },
     )
 
 @APP.route('/')
 def hello():
+    """load webpage from html"""
+    return flask.render_template('index.html')
+
+@APP.errorhandler(404)
+def cool(e):
     """load webpage from html"""
     return flask.render_template('index.html')
 
@@ -93,8 +106,15 @@ def on_disconnect():
 def search_request(data):
     """send a search request to api_calls with given data"""
     print("Got an event for search request with data: ", data)
+<<<<<<< HEAD
     search_list = mock_search_response(data['query'])
     #search_list = search_amazon(data['query'])
+=======
+    if data['query'] == "":
+        search_list = mock_search_response(data['query'])
+    else:
+        search_list = search_amazon(data['query'])
+>>>>>>> master
     # print(search_list)
     print(json.dumps(search_list, indent=4))
 
@@ -119,15 +139,28 @@ def get_price_history(data):
             'imgurl': data['imgurl'],
             'username': data['username'],
             'pfp': data['pfp'],
-            'error':True
+            'error':True,
+            'min':0,
+            'max':0,
+            'mean_price':0,
+            'var_price':0,
         }, room=request.sid)
         emit_all_items(FEED_UPDATE_CHANNEL)
         return
     return_array = []
-    return_array.append(price_history[0])
+    statistical_array =[]
+    for i in range(0,len(price_history)-1):
+        statistical_array.append(int(price_history[i]["price"]))
+    min_price = min(statistical_array)
+    max_price = max(statistical_array)
+    mean_price = np.mean(statistical_array)
+    var_price = np.var(statistical_array)
+
     for i in range(0, len(price_history) - 1):
         if price_history[i + 1]["price"] != price_history[i]["price"]:
             return_array.append(price_history[i + 1])
+    if len(return_array) == 0:
+        return_array.append(price_history[len(price_history) - 1])
     # price_history = price_history[len(price_history)-10:len(price_history)]
     # print(json.dumps(return_array, indent=4))
     if len(return_array) >= 11:
@@ -141,8 +174,45 @@ def get_price_history(data):
         'imgurl': data['imgurl'],
         'username': data['username'],
         'pfp': data['pfp'],
-        'error':False
+        'error':False,
+        'min':min_price,
+        'max':max_price,
+        'mean_price':mean_price,
+        'var_price':var_price
     }, room=request.sid)
+    emit_all_items(FEED_UPDATE_CHANNEL)
+    
+@SOCKETIO.on('get profile page')
+def get_profile_page(data):
+    #make it so that i can loop through db with data['username'] and find only those posts then make Feed in propage with those posts as well as display propic name and other stuff
+    itemnames = []
+    imageurls = []
+    pricehists = []
+    usernames = []
+    pfps = []
+    times = []
+    posts = DB.session.query(models.Posts).filter_by(username=data['username']).all()
+    for post in posts:
+        itemnames.append(post.itemname)
+        imageurls.append(post.imageurl)
+        pricehists.append(post.pricehist)
+        usernames.append(post.username)
+        pfps.append(post.pfp)
+        times.append(post.time)
+    SOCKETIO.emit('make profile page', {
+        'username': data['username'],
+        'itemnames': itemnames,
+        'imageurls': imageurls,
+        'pricehists': pricehists,
+        'usernames': usernames,
+        'pfps': pfps,
+        'times': times,
+        
+    })
+    print ("This is the profile page for: " + data['username'])
+
+@SOCKETIO.on('go back')
+def go_back():
     emit_all_items(FEED_UPDATE_CHANNEL)
 
 @SOCKETIO.on('post price history')
@@ -151,6 +221,24 @@ def post_price_history(data):
     sends updated list of posts to users"""
     post_list = []
     print(data)
+<<<<<<< HEAD
+=======
+    # postList.update({data['ASIN']: data['priceHistory']})
+    post_list.append(data['priceHistory'])
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M")
+    data['time'] = dt_string
+    price_write(data)
+    print("This is the price history:", data['ASIN'], data['priceHistory'])
+    emit_all_items(FEED_UPDATE_CHANNEL)
+    
+@SOCKETIO.on('view post details')
+def post_price_history(data):
+    """sends post information to database, updates posts, and
+    sends updated list of posts to users"""
+    post_list = []
+    print(data)
+>>>>>>> master
     # postList.update({data['ASIN']: data['priceHistory']})
     post_list.append(data['priceHistory'])
     now = datetime.now()

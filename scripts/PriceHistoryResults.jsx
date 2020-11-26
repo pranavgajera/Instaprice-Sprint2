@@ -5,14 +5,17 @@ import Socket from './Socket';
 import PostButton from './PostButton';
 
 export default function PriceHistoryResults({ ASIN }) {
-  const [pricehistory, setPricehistory] = useState([]);
-  const [show, setShow] = useState(false);
+  const [pricehistory, setPricehistory] = useState(null);
   const [title, setTitle] = useState('');
   const [imgurl, setImgurl] = useState('');
   const [user, setUser] = useState('');
   const [profpic, setProfpic] = useState('');
   const [time, setTime] = useState('');
-  const [error, setError] = useState(true)
+  const [error, setError] = useState(true);
+  const [min,setMin]=useState(0);
+  const [max,setMax]=useState(0);
+  const [mean,setMean]=useState(0);
+  const [variance,setVariance]=useState(0);
   useEffect(() => {
     // console.log('we in useeffects');
     Socket.on('price history response', (data) => {
@@ -21,18 +24,27 @@ export default function PriceHistoryResults({ ASIN }) {
         setImgurl(data.imgurl);
         setPricehistory(data.pricehistory);
         setProfpic(data.pfp);
+<<<<<<< HEAD
         setShow(true);
         setError(data.error)
         console.log(error)
+=======
+        setError(data.error);
+        setMin(data.min);
+        setMax(data.max);
+        setMean(data.mean_price);
+        setVariance(data.var_price);
+        setUser(data.username);
+>>>>>>> master
       }
     });
-    console.log(pricehistory)
-    console.log(error)
+    console.log(pricehistory);
+    console.log(error);
   }, []);
 
   return (
     <div>
-      { show
+      { pricehistory
         ? (
           <div>
             <h3>Price Change History For this Item</h3>
@@ -43,10 +55,14 @@ export default function PriceHistoryResults({ ASIN }) {
                   {pricehistory.map((item) => (
                     <li>
                       {item.price_date}
-                      -$
-                      {item.price}
+                      -${item.price}
                     </li>
                   ))}
+                  <li>Minimum Historical Price - ${min}</li>
+                  <li>Maximum Historical Price - ${max}</li>
+                  <li>Mean- {mean}</li>
+                  <li>Variance - {variance}</li>
+
                 </ul>)
             }
             <PostButton
@@ -59,7 +75,7 @@ export default function PriceHistoryResults({ ASIN }) {
               time={time}
             />
           </div>
-        ) : (null)}
+        ) : "Loading..."}
     </div>
   );
 }
