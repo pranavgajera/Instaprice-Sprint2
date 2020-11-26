@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Socket from './Socket';
+import CommentBox from './CommentBox';
+import PostCommentButton from './PostCommentButton';
 
 export default function DetailedView(props) {
   const [pricehistory, setPricehistory] = useState([]);
@@ -36,6 +38,8 @@ export default function DetailedView(props) {
   }, []);
 
   return (
-    <div><img alt="timer" src={require('./graphs/graph_Test ID.png')} /> <a href={"https://www.amazon.com/dp/" + asin} >Buy this shit</a></div>
+    <div> <a href={"https://www.amazon.com/dp/" + asin} >Buy this shit</a>
+    <CommentBox />
+    <PostCommentButton /></div>
   );
 }
