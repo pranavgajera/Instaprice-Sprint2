@@ -25,7 +25,6 @@ export default function GoogleButton() {
     <div className="Main-Container">
       <GoogleLogin
         clientId="938017382447-u5e1vhhggfpi3rf2ifl94gs8030v6d1s.apps.googleusercontent.com"
-        buttonText="Login"
         render={(renderProps) => (
           <button onClick={renderProps.onClick} disabled={renderProps.disabled}>
             <FcGoogle class="loginButton" />

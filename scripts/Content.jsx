@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import GoogleButton from './GoogleButton';
 import SearchResults from './SearchResults';
 import SearchBar from './SearchBar';
 import Socket from './Socket';
 import Feed from './Feed';
 import ProfilePage from './ProfilePage';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import FacebookButton from "./FacebookButton";
+import LandingPage from './LandingPage';
+import NavBar from './NavBar'
 import '../style/Content.css';
 
 
@@ -53,12 +53,9 @@ export default function Content() {
 
   if (!authenticated) {
     return (
-      <div className="LoginPage">
-        <h1>
-          <img src="./static/instapricelogo.png" alt="InstaPrice" />
-        </h1>
-        <GoogleButton />
-        <FacebookButton />
+      <div>
+        <NavBar />
+        <LandingPage />
       </div>
     );
   }
