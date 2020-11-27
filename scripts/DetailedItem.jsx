@@ -20,12 +20,14 @@ export default function DetailedView(props) {
   const [stdv, setStdv] = useState(0);
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
+  const [likes, setLikes ] = useState(0);
 
   useEffect(() => {
     Socket.on('detail view response', (data) => {
         setTitle(data.itemname);
         setImgurl(data.imgurl);
         setPricehistory(data.pricehistory);
+        setUser(data.user);
         setProfpic(data.pfp);
         setGraphurl(data.graphurl);
         setMean(data.mean);
@@ -33,13 +35,14 @@ export default function DetailedView(props) {
         setMin(data.min_price);
         setMax(data.max_price);
         setAsin(data.asin);
+        setLikes(data.likes);
       
     });
   }, []);
 
   return (
-    <div> <a href={"https://www.amazon.com/dp/" + asin} >Buy this shit</a>
-    <CommentBox />
-    <PostCommentButton /></div>
+    <div> Historical Price: {pricehistory} <br />
+    Posted by: {user} <img src={profpic} alt={ user } />
+    <a href={"https://www.amazon.com/dp/" + asin} >Buy this shit</a></div>
   );
 }

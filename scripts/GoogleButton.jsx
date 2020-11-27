@@ -2,7 +2,7 @@ import * as React from 'react';
 import GoogleLogin from 'react-google-login';
 import Socket from './Socket';
 import "../style/Buttons.css";
-
+import { FcGoogle } from "react-icons/fc";
 
 const responseGoogle = (response) => {
   // eslint-disable-next-line no-alert
@@ -24,7 +24,7 @@ export default function GoogleButton() {
   return (
     <div className="Main-Container">
       <GoogleLogin
-        clientId="778126205197-otgo1t4j6baunn67e82kgqj1k7ffhcq3.apps.googleusercontent.com"
+        clientId="938017382447-u5e1vhhggfpi3rf2ifl94gs8030v6d1s.apps.googleusercontent.com"
         buttonText="Login"
         render={(renderProps) => (
           <button onClick={renderProps.onClick} disabled={renderProps.disabled}>

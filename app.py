@@ -122,7 +122,7 @@ def search_request(data):
 @SOCKETIO.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
     """send price histoy request to api_calls with given data"""
-    print(data['ASIN'])
+    print(data)
     price_history = mock_price_history(data['ASIN'])
     #price_history = fetch_price_history(data['ASIN'])
     # print(price_history)
@@ -248,19 +248,15 @@ def get_post_details(data):
     item_data = get_item_data(data['title'])
     print('in detail view request')
     print(item_data)
-    mean = 99 #TODO: math
-    stdv = 99 ## TODO: math
-    min_price = 99 ## TODO: math
-    max_price = 99 ## TODO: math
     SOCKETIO.emit('detail view response', {
         "pricehistory": item_data['pricehistory'],
         'asin': item_data['asin'],
         'itemname': item_data['itemname'],
         'imgurl': item_data['imgurl'],
-        'mean': mean,
-        'stdv': stdv,
-        'min_price': min_price,
-        'max_price': max_price,
+        'mean': item_data['meanprice'],
+        'variance': item_data['varianceprice'],
+        'min_price': item_data['minprice'],
+        'max_price': item_data['maxprice'],
         'username': item_data['user'],
         'pfp': item_data['pfp'],
         'graphurl': item_data['graphurl']
