@@ -1,0 +1,27 @@
+.navbar {
+  background: #1c2237;
+  height: 120px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  position: sticky;
+  top: 0;
+  overflow:visible;
+}
+
+.logo {
+    font-size: 50px;
+    justify-self: start;
+    margin-left: 20px;
+    color: white;
+    align-items: center;
+}
+
+.loginButtons {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 10px;
+    justify-content: end;
+    text-align: center;
+    margin-right: 2rem;
+}
