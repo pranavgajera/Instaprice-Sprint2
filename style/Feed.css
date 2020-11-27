@@ -17,7 +17,7 @@ h1 {
     left: 50%;
     align-items: center;
     height: 500px;
-    width:1200px;
+    width: 1200px;
     border: 3px solid red;
     overflow-y: scroll;
     background-color: gray;
@@ -25,15 +25,21 @@ h1 {
 }
 
 .PostItem {
-    
+    position: relative;
+    float: left;
+    margin-bottom: 20px;
+    margin-left: -10px;
+    margin-right: 20px;
+    background-color: lightgray;
+    overflow: auto;
+    border-radius: 10px;
 }
 
 .PostGrid {
-    margin-top: 20px;
-    margin-bottom: 0px;
-    margin-right: 10px;
-    margin-left: 10px;
-    background-color: lightgray;
+    position: relative;
+    top: 10px;
+    bottom: 10px;
+    margin-bottom: 20px;
     display: grid;
     grid-template-columns: 160px auto;
 }
@@ -46,6 +52,8 @@ h1 {
     margin-right: auto;
     width: 140px;
     height: auto;
+    top: 50%;
+    transform: translate(0, -50%);
 }
 
 .other-information {
