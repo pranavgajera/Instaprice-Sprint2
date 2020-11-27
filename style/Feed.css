@@ -24,9 +24,18 @@ h1 {
     border-radius: 10px;
 }
 
+.PostItem {
+    
+}
+
 .PostGrid {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    margin-right: 10px;
+    margin-left: 10px;
+    background-color: lightgray;
     display: grid;
-    grid-template-columns: 140px auto;
+    grid-template-columns: 160px auto;
 }
 
 .product-image {
