@@ -18,6 +18,14 @@ export default function Content() {
   const [profpic, setProfpic] = useState('');
   const [profileOf, setProfileOf] = useState("");
 
+  useEffect(() => {
+    Socket.on('connected', (data) => {
+      setAuthentication(true);
+      setUsername(data.username);
+      setProfpic(data.profilepicture);
+    });
+  }, []);
+  
   function getSearchList() {
     React.useEffect(() => {
       Socket.on('search response', (data) => {
@@ -31,25 +39,31 @@ export default function Content() {
     }, []);
   }
   
+  getSearchList();
+  
+  const [itemnames, setItemname] = useState([]);
+  const [imageurls, setImageurl] = useState([]);
+  const [pricehists, setPricehist] = useState([]);
+  const [usernames, setUsernames] = useState([]);
+  const [pfps, setPfp] = useState([]);
+  const [times, setTime] = useState([]);
+  
   function getProfilePage() {
     React.useEffect(() => {
       Socket.on('make profile page', (data) => {
         setProfileOf(data.username);
         console.log("This is the page for: /" + data.username);
+        setItemname(data.itemnames);
+        setImageurl(data.imageurls);
+        setPricehist(data.pricehists);
+        setUsernames(data.usernames);
+        setPfp(data.pfps);
+        setTime(data.times);
       });
     }, []);
   }
   
   getProfilePage();
-  getSearchList();
-  
-  useEffect(() => {
-    Socket.on('connected', (data) => {
-      setAuthentication(true);
-      setUsername(data.username);
-      setProfpic(data.profilepicture);
-    });
-  }, []);
 
   if (!authenticated) {
     return (
@@ -92,6 +106,12 @@ export default function Content() {
           <Route path={'/' + profileOf}>
             <ProfilePage
               username={profileOf}
+              itemnames={itemnames}
+              imageurls={imageurls}
+              pricehists={pricehists}
+              usernames={usernames}
+              pfps={pfps}
+              times={times}
             />
           </Route>
         </Switch>

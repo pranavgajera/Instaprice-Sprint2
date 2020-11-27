@@ -186,6 +186,7 @@ def get_profile_page(data):
     pfps = []
     times = []
     posts = DB.session.query(models.Posts).filter_by(username=data['username']).all()
+    # SOCKETIO.close('get profile page')
     for post in posts:
         itemnames.append(post.itemname)
         imageurls.append(post.imageurl)
@@ -203,7 +204,7 @@ def get_profile_page(data):
         'times': times,
         
     })
-    print ("This is the profile page for: " + data['username'])
+    print ("THIS IS THE PROFILE PAGE FOR: " + data['username'])
 
 @SOCKETIO.on('go back')
 def go_back():
@@ -225,7 +226,7 @@ def post_price_history(data):
     emit_all_items(FEED_UPDATE_CHANNEL)
     
 @SOCKETIO.on('view post details')
-def post_price_history(data):
+def view_post_details(data):
     """sends post information to database, updates posts, and
     sends updated list of posts to users"""
     post_list = []

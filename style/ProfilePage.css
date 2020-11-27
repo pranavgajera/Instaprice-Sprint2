@@ -1,0 +1,80 @@
+.profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.profile-navbar {
+  background: #1c2237;
+  height: 120px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.topPage {
+    display: flex;
+    max-height: 50%;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.bottomPage {
+    height: 50%;
+}
+
+/*Biography*/
+
+.bio-content {
+    margin: 75px;
+    max-width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.bio-pfp {
+    width: 175px;
+    height: 175px;
+}
+
+.bio-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    max-width: 50%;
+}
+
+.bio-name {
+    font-size: 2rem;
+    font-weight: 200;
+}
+
+.bio-bio {
+    align-items: center;
+}
+
+.likes-posts {
+    font-size: 1rem;
+    font-weight: 200;
+}
+
+/*Profile Feed*/
+
+.profile-feed {
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    align-items: center;
+    border: 3px solid red;
+    overflow-y: scroll;
+    background-color: gray;
+    border-radius: 10px;
+    max-height: 100%;
+}
+
+.profile-feed-image {
+    width: 150px;
+    height: 150px;
+}

@@ -3,50 +3,11 @@ import { useEffect, useState } from 'react';
 import Socket from './Socket';
 import { Link } from 'react-router-dom';
 import Biography from './Biography';
+import { GiPriceTag } from "react-icons/gi"; 
+
+import '../style/NavBar.css';
 
 export default function ProfilePage(props) {
-  const [user, setUser] = useState("");
-  const [itemnames, setItemname] = useState([]);
-  const [imageurls, setImageurl] = useState([]);
-  const [pricehists, setPricehist] = useState([]);
-  const [usernames, setUsername] = useState([]);
-  const [pfps, setPfp] = useState([]);
-  const [times, setTime] = useState([]);
-  
-  // useEffect(() => {
-  //   Socket.on('make profile page', (data) => {
-  //     setUser(data.username);
-  //     setItemname(data.itemnames);
-  //     setImageurl(data.imageurls);
-  //     setPricehist(data.pricehists);
-  //     setUsername(data.usernames);
-  //     setPfp(data.pfps);
-  //     setTime(data.times);
-  //     console.log("Hello!" + data.username);
-  //     console.log(data.itemnames)
-  //   });
-  // });
-
-  function updateItems(data) {
-    setUser(data.username);
-    setItemname(data.itemnames);
-    setImageurl(data.imageurls);
-    setPricehist(data.pricehists);
-    setUsername(data.usernames);
-    setPfp(data.pfps);
-    setTime(data.times);
-  }
-
-  function getNewItems() {
-    React.useEffect(() => {
-      Socket.on('make profile page', updateItems);
-      return () => {
-        Socket.off('make profile page', updateItems);
-      };
-    });
-  }  
-  
-  getNewItems();
   
   function handleBack(e) {
     Socket.emit('go back');
@@ -54,44 +15,67 @@ export default function ProfilePage(props) {
 
 return (
   <div>
-    <h1>
-      <img src="./static/instapricelogo.png" alt="InstaPrice" />
-      <Biography
-        name = {user}
-        pfp = {pfps}
-        bio = "Hello, this is my profile page."
-      />
-    </h1>
-    <div>
-      <Link to='/' onClick={handleBack}> Go back to searches </Link>
-    </div>
-    <div className="feedbox" id="feedBody">
-      <h1>{user}'s Recent searches!</h1>
-      <ol>
-        {itemnames.map((itemname, index) => (
-          <li key={itemname}>
-            <img src={imageurls[index]} alt="product" />
-            <br />
-            { itemnames[index] }
-            {' '}
-            <br />
-            {' '}
-            Historical price:
-            { pricehists[index] }
-            {' '}
-            <br />
-            {' '}
-            Posted by:
-            {' '}
-            { usernames[index] }
-            {' '}
-            on
-            {' '}
-            { times[index] }
-            {' '}
-          </li>
-        ))}
-      </ol>
+    <nav className="profile-navbar">
+      <h1 className="logo">
+        InstaPrice
+        <GiPriceTag />
+      </h1> 
+      <div class="loginButtons">
+        <Link to='/' onClick={handleBack}> Go back to searches </Link>
+      </div>
+    </nav>
+
+    <div className="profile">
+      <div className="topPage">
+        <Biography
+          name = {props.username}
+          pfp = {props.pfps}
+          bio = "Hello, this is my profile page."
+        />
+        <div className="profile-feed">
+          <h1>{props.username}'s Recent searches!</h1>
+          <ol>
+            {props.itemnames.map((itemname, index) => (
+              <li key={itemname}>
+                <img className="profile-feed-image" src={props.imageurls[index]} alt="product" />
+                <br />
+                { props.itemnames[index] }
+                {' '}
+                <br />
+                {' '}
+                Historical price:
+                { props.pricehists[index] }
+                {' '}
+                <br />
+                {' '}
+                Posted by:
+                {' '}
+                { props.usernames[index] }
+                {' '}
+                on
+                {' '}
+                { props.times[index] }
+                {' '}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+      
+      <div className="bottomPage">
+        <div className="comments">
+          PLACEHOLDER
+          PLACEHOLDER
+          PLACEHOLDER
+          PLACEHOLDER
+          PLACEHOLDER
+          PLACEHOLDER
+          PLACEHOLDER
+          PLACEHOLDER
+          PLACEHOLDER
+          PLACEHOLDER
+        </div>
+      </div>
     </div>
   </div>
   );
