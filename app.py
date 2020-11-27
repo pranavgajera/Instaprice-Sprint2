@@ -14,6 +14,7 @@ from api_calls import fetch_price_history
 from api_calls import mock_search_response
 from api_calls import mock_price_history
 from db_writes import price_write
+from db_writes import get_item_data
 
 SEARCH_REQUEST_CHANNEL = "search request"
 SEARCH_RESPONSE_CHANNEL = "search response"
@@ -45,8 +46,8 @@ def emit_all_items(channel):
     all_imageurls = [
         db_imageurl.imageurl for db_imageurl in DB.session.query(
             models.Posts).all()]
-    all_pricehists = [
-        db_pricehist.pricehist for db_pricehist in DB.session.query(
+    all_currprices = [
+        db_currprice.currprice for db_currprice in DB.session.query(
             models.Posts).all()]
     all_usernames = [
         db_username.username for db_username in DB.session.query(
@@ -66,7 +67,7 @@ def emit_all_items(channel):
         {
             "allItemnames": all_itemnames,
             "allImageurls": all_imageurls,
-            "allPricehists": all_pricehists,
+            "allCurrprices": all_currprices,
             "allUsernames": all_usernames,
             "allPfps": all_pfps,
             "allTimes": all_times,
@@ -121,9 +122,9 @@ def search_request(data):
 @SOCKETIO.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
     """send price histoy request to api_calls with given data"""
-    print(data['ASIN'])
-    #price_history = mock_price_history(data['ASIN'])
-    price_history = fetch_price_history(data['ASIN'])
+    print(data)
+    price_history = mock_price_history(data['ASIN'])
+    #price_history = fetch_price_history(data['ASIN'])
     # print(price_history)
     if "404" in price_history:
         SOCKETIO.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
@@ -215,21 +216,7 @@ def post_price_history(data):
     sends updated list of posts to users"""
     post_list = []
     print(data)
-    # postList.update({data['ASIN']: data['priceHistory']})
-    post_list.append(data['priceHistory'])
-    now = datetime.now()
-    dt_string = now.strftime("%d/%m/%Y %H:%M")
-    data['time'] = dt_string
-    price_write(data)
-    print("This is the price history:", data['ASIN'], data['priceHistory'])
-    emit_all_items(FEED_UPDATE_CHANNEL)
-    
-@SOCKETIO.on('view post details')
-def post_price_history(data):
-    """sends post information to database, updates posts, and
-    sends updated list of posts to users"""
-    post_list = []
-    print(data)
+
     # postList.update({data['ASIN']: data['priceHistory']})
     post_list.append(data['priceHistory'])
     now = datetime.now()
@@ -239,6 +226,28 @@ def post_price_history(data):
     print("This is the price history:", data['ASIN'], data['priceHistory'])
     emit_all_items(FEED_UPDATE_CHANNEL)
 
+@SOCKETIO.on('detail view request')
+def get_post_details(data):
+    """sends itemname to database, and fetches
+    graph data, and math"""
+    item_data = get_item_data(data['title'])
+    print('in detail view request')
+    print(item_data)
+    SOCKETIO.emit('detail view response', {
+        "pricehistory": item_data['pricehistory'],
+        'asin': item_data['asin'],
+        'itemname': item_data['itemname'],
+        'imgurl': item_data['imgurl'],
+        'mean': item_data['meanprice'],
+        'variance': item_data['varianceprice'],
+        'min_price': item_data['minprice'],
+        'max_price': item_data['maxprice'],
+        'username': item_data['user'],
+        'pfp': item_data['pfp'],
+        'graphurl': item_data['graphurl'],
+        'likes': item_data['likes']
+    }, room=request.sid)
+
 if __name__ == '__main__':
     SOCKETIO.run(
         APP,
@@ -246,4 +255,3 @@ if __name__ == '__main__':
         port=int(os.getenv('PORT', '8080')),
         debug=True
     )
-    
