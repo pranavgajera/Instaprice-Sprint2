@@ -14,6 +14,11 @@ export default function PostButton(props) {
       user: props.user,
       profpic: props.profpic,
       time: props.time,
+      min: props.min,
+      max: props.max,
+      mean: props.mean,
+      variance: props.variance,
+      currprice: props.currprice
     });
   }
 

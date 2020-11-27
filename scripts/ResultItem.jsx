@@ -46,6 +46,7 @@ export default function ResultItem({
           <div>
             <PriceHistoryResults
               ASIN={ASIN}
+              currentprice={price}
             />
           </div>
         ) : (null)}

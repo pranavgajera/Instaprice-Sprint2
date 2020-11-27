@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Socket from './Socket';
+import DetailedViewButton from './DetailedViewButton';
 import { Link } from 'react-router-dom';
 import ProfileButton from './ProfileButton'
 
@@ -8,15 +9,18 @@ import '../style/Feed.css';
 export default function Feed() {
   const [itemnames, setItemname] = useState([]);
   const [imageurls, setImageurl] = useState([]);
+  const [currprices, setCurrprice] = useState('');
   const [pricehists, setPricehist] = useState([]);
   const [usernames, setUsername] = useState([]);
   const [pfps, setPfp] = useState([]);
   const [times, setTime] = useState([]);
+  const [clicked, setClicked] = useState(false);
   const [likes, setLikes] = useState([]);
 
   function updateItems(data) {
     setItemname(data.allItemnames);
     setImageurl(data.allImageurls);
+    setCurrprice(data.allCurrprices);
     setPricehist(data.allPricehists);
     setUsername(data.allUsernames);
     setPfp(data.allPfps);
@@ -47,19 +51,21 @@ export default function Feed() {
               <img className={"product-image"} src={imageurls[index]} alt="product" />
               <div className={"other-information"}>
                   <h4>{ itemnames[index] }</h4>
-                  <h4>Historical price:
-                  { pricehists[index] }</h4>
-                  <h4>Posted by: 
+                  <h4>Current price:
+                  { currprices[index] }
+                  </h4>
+                  <h4>Posted by:  
                   <ProfileButton
                     activeOnlyWhenExact={true}
                     to={'/' + usernames[index]}
                     label={ usernames[index] }
                     username ={ usernames[index] }
                   />
-                  on 
+                   on  
                   { times[index] }</h4>
-                  <h4>Likes:
-                  { likes[index] }</h4>
+                   <DetailedViewButton
+            itemname={ itemnames[index] }
+            />
               </div>
             </div>
           </li>
