@@ -30,12 +30,13 @@ def price_write(price_data):
         likes = 99
         graphurl ='./graphs/graph_Test ID.png'
         asin = price_data['ASIN']
-        minprice = price_data['minprice']
-        maxprice = price_data['maxprice']
-        meanprice = price_data['meanprice']
+        minprice = price_data['min']
+        maxprice = price_data['max']
+        meanprice = price_data['mean']
         varianceprice = price_data['variance']
-        cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time, likes, graphurl, asin, min, max, mean, variance) " + \
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time, likes, graphurl, asin, minprice, maxprice, meanprice, varianceprice ))
+        currprice = price_data['currprice']
+        cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time, likes, graphurl, asin, minprice, maxprice, varianceprice, meanprice, currprice) " + \
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time, likes, graphurl, asin, minprice, maxprice, meanprice, varianceprice, currprice ))
 
 def get_posts(username):
     """get posts from a specific user from the database"""

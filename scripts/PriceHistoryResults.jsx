@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Socket from './Socket';
 import PostButton from './PostButton';
 
-export default function PriceHistoryResults({ ASIN }, {currentprice}) {
+export default function PriceHistoryResults(props) {
   const [pricehistory, setPricehistory] = useState(null);
   const [title, setTitle] = useState('');
   const [imgurl, setImgurl] = useState('');
@@ -20,7 +20,7 @@ export default function PriceHistoryResults({ ASIN }, {currentprice}) {
   useEffect(() => {
     // console.log('we in useeffects');
     Socket.on('price history response', (data) => {
-      if (ASIN === data.ASIN) {
+      if (props.ASIN === data.ASIN) {
         setTitle(data.title);
         setImgurl(data.imgurl);
         setPricehistory(data.pricehistory);
@@ -32,11 +32,9 @@ export default function PriceHistoryResults({ ASIN }, {currentprice}) {
         setVariance(data.var_price);
         setUser(data.username);
         setTime(data.time);
-        setCurrprice(currentprice);
+        setCurrprice(props.currentprice);
       }
     });
-    console.log(pricehistory);
-    console.log(error);
   }, []);
 
   return (
@@ -63,7 +61,7 @@ export default function PriceHistoryResults({ ASIN }, {currentprice}) {
                 </ul>)
             }
             <PostButton
-              ASIN={ASIN}
+              ASIN={props.ASIN}
               priceHistory={pricehistory}
               title={title}
               imgurl={imgurl}

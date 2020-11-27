@@ -18,7 +18,8 @@ class Posts(DB.Model):
     minprice = DB.Column(DB.Integer)
     maxprice = DB.Column(DB.Integer)
     varianceprice = DB.Column(DB.Integer)
-    currprice = DB.Column(DB.Integer)
+    meanprice = DB.Column(DB.Integer)
+    currprice = DB.Column(DB.String(225))
 
     def __init__(self, username, pfp, time, itemname, imageurl, pricehist, likes, graphurl, asin, minprice, maxprice, meanprice, varianceprice, currprice):
         self.username = username
