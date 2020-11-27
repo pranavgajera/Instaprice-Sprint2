@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Socket from './Socket';
 import PostButton from './PostButton';
 
-export default function PriceHistoryResults({ ASIN }) {
+export default function PriceHistoryResults(props) {
   const [pricehistory, setPricehistory] = useState(null);
   const [title, setTitle] = useState('');
   const [imgurl, setImgurl] = useState('');
@@ -16,10 +16,11 @@ export default function PriceHistoryResults({ ASIN }) {
   const [max,setMax]=useState(0);
   const [mean,setMean]=useState(0);
   const [variance,setVariance]=useState(0);
+  const [currprice, setCurrprice] = useState(0);
   useEffect(() => {
     // console.log('we in useeffects');
     Socket.on('price history response', (data) => {
-      if (ASIN === data.ASIN) {
+      if (props.ASIN === data.ASIN) {
         setTitle(data.title);
         setImgurl(data.imgurl);
         setPricehistory(data.pricehistory);
@@ -30,10 +31,10 @@ export default function PriceHistoryResults({ ASIN }) {
         setMean(data.mean_price);
         setVariance(data.var_price);
         setUser(data.username);
+        setTime(data.time);
+        setCurrprice(props.currentprice);
       }
     });
-    console.log(pricehistory);
-    console.log(error);
   }, []);
 
   return (
@@ -60,13 +61,18 @@ export default function PriceHistoryResults({ ASIN }) {
                 </ul>)
             }
             <PostButton
-              ASIN={ASIN}
+              ASIN={props.ASIN}
               priceHistory={pricehistory}
               title={title}
               imgurl={imgurl}
               user={user}
               profpic={profpic}
-              time={time}
+              time = {time}
+              min = {min}
+              max = {max}
+              mean = {mean}
+              variance = {variance}
+              currprice = {currprice}
             />
           </div>
         ) : "Loading..."}

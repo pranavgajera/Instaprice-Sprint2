@@ -6,7 +6,8 @@ import Feed from './Feed';
 import ProfilePage from './ProfilePage';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import LandingPage from './LandingPage';
-import NavBar from './NavBar'
+import NavBar from './NavBar';
+
 import '../style/Content.css';
 
 

@@ -15,8 +15,13 @@ class Posts(DB.Model):
     likes = DB.Column(DB.Integer)
     graphurl = DB.Column(DB.String(225))
     asin = DB.Column(DB.String(225))
+    minprice = DB.Column(DB.Integer)
+    maxprice = DB.Column(DB.Integer)
+    varianceprice = DB.Column(DB.Integer)
+    meanprice = DB.Column(DB.Integer)
+    currprice = DB.Column(DB.String(225))
 
-    def __init__(self, username, pfp, time, itemname, imageurl, pricehist, likes, graphurl, asin):
+    def __init__(self, username, pfp, time, itemname, imageurl, pricehist, likes, graphurl, asin, minprice, maxprice, meanprice, varianceprice, currprice):
         self.username = username
         self.pfp = pfp
         self.time = time
@@ -26,6 +31,11 @@ class Posts(DB.Model):
         self.likes = likes
         self.graphurl = graphurl
         self.asin = asin
+        self.minprice = minprice
+        self.maxprice = maxprice
+        self.meanprice = meanprice
+        self.varianceprice = varianceprice
+        self.currprice = currprice
 
     def __repr__(self):
         return "<Message by user %s with content: %s>" % (

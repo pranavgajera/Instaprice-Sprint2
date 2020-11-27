@@ -28,10 +28,15 @@ def price_write(price_data):
         pfp = price_data['profpic']
         time = price_data['time']
         likes = 99
-        graphurl ='temp'
+        graphurl ='./graphs/graph_Test ID.png'
         asin = price_data['ASIN']
-        cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time, likes, graphurl, asin) " + \
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time, likes, graphurl, asin))
+        minprice = price_data['min']
+        maxprice = price_data['max']
+        meanprice = price_data['mean']
+        varianceprice = price_data['variance']
+        currprice = price_data['currprice']
+        cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time, likes, graphurl, asin, minprice, maxprice, varianceprice, meanprice, currprice) " + \
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time, likes, graphurl, asin, minprice, maxprice, meanprice, varianceprice, currprice ))
 
 def get_posts(username):
     """get posts from a specific user from the database"""
@@ -68,7 +73,11 @@ def get_item_data(itemdata):
             'time': rows[0][6],
             'likes': rows[0][7],
             'graphurl': rows[0][8],
-            'asin': rows[0][9]
+            'asin': rows[0][9],
+            'minprice': rows[0][10],
+            'maxprice': rows[0][11],
+            'meanprice': rows[0][12],
+            'varianceprice': rows[0][13]
             }
         return item_data
 
