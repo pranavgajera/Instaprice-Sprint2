@@ -123,8 +123,8 @@ def search_request(data):
 def get_price_history(data):
     """send price histoy request to api_calls with given data"""
     print(data)
-    price_history = mock_price_history(data['ASIN'])
-    #price_history = fetch_price_history(data['ASIN'])
+    # price_history = mock_price_history(data['ASIN'])
+    price_history = fetch_price_history(data['ASIN'])
     # print(price_history)
     if "404" in price_history:
         SOCKETIO.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
@@ -150,7 +150,7 @@ def get_price_history(data):
     max_price = max(statistical_array)
     mean_price = np.mean(statistical_array)
     var_price = np.var(statistical_array)
-
+    return_array.append(price_history[0])
     for i in range(0, len(price_history) - 1):
         if price_history[i + 1]["price"] != price_history[i]["price"]:
             return_array.append(price_history[i + 1])
@@ -176,7 +176,7 @@ def get_price_history(data):
         'var_price':var_price
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
-    
+
 @SOCKETIO.on('get profile page')
 def get_profile_page(data):
     #make it so that i can loop through db with data['username'] and find only those posts then make Feed in propage with those posts as well as display propic name and other stuff
@@ -202,7 +202,7 @@ def get_profile_page(data):
         'usernames': usernames,
         'pfps': pfps,
         'times': times,
-        
+
     })
     print ("This is the profile page for: " + data['username'])
 

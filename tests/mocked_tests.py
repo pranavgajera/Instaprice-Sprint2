@@ -4,11 +4,13 @@ import sys
 import os
 import json
 from os.path import join, dirname
+
 # sys.path.insert(1, os.getcwd())
 sys.path.insert(1, join(dirname(__file__), '../'))
 import app
 import api_calls
 from db_writes import price_write, get_posts
+
 
 class TestBot(unittest.TestCase):
     def test_googleconnect(self):
@@ -17,12 +19,13 @@ class TestBot(unittest.TestCase):
         socketio_test_clinet = app.SOCKETIO.test_client(
             app.APP, flask_test_client=flask_test_client
         )
-        socketio_test_clinet.emit("new google user", {
-                'email': "pranavgajera@gmail.com",
-                "name": "Pranav Gajera",
-                "profilepicture": "https://miro.medium.com/max/500/1*zzo23Ils3C0ZDbvZakwXlg.png"
-            })
+        socketio_test_clinet.emit("new user", {
+            'email': "pranavgajera@gmail.com",
+            "name": "Pranav Gajera",
+            "profilepicture": "https://miro.medium.com/max/500/1*zzo23Ils3C0ZDbvZakwXlg.png"
+        })
         response = socketio_test_clinet.get_received()
+        print(json.dumps(response, indent=4))
         user = response[0]['args'][0]['username']
         self.assertEqual(user, "Pranav Gajera")
         response2 = socketio_test_clinet.disconnect()
@@ -53,7 +56,7 @@ class TestBot(unittest.TestCase):
             })
             socket_response = socketio_test_client.get_received()
             response = socket_response[0]['args'][0]['search_list']
-            # print(response)
+            # print(json.dumps(response, indent=4))
             self.assertEquals(response["ASIN"], "B07X6C9RMF")
 
     def test_amazon_price_search(self):
@@ -77,11 +80,12 @@ class TestBot(unittest.TestCase):
                 "ASIN": "B07X6C9RMF",
                 "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
                 "imgurl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
-
+                "username": "random",
+                'pfp': "pfp"
             })
 
             socket_response = socketio_test_client.get_received()
-            # print(socket_response)
+            print(json.dumps(socket_response, indent=4))
             response = socket_response[0]['args'][0]['pricehistory'][0]
 
             self.assertEquals(response["price"], 58.84)
@@ -93,7 +97,7 @@ class TestBot(unittest.TestCase):
         )
 
         socketio_test_client.emit("new item", {
-            "item":"data"
+            "item": "data"
         })
         socket_response = socketio_test_client.get_received()
 
@@ -101,25 +105,32 @@ class TestBot(unittest.TestCase):
         flask_test_client = app.APP.test_client()
         response = flask_test_client.get('/', content_type='html')
         self.assertEqual(response.status_code, 200)
-        
+
     def test_db(self):
         with patch('psycopg2.connect') as mock_connect:
             KEY_INPUT = {
-                    'ASIN': 'B0897VCSXQ',
-                    'priceHistory': [{'price': 420.42, 'price_date': '08/04/2020'}],
-                    'title': 'PlayStation 6',
-                    'imgurl': 'playstation6.jpg',
-                    'user': 'john',
-                    'time': '12:00'}
+                'ASIN': 'B0897VCSXQ',
+                'priceHistory': [{'price': 420.42, 'price_date': '08/04/2020'}],
+                'title': 'PlayStation 6',
+                'imgurl': 'playstation6.jpg',
+                'user': 'john',
+                'time': '12:00',
+                'profpic': 'temp profile picture',
+                "min":0,
+                "max":0,
+                "mean":0,
+                "variance":0,
+                "currprice":0
+            }
             KEY_EXPECTED = {
-                    'itemname': 'PlayStation 6',
-                    'imgurl': 'playstation6.jpg',
-                    'pricehistory': '08/04/2020 - 420.42 ',
-                    'user': 'john',
-                    'pfp': 'temp profile picture',
-                    'time': '12:00'}
+                'itemname': 'PlayStation 6',
+                'imgurl': 'playstation6.jpg',
+                'pricehistory': '08/04/2020 - 420.42 ',
+                'user': 'john',
+                'pfp': 'temp profile picture',
+                'time': '12:00',}
             USER_INPUT = 'john'
-    
+
             price_write(KEY_INPUT)
             mock_con = mock_connect.return_value
             mock_cur = mock_con.cursor.return_value
@@ -143,13 +154,12 @@ class TestBot(unittest.TestCase):
             })
             socket_response = socketio_test_client.get_received()
             response = socket_response[0]['args'][0]['search_list']
+            # print(json.dumps(response, indent=4))
 
             response_items = []
             for item in response:
                 response_items.append(item['title'])
-            self.assertEquals(response_items[0:3], ["Contrition", "Apaches", "Completeness"])
-            # self.assertEquals(response_items[0:3], ["", "Apaches", ""])
-
+            self.assertEquals(response_items[0:3], ["Completeness", "Apaches", "Contrition"])
 
     def test_fetchamazonprice(self):
         with patch('api_calls.fetch_price_history') as mocked_return:
@@ -172,11 +182,14 @@ class TestBot(unittest.TestCase):
                 "ASIN": "B07X6C9RMF",
                 "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
                 "imgurl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
+                "username": "random",
+                'pfp': "pfp"
 
             })
 
             socket_response = socketio_test_client.get_received()
             response = socket_response[0]['args'][0]['pricehistory'][0]
+            # print(json.dumps(response, indent=4))
 
             self.assertEquals(response["price"], 58.84)
 
