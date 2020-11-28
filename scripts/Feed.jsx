@@ -47,9 +47,10 @@ export default function Feed() {
       <ol>
         {itemnames.map((itemname, index) => (
           <li key={itemname}>
-            <div className="PostGrid">
-              <img className={"product-image"} src={imageurls[index]} alt="product" />
-              <div className={"other-information"}>
+            <div className="PostItem">
+              <div className="PostGrid">
+                <img className={"product-image"} src={imageurls[index]} alt="product" />
+                <div className={"other-information"}>
                   <h4>{ itemnames[index] }</h4>
                   <h4>Current price:
                   { currprices[index] }
@@ -63,9 +64,10 @@ export default function Feed() {
                   />
                    on  
                   { times[index] }</h4>
-                   <DetailedViewButton
-            itemname={ itemnames[index] }
-            />
+                  <DetailedViewButton
+                  itemname={ itemnames[index] }
+                  />
+                </div>
               </div>
             </div>
           </li>
