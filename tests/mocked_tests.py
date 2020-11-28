@@ -158,7 +158,7 @@ class TestBot(unittest.TestCase):
     def test_mock_search(self):
         """Tests api_calls.mock_search_response()"""
         
-        search_results = api_calls.mock_search_response("Arbitrary Text")
+        search_results = api_calls.mock_search_response("Arbitrary Search Text")
         self.assertEqual(type(search_results), list)
         self.assertEqual(len(search_results), 10)
         
@@ -171,12 +171,37 @@ class TestBot(unittest.TestCase):
 
     def test_mock_price_history(self):
         """Tests api_calls.mock_price_history()"""
-        pass
-    
+        price_history = api_calls.mock_price_history("Aritrary ASIN")
+        self.assertEqual(type(price_history), list)
+        self.assertEqual(len(price_history), 333)
+        
+        first_entry = price_history[0]
+        self.assertTrue("price" in first_entry)
+        self.assertTrue("price_date" in first_entry)
+
+
     def test_search_amazon(self):
         """Tests api_calls.search_amazon()"""
-        pass
-    
+        with patch('api_calls.requests.get') as mocked_request:
+            # Patch pickled resp into get() return val
+            pickled_mock_file = open("search_results.pkl",'rb')
+            pickled_resp = pickle.load(pickled_mock_file)
+            pickled_mock_file.close()
+            mocked_request.return_value = pickled_resp
+            
+            # Test search_amazon()
+            search_results = api_calls.search_amazon("Query Text")
+            self.assertEqual(type(search_results), list)
+            self.assertEqual(len(search_results), 10)
+            
+            first_result = search_results[0]
+            self.assertEqual(type(first_result),dict)
+            self.assertTrue("ASIN" in first_result)
+            self.assertTrue("title" in first_result)
+            self.assertTrue("price" in first_result)
+            
+            
+        
     def test_fetchamazonprice(self):
         """
         Tests api_calls.fetch_price_history()
@@ -187,6 +212,7 @@ class TestBot(unittest.TestCase):
             # Patch pickled resp into get() return val
             pickled_mock_file = open("price_history.pkl",'rb')
             pickled_resp = pickle.load(pickled_mock_file)
+            pickled_mock_file.close()
             mocked_request.return_value = pickled_resp
             
             # Test fetch_price_history()
@@ -197,9 +223,33 @@ class TestBot(unittest.TestCase):
             self.assertEqual(first_entry, expected_entry)
             self.assertEqual(type(price_history), list)
     
+    def test_search_amazon_404(self):
+        """Tests search_amazon during 404 response"""
+        with patch('api_calls.requests.get') as mocked_request:
+            # Patch pickled resp into get() return val
+            resp_404 = requests.models.Response()
+            resp_404.status_code = 404
+            mocked_request.return_value = resp_404
+            
+            # Test fetch_price_history() with 404 reponse
+            price_history = api_calls.search_amazon("Query to get error")
+            self.assertEqual(type(price_history), str)
+            self.assertTrue("There was an error with getting amazon search results." in price_history)
+            self.assertNotEqual(type(price_history), list)
+        
     def test_price_history_404(self):
         """Tests fetch_price_history during 404 response"""
-        pass
+        with patch('api_calls.requests.get') as mocked_request:
+            # Patch pickled resp into get() return val
+            resp_404 = requests.models.Response()
+            resp_404.status_code = 404
+            mocked_request.return_value = resp_404
+            
+            # Test fetch_price_history() with 404 reponse
+            price_history = api_calls.fetch_price_history("B00KPVSZBA")
+            self.assertEqual(type(price_history), str)
+            self.assertTrue("There was an error with fetching price history." in price_history)
+            self.assertNotEqual(type(price_history), list)
     
 
 

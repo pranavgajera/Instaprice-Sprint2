@@ -61,9 +61,10 @@ def search_amazon(query_text):
     resp = requests.get(API_URL_SEARCH, headers=headers, params=params)
 
     if resp.status_code != 200:
-        print("There was an error with getting amazon search results. Error: {}"\
-        .format(resp.status_code))
-        response_data = resp.json()
+        # No json if error
+        response_data = "There was an error with getting amazon search results. Error: {}"\
+        .format(resp.status_code)
+        print(response_data)
         return response_data
     print("Search response OK")
     response_data = resp.json()
@@ -89,7 +90,7 @@ def fetch_price_history(asin):
     resp = requests.get(API_URL_PRICE_HISTORY, headers=headers, params=params)
     if resp.status_code != 200:
         # print("There is an error with fetching price history. Error: {}".format(resp.status_code))
-        history_data = "There is an error with fetching price history. Error: {}".format(resp.status_code)
+        history_data = "There was an error with fetching price history. Error: {}".format(resp.status_code)
         return history_data
     print("Price History Response OK")
     history_data = resp.json()
