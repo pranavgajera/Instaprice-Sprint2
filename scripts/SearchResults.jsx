@@ -30,7 +30,6 @@ export default function SearchResults({
       searchList = searchList.sort((a,b) => b.rating - a.rating);
     else if(criteria == "Reviews")
       searchList = searchList.sort((a,b) => b.totalReviews - a.totalReviews);
-    console.log(searchList);
   }
   
   return (
