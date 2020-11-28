@@ -266,7 +266,7 @@ class TestBot(unittest.TestCase):
     def test_generate_graph(self):
         """Tests graph_functions.generate_graph() and main()"""
         mocked_price_history = api_calls.mock_price_history("B07X6C9RMF")
-        file_name = graph_functions.generate_graph(mocked_price_history, "Test ID")
+        file_name = graph_functions.generate_graph(mocked_price_history, "Test_ID")
         
         graph_created = os.path.exists(file_name)
         self.assertTrue(graph_created)
