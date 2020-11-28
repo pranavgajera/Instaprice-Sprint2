@@ -157,10 +157,18 @@ class TestBot(unittest.TestCase):
     
     def test_mock_search(self):
         """Tests api_calls.mock_search_response()"""
+        
         search_results = api_calls.mock_search_response("Arbitrary Text")
         self.assertEqual(type(search_results), list)
+        self.assertEqual(len(search_results), 10)
         
-    
+        first_result = search_results[0]
+        self.assertEqual(type(first_result),dict)
+        self.assertTrue("ASIN" in first_result)
+        self.assertTrue("title" in first_result)
+        self.assertTrue("price" in first_result)
+
+
     def test_mock_price_history(self):
         """Tests api_calls.mock_price_history()"""
         pass
