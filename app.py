@@ -111,7 +111,7 @@ def search_request(data):
     else:
         search_list = search_amazon(data['query'])
     # print(search_list)
-    print(json.dumps(search_list, indent=4))
+
 
     # search_amazon(data['query'])
 
@@ -122,7 +122,7 @@ def search_request(data):
 @SOCKETIO.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
     """send price histoy request to api_calls with given data"""
-    print(data)
+
     # price_history = mock_price_history(data['ASIN'])
     price_history = fetch_price_history(data['ASIN'])
     # print(price_history)
@@ -215,7 +215,7 @@ def post_price_history(data):
     """sends post information to database, updates posts, and
     sends updated list of posts to users"""
     post_list = []
-    print(data)
+
 
     # postList.update({data['ASIN']: data['priceHistory']})
     post_list.append(data['priceHistory'])
@@ -232,7 +232,7 @@ def get_post_details(data):
     graph data, and math"""
     item_data = get_item_data(data['title'])
     print('in detail view request')
-    print(item_data)
+
     SOCKETIO.emit('detail view response', {
         "pricehistory": item_data['pricehistory'],
         'asin': item_data['asin'],
