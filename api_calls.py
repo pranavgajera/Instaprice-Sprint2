@@ -68,7 +68,7 @@ def search_amazon(query_text):
         "marketplace":"US"
     }
     resp = requests.get(API_URL_SEARCH, headers=headers, params=params)
-    print(resp)
+
     if resp.status_code != 200:
         print("There was an error with getting amazon search results. Error: {}"\
         .format(resp.status_code))

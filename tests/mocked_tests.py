@@ -145,34 +145,49 @@ class TestBot(unittest.TestCase):
 
             self.assertEquals(KEY_EXPECTED, feteched_data)
 
+    # def test_amazon_search(self):
+    #     with patch('api_calls.search_amazon'):
+    #         flask_test_client = app.APP.test_client()
+    #         socketio_test_client = app.SOCKETIO.test_client(
+    #             app.APP, flask_test_client=flask_test_client
+    #         )
+    #
+    #         socketio_test_client.emit(app.SEARCH_REQUEST_CHANNEL, {
+    #             'query': ''
+    #         })
+    #         return_value= {
+    #                 "ASIN": "B0897VCSXQ",
+    #                 "title": "Aoozi Webcam with Microphone, Webcam 1080P USB Computer Web Camera with Facial-Enhancement Technology, Widescreen Video Calling and Recording, Streaming Camera with Tripod",
+    #                 "price": "$22.99",
+    #                 "listPrice": "",
+    #                 "imageUrl": "https://m.media-amazon.com/images/I/41jeAVPimNL._SL160_.jpg",
+    #                 "detailPageURL": "https://www.amazon.com/dp/B0897VCSXQ",
+    #                 "rating": "4.1",
+    #                 "totalReviews": "1241",
+    #                 "subtitle": "",
+    #                 "isPrimeEligible": "1"
+    #             }
+    #         socket_response = socketio_test_client.get_received()
+    #         response = socket_response[0]['args'][0]['search_list']
+    #         self.assertEquals(return_value, response[0])
     def test_amazon_search(self):
-        with patch('api_calls.requests.get') as mocked_return:
-            return_value = api_calls.mock_search_response('query')
-            mocked_return.return_value = return_value[0]
-
+        with patch('api_calls.search_amazon'):
             flask_test_client = app.APP.test_client()
             socketio_test_client = app.SOCKETIO.test_client(
                 app.APP, flask_test_client=flask_test_client
             )
 
             socketio_test_client.emit(app.SEARCH_REQUEST_CHANNEL, {
-                'query': ''
+                'query': 'mocked query'
             })
-            return_value= {
-                    "ASIN": "B0897VCSXQ",
-                    "title": "Aoozi Webcam with Microphone, Webcam 1080P USB Computer Web Camera with Facial-Enhancement Technology, Widescreen Video Calling and Recording, Streaming Camera with Tripod",
-                    "price": "$22.99",
-                    "listPrice": "",
-                    "imageUrl": "https://m.media-amazon.com/images/I/41jeAVPimNL._SL160_.jpg",
-                    "detailPageURL": "https://www.amazon.com/dp/B0897VCSXQ",
-                    "rating": "4.1",
-                    "totalReviews": "1241",
-                    "subtitle": "",
-                    "isPrimeEligible": "1"
-                }
             socket_response = socketio_test_client.get_received()
             response = socket_response[0]['args'][0]['search_list']
-            self.assertEquals(return_value, response[0])
+            # print(json.dumps(response, indent=4))
+
+            response_items = []
+            for item in response:
+                response_items.append(item['title'])
+            self.assertEquals(response_items[0], "Completeness")
 
     def test_fetchamazonprice(self):
         with patch('api_calls.fetch_price_history') as mocked_return:
