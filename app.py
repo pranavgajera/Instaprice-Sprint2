@@ -23,7 +23,6 @@ PRICE_HISTORY_RESPONSE_CHANNEL = 'price history response'
 FEED_UPDATE_CHANNEL = 'its feeding time'
 
 APP = flask.Flask(__name__)
-APP = flask.Flask(__name__)
 SOCKETIO = flask_socketio.SocketIO(APP)
 SOCKETIO.init_app(APP, cors_allowed_origins="*")
 

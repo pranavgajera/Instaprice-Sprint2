@@ -18,20 +18,23 @@ class TestBot(unittest.TestCase):
     def test_googleconnect(self):
         """Connection and disconnection test"""
         flask_test_client = app.APP.test_client()
-        socketio_test_clinet = app.SOCKETIO.test_client(
+        socketio_test_client = app.SOCKETIO.test_client(
             app.APP, flask_test_client=flask_test_client
         )
-        socketio_test_clinet.emit("new user", {
-            'email': "pranavgajera@gmail.com",
-            "name": "Pranav Gajera",
-            "profilepicture": "https://miro.medium.com/max/500/1*zzo23Ils3C0ZDbvZakwXlg.png"
-        })
-        response = socketio_test_clinet.get_received()
-        # print(json.dumps(response, indent=4))
-        user = response[0]['args'][0]['username']
-        self.assertEqual(user, "Pranav Gajera")
-        response2 = socketio_test_clinet.disconnect()
-        self.assertEqual(response2, None)
+        # Error Currently Here \/
+        with patch("app.emit_all_items") as emit_result:
+            emit_result.return_value = None
+            socketio_test_client.emit("new user", {
+                'email': "pranavgajera@gmail.com",
+                "name": "Pranav Gajera",
+                "profilepicture": "https://miro.medium.com/max/500/1*zzo23Ils3C0ZDbvZakwXlg.png"
+            })
+            response = socketio_test_client.get_received()
+            # print(json.dumps(response, indent=4))
+            user = response[0]['args'][0]['username']
+            self.assertEqual(user, "Pranav Gajera")
+            response2 = socketio_test_client.disconnect()
+            self.assertEqual(response2, None)
 
     def test_amazon_search_socket(self):
         with patch('app.search_amazon') as mocked_return:
