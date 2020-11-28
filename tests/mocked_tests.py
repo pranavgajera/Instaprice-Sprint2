@@ -9,6 +9,8 @@ from os.path import join, dirname
 sys.path.insert(1, join(dirname(__file__), '../'))
 import app
 import api_calls
+import pickle
+import requests
 from db_writes import price_write, get_posts
 
 
@@ -145,81 +147,110 @@ class TestBot(unittest.TestCase):
 
             self.assertEquals(KEY_EXPECTED, feteched_data)
 
-    # def test_amazon_search(self):
-    #     with patch('api_calls.search_amazon'):
-    #         flask_test_client = app.APP.test_client()
-    #         socketio_test_client = app.SOCKETIO.test_client(
-    #             app.APP, flask_test_client=flask_test_client
-    #         )
-    #
-    #         socketio_test_client.emit(app.SEARCH_REQUEST_CHANNEL, {
-    #             'query': ''
-    #         })
-    #         return_value= {
-    #                 "ASIN": "B0897VCSXQ",
-    #                 "title": "Aoozi Webcam with Microphone, Webcam 1080P USB Computer Web Camera with Facial-Enhancement Technology, Widescreen Video Calling and Recording, Streaming Camera with Tripod",
-    #                 "price": "$22.99",
-    #                 "listPrice": "",
-    #                 "imageUrl": "https://m.media-amazon.com/images/I/41jeAVPimNL._SL160_.jpg",
-    #                 "detailPageURL": "https://www.amazon.com/dp/B0897VCSXQ",
-    #                 "rating": "4.1",
-    #                 "totalReviews": "1241",
-    #                 "subtitle": "",
-    #                 "isPrimeEligible": "1"
-    #             }
-    #         socket_response = socketio_test_client.get_received()
-    #         response = socket_response[0]['args'][0]['search_list']
-    #         self.assertEquals(return_value, response[0])
-    def test_amazon_search(self):
-        with patch('api_calls.search_amazon'):
-            flask_test_client = app.APP.test_client()
-            socketio_test_client = app.SOCKETIO.test_client(
-                app.APP, flask_test_client=flask_test_client
-            )
+    # Test api_calls
+    def test_load_pickle(self):
+        """Tests api_calls.load_pickle()"""
+        search_resp = api_calls.load_pickle("search_results.pkl")
+        price_history_resp = api_calls.load_pickle("price_history.pkl")
+        self.assertEqual(type(search_resp), requests.models.Response)
+        self.assertEqual(type(price_history_resp), requests.models.Response)
+    
+    def test_mock_search(self):
+        """Tests api_calls.mock_search_response()"""
+        
+        search_results = api_calls.mock_search_response("Arbitrary Search Text")
+        self.assertEqual(type(search_results), list)
+        self.assertEqual(len(search_results), 10)
+        
+        first_result = search_results[0]
+        self.assertEqual(type(first_result),dict)
+        self.assertTrue("ASIN" in first_result)
+        self.assertTrue("title" in first_result)
+        self.assertTrue("price" in first_result)
 
-            socketio_test_client.emit(app.SEARCH_REQUEST_CHANNEL, {
-                'query': 'mocked query'
-            })
-            socket_response = socketio_test_client.get_received()
-            response = socket_response[0]['args'][0]['search_list']
-            # print(json.dumps(response, indent=4))
 
-            response_items = []
-            for item in response:
-                response_items.append(item['title'])
-            self.assertEquals(response_items[0], "Completeness")
+    def test_mock_price_history(self):
+        """Tests api_calls.mock_price_history()"""
+        price_history = api_calls.mock_price_history("Aritrary ASIN")
+        self.assertEqual(type(price_history), list)
+        self.assertEqual(len(price_history), 333)
+        
+        first_entry = price_history[0]
+        self.assertTrue("price" in first_entry)
+        self.assertTrue("price_date" in first_entry)
 
+
+    def test_search_amazon(self):
+        """Tests api_calls.search_amazon()"""
+        with patch('api_calls.requests.get') as mocked_request:
+            # Patch pickled resp into get() return val
+            pickled_mock_file = open("search_results.pkl",'rb')
+            pickled_resp = pickle.load(pickled_mock_file)
+            pickled_mock_file.close()
+            mocked_request.return_value = pickled_resp
+            
+            # Test search_amazon()
+            search_results = api_calls.search_amazon("Query Text")
+            self.assertEqual(type(search_results), list)
+            self.assertEqual(len(search_results), 10)
+            
+            first_result = search_results[0]
+            self.assertEqual(type(first_result),dict)
+            self.assertTrue("ASIN" in first_result)
+            self.assertTrue("title" in first_result)
+            self.assertTrue("price" in first_result)
+            
+            
+        
     def test_fetchamazonprice(self):
-        with patch('api_calls.fetch_price_history') as mocked_return:
-            mocked_return.return_value = [
-                {'price': 58.84, 'price_date': '06/09/2020'},
-                {'price': 53.89, 'price_date': '06/18/2020'},
-                {'price': 58.84, 'price_date': '07/08/2020'},
-                {'price': 53.89, 'price_date': '07/15/2020'},
-                {'price': 58.84, 'price_date': '08/19/2020'},
-                {'price': 53.89, 'price_date': '08/25/2020'},
-                {'price': 58.84, 'price_date': '10/26/2020'},
-                {'price': 48.95, 'price_date': '11/07/2020'}
-            ]
-            flask_test_client = app.APP.test_client()
-            socketio_test_client = app.SOCKETIO.test_client(
-                app.APP, flask_test_client=flask_test_client
-            )
+        """
+        Tests api_calls.fetch_price_history()
+        Uses pickled response to mock HTTP response
+        """
 
-            socketio_test_client.emit(app.PRICE_HISTORY_REQUEST_CHANNEL, {
-                "ASIN": "B07X6C9RMF",
-                "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
-                "imgurl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
-                "username": "random",
-                'pfp': "pfp"
-
-            })
-
-            socket_response = socketio_test_client.get_received()
-            response = socket_response[0]['args'][0]['pricehistory'][0]
-            # print(json.dumps(response, indent=4))
-
-            self.assertEquals(response["price"], 58.84)
+        with patch('api_calls.requests.get') as mocked_request:
+            # Patch pickled resp into get() return val
+            pickled_mock_file = open("price_history.pkl",'rb')
+            pickled_resp = pickle.load(pickled_mock_file)
+            pickled_mock_file.close()
+            mocked_request.return_value = pickled_resp
+            
+            # Test fetch_price_history()
+            price_history = api_calls.fetch_price_history("Arbitrary ASIN")
+            #print("Price History: {}".format(price_history))
+            first_entry = price_history[0]
+            expected_entry = {'price':6.05,'price_date':'12/07/2019'}
+            self.assertEqual(first_entry, expected_entry)
+            self.assertEqual(type(price_history), list)
+    
+    def test_search_amazon_404(self):
+        """Tests search_amazon during 404 response"""
+        with patch('api_calls.requests.get') as mocked_request:
+            # Patch pickled resp into get() return val
+            resp_404 = requests.models.Response()
+            resp_404.status_code = 404
+            mocked_request.return_value = resp_404
+            
+            # Test fetch_price_history() with 404 reponse
+            price_history = api_calls.search_amazon("Query to get error")
+            self.assertEqual(type(price_history), str)
+            self.assertTrue("There was an error with getting amazon search results." in price_history)
+            self.assertNotEqual(type(price_history), list)
+        
+    def test_price_history_404(self):
+        """Tests fetch_price_history during 404 response"""
+        with patch('api_calls.requests.get') as mocked_request:
+            # Patch pickled resp into get() return val
+            resp_404 = requests.models.Response()
+            resp_404.status_code = 404
+            mocked_request.return_value = resp_404
+            
+            # Test fetch_price_history() with 404 reponse
+            price_history = api_calls.fetch_price_history("B00KPVSZBA")
+            self.assertEqual(type(price_history), str)
+            self.assertTrue("There was an error with fetching price history." in price_history)
+            self.assertNotEqual(type(price_history), list)
+    
 
 
 if __name__ == '__main__':
