@@ -92,24 +92,24 @@ class TestBot(unittest.TestCase):
                 emit_return.return_value = None
             with patch('app.emit_all_items') as emit_all:
                 emit_all.return_value = None
-            flask_test_client = app.APP.test_client()
-            socketio_test_client = app.SOCKETIO.test_client(
-                app.APP, flask_test_client=flask_test_client
-            )
-            
-            socketio_test_client.emit(app.PRICE_HISTORY_REQUEST_CHANNEL, {
-                "ASIN": "B07X6C9RMF",
-                "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
-                "imgurl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
-                "username": "random",
-                'pfp': "pfp"
-            })
+                flask_test_client = app.APP.test_client()
+                socketio_test_client = app.SOCKETIO.test_client(
+                    app.APP, flask_test_client=flask_test_client
+                )
 
-            socket_response = socketio_test_client.get_received()
-            print(json.dumps(socket_response, indent=4))
-            response = socket_response[0]['args'][0]['pricehistory'][0]
+                socketio_test_client.emit(app.PRICE_HISTORY_REQUEST_CHANNEL, {
+                    "ASIN": "B07X6C9RMF",
+                    "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
+                    "imgurl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
+                    "username": "random",
+                    'pfp': "pfp"
+                })
 
-            self.assertEquals(response["price"], 58.84)
+                socket_response = socketio_test_client.get_received()
+                print(json.dumps(socket_response, indent=4))
+                response = socket_response[0]['args'][0]['pricehistory'][0]
+
+                self.assertEquals(response["price"], 58.84)
 
 
 
