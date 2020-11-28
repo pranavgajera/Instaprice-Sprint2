@@ -59,9 +59,10 @@ def get_posts(username):
         
 def get_item_data(itemdata):
     """get data on an item from the database"""
+    escaped_itemdata = itemdata.replace("'","''")
     with CON:
         cur = CON.cursor()
-        cur.execute(f"SELECT * FROM posts WHERE itemname = '{itemdata}'")
+        cur.execute(f"SELECT * FROM posts WHERE itemname = '{escaped_itemdata}'")
         rows = cur.fetchall()
         print(rows)
         item_data = {
