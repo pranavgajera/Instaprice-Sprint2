@@ -74,7 +74,7 @@ class TestBot(unittest.TestCase):
             response = socket_response[0]['args'][0]['search_list']
             self.assertEquals(response["ASIN"], "B07X6C9RMF")
 
-    """
+
     def test_amazon_price_search(self):
         with patch('app.fetch_price_history') as mocked_return:
             
@@ -88,6 +88,10 @@ class TestBot(unittest.TestCase):
                 {'price': 58.84, 'price_date': '10/26/2020'},
                 {'price': 48.95, 'price_date': '11/07/2020'}
             ]
+            with patch('app.SOCKETIO.emit') as emit_return:
+                emit_return.return_value = None
+            with patch('app.emit_all_items') as emit_all:
+                emit_all.return_value = None
             flask_test_client = app.APP.test_client()
             socketio_test_client = app.SOCKETIO.test_client(
                 app.APP, flask_test_client=flask_test_client
@@ -106,7 +110,7 @@ class TestBot(unittest.TestCase):
             response = socket_response[0]['args'][0]['pricehistory'][0]
 
             self.assertEquals(response["price"], 58.84)
-        """
+
 
 
     def test_home(self):
