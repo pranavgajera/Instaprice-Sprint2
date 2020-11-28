@@ -15,7 +15,7 @@ from db_writes import price_write, get_posts
 
 
 class TestBot(unittest.TestCase):
-    """
+
     def test_googleconnect(self):
         #Connection and disconnection test
         flask_test_client = app.APP.test_client()
@@ -37,7 +37,7 @@ class TestBot(unittest.TestCase):
             self.assertEqual(user, "Pranav Gajera")
             response2 = socketio_test_client.disconnect()
             self.assertEqual(response2, None)
-    """
+
 
     def test_amazon_search_socket(self):
         with patch('app.search_amazon') as mocked_return:
