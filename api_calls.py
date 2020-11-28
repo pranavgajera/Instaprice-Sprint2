@@ -13,7 +13,7 @@ dotenv.load_dotenv(DOTENV_PATH)
 
 API_URL_SEARCH = "https://rapidapi.p.rapidapi.com/search"
 API_URL_PRICE_HISTORY = "https://rapidapi.p.rapidapi.com/api/us/price_history"
-RAPID_API_KEY = os.environ["RAPID_API_KEY"]
+RAPID_API_KEY = os.getenv("RAPID_API_KEY")
 
 def save_pickle(filename, obj):
     """

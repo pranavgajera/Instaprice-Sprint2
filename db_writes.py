@@ -5,12 +5,12 @@ import os
 import psycopg2
 
 
-SQL_USER = os.environ["SQL_USER"]
-SQL_PWD = os.environ["SQL_PASSWORD"]
-SQL_DB = os.environ["SQL_DB"]
-DB_USER = os.environ["USER"]
-DB_HOST = os.environ["DB_HOST"]
-DATABASE_URI = os.environ["DATABASE_URL"]
+SQL_USER = os.getenv("SQL_USER")
+SQL_PWD = os.getenv("SQL_PASSWORD")
+SQL_DB = os.getenv("SQL_DB")
+DB_USER = os.getenv("USER")
+DB_HOST = os.getenv("DB_HOST")
+DATABASE_URI = os.getenv("DATABASE_URL")
 
 CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
 

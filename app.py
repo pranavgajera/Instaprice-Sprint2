@@ -27,7 +27,7 @@ APP = flask.Flask(__name__)
 SOCKETIO = flask_socketio.SocketIO(APP)
 SOCKETIO.init_app(APP, cors_allowed_origins="*")
 
-DATABASE_URI = os.environ["DATABASE_URL"]
+DATABASE_URI = os.getenv("DATABASE_URL")
 APP.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
 
 DB = flask_sqlalchemy.SQLAlchemy(APP)
