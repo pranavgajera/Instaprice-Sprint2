@@ -35,8 +35,6 @@ DB.init_app(APP)
 DB.app = APP
 
 import models
-DB.create_all()
-DB.session.commit()
 
 def emit_all_items(channel):
     """socket emits information on every item in the database"""
@@ -249,6 +247,9 @@ def get_post_details(data):
     }, room=request.sid)
 
 if __name__ == '__main__':
+    # Don't test with these
+    DB.create_all()
+    DB.session.commit()
     SOCKETIO.run(
         APP,
         host=os.getenv('IP', '0.0.0.0'),
