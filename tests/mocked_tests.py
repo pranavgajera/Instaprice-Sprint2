@@ -25,7 +25,7 @@ class TestBot(unittest.TestCase):
             "profilepicture": "https://miro.medium.com/max/500/1*zzo23Ils3C0ZDbvZakwXlg.png"
         })
         response = socketio_test_clinet.get_received()
-        print(json.dumps(response, indent=4))
+        # print(json.dumps(response, indent=4))
         user = response[0]['args'][0]['username']
         self.assertEqual(user, "Pranav Gajera")
         response2 = socketio_test_clinet.disconnect()
@@ -128,18 +128,21 @@ class TestBot(unittest.TestCase):
                 'pricehistory': '08/04/2020 - 420.42 ',
                 'user': 'john',
                 'pfp': 'temp profile picture',
-                'time': '12:00',}
+                'time': '12:00',
+                'likes': 99,
+                'graphurl': './graphs/graph_Test ID.png',
+                'asin': 'B0897VCSXQ'
+
+            }
             USER_INPUT = 'john'
 
             price_write(KEY_INPUT)
-            mock_con = mock_connect.return_value
-            mock_cur = mock_con.cursor.return_value
-            mock_cur = mock_con.cursor.return_value
             feteched_data = get_posts(USER_INPUT)
+
             mock_con = mock_connect.return_value
-            mock_cur = mock_con.cursor.return_value
             mock_cur = mock_con.cursor.return_value
             mock_cur.fetchall.return_value = KEY_EXPECTED
+            print(feteched_data)
             self.assertEquals(KEY_EXPECTED, feteched_data)
 
     def test_amazon_search(self):
