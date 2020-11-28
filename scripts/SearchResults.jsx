@@ -2,7 +2,11 @@ import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ResultItem from './ResultItem';
+import DropDown from './DropDown';
+
 import '../style/SearchResults.css';
+
+
 
 export default function SearchResults({
   username, pfp, searchList, closeSearchList,
@@ -11,13 +15,27 @@ export default function SearchResults({
     activeObject: null,
     objects: searchList,
   });
+  const [sortCriteria, setSortCriteria] = useState("Rating");
+  const criteria = ["Rating", "Price", "Reviews"];
 
   function setActive(index) {
     setState({ ...state, activeObject: state.objects[index] });
   }
-
+  
+  function changeSortCriteria(criteria) {
+    setSortCriteria(criteria);
+    if(criteria == "Price")
+      searchList = searchList.sort((a,b) => a.price.match(/\d+/)[0] - b.price.match(/\d+/)[0]);
+    else if(criteria == "Rating")
+      searchList = searchList.sort((a,b) => b.rating - a.rating);
+    else if(criteria == "Reviews")
+      searchList = searchList.sort((a,b) => b.totalReviews - a.totalReviews);
+    console.log(searchList);
+  }
+  
   return (
     <div className="SearchResults">
+      <DropDown criteria={criteria} state={sortCriteria} stateSetter={changeSortCriteria} />
       <div className="Xbutton">
         <button type="button" onClick={closeSearchList}>X</button>
       </div>
