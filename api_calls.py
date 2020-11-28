@@ -15,15 +15,6 @@ API_URL_SEARCH = "https://rapidapi.p.rapidapi.com/search"
 API_URL_PRICE_HISTORY = "https://rapidapi.p.rapidapi.com/api/us/price_history"
 RAPID_API_KEY = os.environ["RAPID_API_KEY"]
 
-def save_pickle(filename, obj):
-    """
-    Saves a Python object obj to a file with name filename
-    Currently unused
-    """
-    file = open(filename, 'wb')
-    pickle.dump(obj, file)
-    file.close()
-
 def load_pickle(filename):
     """
     Takes the filename of a pickle output
