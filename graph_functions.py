@@ -44,12 +44,11 @@ def generate_graph(entry_list, post_id="test"):
     # Display in window
     file_name = "graphs/graph_{}.png".format(post_id)
     plt.savefig(file_name)
+    
+    return file_name
 
 
 def main():
     """Tests the generate_graph function"""
     entry_list = api_calls.mock_price_history("B07X6C9RMF")
     generate_graph(entry_list, "Test ID")
-
-if __name__ == "__main__":
-    main()
