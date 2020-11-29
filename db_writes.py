@@ -55,9 +55,7 @@ def get_posts(username):
             'time': rows[0][6],
             'likes': rows[0][7],
             'graphurl': rows[0][8],
-            'asin': rows[0][9],
-            'dataset': dataset,
-            'datapts': datapts
+            'asin': rows[0][9]
             }
         return item_data
         
