@@ -228,8 +228,6 @@ def get_post_details(data):
     """sends itemname to database, and fetches
     graph data, and math"""
     item_data = get_item_data(data['title'])
-    print('in detail view request')
-
     SOCKETIO.emit('detail view response', {
         "pricehistory": item_data['pricehistory'],
         'asin': item_data['asin'],
@@ -242,7 +240,9 @@ def get_post_details(data):
         'username': item_data['user'],
         'pfp': item_data['pfp'],
         'graphurl': item_data['graphurl'],
-        'likes': item_data['likes']
+        'likes': item_data['likes'],
+        'dataset': item_data['dataset'],
+        'datapts': item_data['datapts']
     }, room=request.sid)
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Socket from './Socket';
+import LineGraph from './LineGraph';
 import '../style/DetailedItem.css';
 
 export default function DetailedView(props) {
@@ -20,6 +21,8 @@ export default function DetailedView(props) {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
   const [likes, setLikes ] = useState(0);
+  const [dataset, setDataset] = useState([]);
+  const [datapts, setDatapts] = useState([]);
 
   useEffect(() => {
     Socket.on('detail view response', (data) => {
@@ -35,13 +38,18 @@ export default function DetailedView(props) {
         setMax(data.max_price);
         setAsin(data.asin);
         setLikes(data.likes);
-      
+        setDataset(data.dataset);
+        setDatapts(data.datapts);
     });
   }, []);
 
   return (
     <div> Historical Price: {pricehistory} <br />
     Visualization Graph: <br />
+    <LineGraph 
+    datapts = {datapts}
+    dataset = {dataset}
+    />
     Mean: {mean} <br />
     Variance: {variance} <br />
     Historical low: ${min} <br />
