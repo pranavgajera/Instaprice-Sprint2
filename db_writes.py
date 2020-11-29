@@ -12,10 +12,11 @@ DB_USER = os.getenv("USER")
 DB_HOST = os.getenv("DB_HOST")
 DATABASE_URI = os.getenv("DATABASE_URL")
 
-CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
+# CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
 
 def price_write(price_data):
     """write data to the database"""
+    CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
     with CON:
         cur = CON.cursor()
         price_list = price_data['priceHistory']
@@ -40,6 +41,7 @@ def price_write(price_data):
 
 def get_posts(username):
     """get posts from a specific user from the database"""
+    CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
     with CON:
         cur = CON.cursor()
         cur.execute(f"SELECT * FROM posts WHERE username = '{username}'")
@@ -63,6 +65,7 @@ def get_posts(username):
         
 def get_item_data(itemdata):
     """get data on an item from the database"""
+    CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
     escaped_itemdata = itemdata.replace("'","''")
     with CON:
         cur = CON.cursor()
