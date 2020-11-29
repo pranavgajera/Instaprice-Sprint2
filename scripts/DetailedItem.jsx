@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Socket from './Socket';
+import LineGraph from './LineGraph';
 import '../style/DetailedItem.css';
 
 export default function DetailedView(props) {
@@ -42,6 +43,7 @@ export default function DetailedView(props) {
   return (
     <div> Historical Price: {pricehistory} <br />
     Visualization Graph: <br />
+    <LineGraph />
     Mean: {mean} <br />
     Variance: {variance} <br />
     Historical low: ${min} <br />

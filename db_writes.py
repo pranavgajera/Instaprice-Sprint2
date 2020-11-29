@@ -3,7 +3,7 @@ Handles the database writes for app
 """
 import os
 import psycopg2
-
+import re
 
 SQL_USER = os.getenv("SQL_USER")
 SQL_PWD = os.getenv("SQL_PASSWORD")
@@ -44,6 +44,8 @@ def get_posts(username):
         cur = CON.cursor()
         cur.execute(f"SELECT * FROM posts WHERE username = '{username}'")
         rows = cur.fetchall()
+        dataset = re.findall(r'\d{2}\/\d{2}\/\d{4}', rows[0][3])
+        datapts = datapt = re.findall(r"\d{1,}\.\d{1,2}", rows[0][3])
         item_data = {
             'itemname': rows[0][1],
             'imgurl': rows[0][2],
@@ -53,7 +55,9 @@ def get_posts(username):
             'time': rows[0][6],
             'likes': rows[0][7],
             'graphurl': rows[0][8],
-            'asin': rows[0][9]
+            'asin': rows[0][9],
+            'dataset': dataset,
+            'datapts': datapts
             }
         return item_data
         
@@ -64,7 +68,7 @@ def get_item_data(itemdata):
         cur = CON.cursor()
         cur.execute(f"SELECT * FROM posts WHERE itemname = '{escaped_itemdata}'")
         rows = cur.fetchall()
-        print(rows)
+        print(rows[0][3])
         item_data = {
             'itemname': rows[0][1],
             'imgurl': rows[0][2],
@@ -81,4 +85,3 @@ def get_item_data(itemdata):
             'varianceprice': rows[0][13]
             }
         return item_data
-
