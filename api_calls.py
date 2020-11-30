@@ -13,16 +13,7 @@ dotenv.load_dotenv(DOTENV_PATH)
 
 API_URL_SEARCH = "https://rapidapi.p.rapidapi.com/search"
 API_URL_PRICE_HISTORY = "https://rapidapi.p.rapidapi.com/api/us/price_history"
-RAPID_API_KEY = os.environ["RAPID_API_KEY"]
-
-def save_pickle(filename, obj):
-    """
-    Saves a Python object obj to a file with name filename
-    Currently unused
-    """
-    file = open(filename, 'wb')
-    pickle.dump(obj, file)
-    file.close()
+RAPID_API_KEY = os.getenv("RAPID_API_KEY")
 
 def load_pickle(filename):
     """
@@ -68,11 +59,12 @@ def search_amazon(query_text):
         "marketplace":"US"
     }
     resp = requests.get(API_URL_SEARCH, headers=headers, params=params)
-    print(resp)
+
     if resp.status_code != 200:
-        print("There was an error with getting amazon search results. Error: {}"\
-        .format(resp.status_code))
-        response_data = resp.json()
+        # No json if error
+        response_data = "There was an error with getting amazon search results. Error: {}"\
+        .format(resp.status_code)
+        print(response_data)
         return response_data
     print("Search response OK")
     response_data = resp.json()
@@ -98,7 +90,7 @@ def fetch_price_history(asin):
     resp = requests.get(API_URL_PRICE_HISTORY, headers=headers, params=params)
     if resp.status_code != 200:
         # print("There is an error with fetching price history. Error: {}".format(resp.status_code))
-        history_data = "There is an error with fetching price history. Error: {}".format(resp.status_code)
+        history_data = "There was an error with fetching price history. Error: {}".format(resp.status_code)
         return history_data
     print("Price History Response OK")
     history_data = resp.json()

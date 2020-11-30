@@ -3,19 +3,20 @@ Handles the database writes for app
 """
 import os
 import psycopg2
+import re
 
+SQL_USER = os.getenv("SQL_USER")
+SQL_PWD = os.getenv("SQL_PASSWORD")
+SQL_DB = os.getenv("SQL_DB")
+DB_USER = os.getenv("USER")
+DB_HOST = os.getenv("DB_HOST")
+DATABASE_URI = os.getenv("DATABASE_URL")
 
-SQL_USER = os.environ["SQL_USER"]
-SQL_PWD = os.environ["SQL_PASSWORD"]
-SQL_DB = os.environ["SQL_DB"]
-DB_USER = os.environ["USER"]
-DB_HOST = os.environ["DB_HOST"]
-DATABASE_URI = os.environ["DATABASE_URL"]
-
-CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
+# CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
 
 def price_write(price_data):
     """write data to the database"""
+    CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
     with CON:
         cur = CON.cursor()
         price_list = price_data['priceHistory']
@@ -40,6 +41,7 @@ def price_write(price_data):
 
 def get_posts(username):
     """get posts from a specific user from the database"""
+    CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
     with CON:
         cur = CON.cursor()
         cur.execute(f"SELECT * FROM posts WHERE username = '{username}'")
@@ -59,11 +61,14 @@ def get_posts(username):
         
 def get_item_data(itemdata):
     """get data on an item from the database"""
+    CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
+    escaped_itemdata = itemdata.replace("'","''")
     with CON:
         cur = CON.cursor()
-        cur.execute(f"SELECT * FROM posts WHERE itemname = '{itemdata}'")
+        cur.execute(f"SELECT * FROM posts WHERE itemname = '{escaped_itemdata}'")
         rows = cur.fetchall()
-        print(rows)
+        dataset = re.findall(r'\d{2}\/\d{2}\/\d{4}', rows[0][3])
+        datapts = datapt = re.findall(r"\d{1,}\.\d{1,2}", rows[0][3])
         item_data = {
             'itemname': rows[0][1],
             'imgurl': rows[0][2],
@@ -77,7 +82,8 @@ def get_item_data(itemdata):
             'minprice': rows[0][10],
             'maxprice': rows[0][11],
             'meanprice': rows[0][12],
-            'varianceprice': rows[0][13]
+            'varianceprice': rows[0][13],
+            'dataset': dataset,
+            'datapts': datapts
             }
         return item_data
-

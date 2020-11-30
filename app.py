@@ -23,11 +23,10 @@ PRICE_HISTORY_RESPONSE_CHANNEL = 'price history response'
 FEED_UPDATE_CHANNEL = 'its feeding time'
 
 APP = flask.Flask(__name__)
-APP = flask.Flask(__name__)
 SOCKETIO = flask_socketio.SocketIO(APP)
 SOCKETIO.init_app(APP, cors_allowed_origins="*")
 
-DATABASE_URI = os.environ["DATABASE_URL"]
+DATABASE_URI = os.getenv("DATABASE_URL")
 APP.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
 
 DB = flask_sqlalchemy.SQLAlchemy(APP)
@@ -35,8 +34,6 @@ DB.init_app(APP)
 DB.app = APP
 
 import models
-DB.create_all()
-DB.session.commit()
 
 def emit_all_items(channel):
     """socket emits information on every item in the database"""
@@ -111,7 +108,7 @@ def search_request(data):
     else:
         search_list = search_amazon(data['query'])
     # print(search_list)
-    print(json.dumps(search_list, indent=4))
+
 
     # search_amazon(data['query'])
 
@@ -122,9 +119,9 @@ def search_request(data):
 @SOCKETIO.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
     """send price histoy request to api_calls with given data"""
-    print(data)
-    price_history = mock_price_history(data['ASIN'])
-    #price_history = fetch_price_history(data['ASIN'])
+
+    # price_history = mock_price_history(data['ASIN'])
+    price_history = fetch_price_history(data['ASIN'])
     # print(price_history)
     if "404" in price_history:
         SOCKETIO.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
@@ -150,7 +147,7 @@ def get_price_history(data):
     max_price = max(statistical_array)
     mean_price = np.mean(statistical_array)
     var_price = np.var(statistical_array)
-
+    return_array.append(price_history[0])
     for i in range(0, len(price_history) - 1):
         if price_history[i + 1]["price"] != price_history[i]["price"]:
             return_array.append(price_history[i + 1])
@@ -176,7 +173,7 @@ def get_price_history(data):
         'var_price':var_price
     }, room=request.sid)
     emit_all_items(FEED_UPDATE_CHANNEL)
-    
+
 @SOCKETIO.on('get profile page')
 def get_profile_page(data):
     #make it so that i can loop through db with data['username'] and find only those posts then make Feed in propage with those posts as well as display propic name and other stuff
@@ -203,7 +200,7 @@ def get_profile_page(data):
         'usernames': usernames,
         'pfps': pfps,
         'times': times,
-        
+
     })
     print ("THIS IS THE PROFILE PAGE FOR: " + data['username'])
 
@@ -216,7 +213,7 @@ def post_price_history(data):
     """sends post information to database, updates posts, and
     sends updated list of posts to users"""
     post_list = []
-    print(data)
+
 
     # postList.update({data['ASIN']: data['priceHistory']})
     post_list.append(data['priceHistory'])
@@ -232,8 +229,6 @@ def get_post_details(data):
     """sends itemname to database, and fetches
     graph data, and math"""
     item_data = get_item_data(data['title'])
-    print('in detail view request')
-    print(item_data)
     SOCKETIO.emit('detail view response', {
         "pricehistory": item_data['pricehistory'],
         'asin': item_data['asin'],
@@ -246,10 +241,15 @@ def get_post_details(data):
         'username': item_data['user'],
         'pfp': item_data['pfp'],
         'graphurl': item_data['graphurl'],
-        'likes': item_data['likes']
+        'likes': item_data['likes'],
+        'dataset': item_data['dataset'],
+        'datapts': item_data['datapts']
     }, room=request.sid)
 
 if __name__ == '__main__':
+    # Don't test with these
+    DB.create_all()
+    DB.session.commit()
     SOCKETIO.run(
         APP,
         host=os.getenv('IP', '0.0.0.0'),
