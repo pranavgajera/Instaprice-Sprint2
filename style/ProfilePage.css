@@ -1,7 +1,6 @@
 .profile {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-rows: 500px 500px
 }
 
 .profile-navbar {
@@ -13,23 +12,30 @@
 }
 
 .topPage {
-    display: flex;
-    max-height: 50%;
-    justify-content: space-between;
-    overflow: hidden;
+    /*display: flex;*/
+    /*max-height: 50%;*/
+    /*justify-content: space-between;*/
+    /*overflow: hidden;*/
+    border: 3px solid red;
 }
 
 .bottomPage {
-    height: 50%;
+    border: 3px solid blue;
 }
+
+/*.comments {*/
+/*    border: 3px solid red;*/
+/*    border: 3px solid blue;*/
+/*}*/
 
 /*Biography*/
 
 .bio-content {
-    margin: 75px;
-    max-width: 50%;
-    display: flex;
-    justify-content: space-between;
+    border: 1px solid green;
+    /*margin: 75px;*/
+    /*max-width: 50%;*/
+    /*display: flex;*/
+    /*justify-content: space-between;*/
 }
 
 .bio-pfp {
@@ -65,13 +71,13 @@
 .profile-feed {
     display: flex;
     flex-direction: column;
-    max-width: 50%;
+    /*max-width: 50%;*/
     align-items: center;
-    border: 3px solid red;
+    border: 1px solid green;
     overflow-y: scroll;
     background-color: gray;
-    border-radius: 10px;
-    max-height: 100%;
+    /*border-radius: 10px;*/
+    /*max-height: 100%;*/
 }
 
 .profile-feed-image {
