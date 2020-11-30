@@ -16,9 +16,9 @@ from db_writes import price_write, get_posts
 
 
 class TestBot(unittest.TestCase):
-    """
+
     def test_googleconnect(self):
-        #Connection and disconnection test
+        """test function for login and disconnect function"""
         flask_test_client = app.APP.test_client()
         socketio_test_client = app.SOCKETIO.test_client(
             app.APP, flask_test_client=flask_test_client
@@ -38,9 +38,10 @@ class TestBot(unittest.TestCase):
             self.assertEqual(user, "Pranav Gajera")
             response2 = socketio_test_client.disconnect()
             self.assertEqual(response2, None)
-    """
-    """
+
+
     def test_amazon_search_socket(self):
+        """test function for app.py search request function"""
         with patch('app.search_amazon') as mocked_return:
             mocked_return.return_value = {
                 "ASIN": "B07X6C9RMF",
@@ -55,7 +56,9 @@ class TestBot(unittest.TestCase):
                 "isPrimeEligible": "1"
 
             }
-            # print(json.dumps(mocked_return.return_value, indent=4))
+            with patch('app.SOCKETIO.emit') as emit_return:
+                emit_return.return_value = None
+            print(json.dumps(mocked_return.return_value, indent=4))
             flask_test_client = app.APP.test_client()
             socketio_test_client = app.SOCKETIO.test_client(
                 app.APP, flask_test_client=flask_test_client
@@ -65,11 +68,11 @@ class TestBot(unittest.TestCase):
             })
             socket_response = socketio_test_client.get_received()
             response = socket_response[0]['args'][0]['search_list']
-            # print(json.dumps(response, indent=4))
             self.assertEquals(response["ASIN"], "B07X6C9RMF")
-    """
-    """
+
+
     def test_amazon_price_search(self):
+        """test function for app.py price history request function"""
         with patch('app.fetch_price_history') as mocked_return:
             
             mocked_return.return_value = [
@@ -82,38 +85,31 @@ class TestBot(unittest.TestCase):
                 {'price': 58.84, 'price_date': '10/26/2020'},
                 {'price': 48.95, 'price_date': '11/07/2020'}
             ]
-            flask_test_client = app.APP.test_client()
-            socketio_test_client = app.SOCKETIO.test_client(
-                app.APP, flask_test_client=flask_test_client
-            )
-            
-            socketio_test_client.emit(app.PRICE_HISTORY_REQUEST_CHANNEL, {
-                "ASIN": "B07X6C9RMF",
-                "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
-                "imgurl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
-                "username": "random",
-                'pfp': "pfp"
-            })
+            with patch('app.SOCKETIO.emit') as emit_return:
+                emit_return.return_value = None
+            with patch('app.emit_all_items') as emit_all:
+                emit_all.return_value = None
+                flask_test_client = app.APP.test_client()
+                socketio_test_client = app.SOCKETIO.test_client(
+                    app.APP, flask_test_client=flask_test_client
+                )
 
-            socket_response = socketio_test_client.get_received()
-            print(json.dumps(socket_response, indent=4))
-            response = socket_response[0]['args'][0]['pricehistory'][0]
+                socketio_test_client.emit(app.PRICE_HISTORY_REQUEST_CHANNEL, {
+                    "ASIN": "B07X6C9RMF",
+                    "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
+                    "imgurl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
+                    "username": "random",
+                    'pfp': "pfp"
+                })
 
-            self.assertEquals(response["price"], 58.84)
-        """
-            
-    """
-    def test_onnewitem(self):
-        flask_test_client = app.APP.test_client()
-        socketio_test_client = app.SOCKETIO.test_client(
-            app.APP, flask_test_client=flask_test_client
-        )
-        
-        socketio_test_client.emit("new item", {
-            "item": "data"
-        })
-        socket_response = socketio_test_client.get_received()
-    """
+                socket_response = socketio_test_client.get_received()
+                print(json.dumps(socket_response, indent=4))
+                response = socket_response[0]['args'][0]['pricehistory'][0]
+
+                self.assertEquals(response["price"], 58.84)
+
+
+
     def test_home(self):
         flask_test_client = app.APP.test_client()
         response = flask_test_client.get('/', content_type='html')
@@ -261,6 +257,7 @@ class TestBot(unittest.TestCase):
             self.assertEqual(type(price_history), str)
             self.assertTrue("There was an error with fetching price history." in price_history)
             self.assertNotEqual(type(price_history), list)
+
     
     # Testing graph_functions.py
     def test_generate_graph(self):
@@ -275,6 +272,7 @@ class TestBot(unittest.TestCase):
         self.assertIsNone(return_main)
         
     
+
 
 
 if __name__ == '__main__':
