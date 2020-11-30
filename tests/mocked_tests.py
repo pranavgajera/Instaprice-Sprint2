@@ -11,6 +11,7 @@ import app
 import api_calls
 import pickle
 import requests
+import graph_functions
 from db_writes import price_write, get_posts
 
 
@@ -256,5 +257,23 @@ class TestBot(unittest.TestCase):
             self.assertEqual(type(price_history), str)
             self.assertTrue("There was an error with fetching price history." in price_history)
             self.assertNotEqual(type(price_history), list)
+
+    
+    # Testing graph_functions.py
+    def test_generate_graph(self):
+        """Tests graph_functions.generate_graph() and main()"""
+        mocked_price_history = api_calls.mock_price_history("B07X6C9RMF")
+        file_name = graph_functions.generate_graph(mocked_price_history, "Test_ID")
+        
+        graph_created = os.path.exists(file_name)
+        self.assertTrue(graph_created)
+    
+        return_main = graph_functions.main()
+        self.assertIsNone(return_main)
+        
+    
+
+
+
 if __name__ == '__main__':
     unittest.main()
