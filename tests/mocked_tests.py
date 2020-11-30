@@ -260,8 +260,5 @@ class TestBot(unittest.TestCase):
             self.assertEqual(type(price_history), str)
             self.assertTrue("There was an error with fetching price history." in price_history)
             self.assertNotEqual(type(price_history), list)
-    
-
-
 if __name__ == '__main__':
     unittest.main()
