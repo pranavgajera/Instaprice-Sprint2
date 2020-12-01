@@ -43,7 +43,7 @@ export default function Feed() {
 
   return (
     <div className="feedbox" id="feedBody">
-      <h1>Recent searches!</h1>
+      <h1>Recent Posts!</h1>
       <ol>
         {itemnames.map((itemname, index) => (
           <li key={itemname}>
@@ -52,18 +52,13 @@ export default function Feed() {
                 <img className={"product-image"} src={imageurls[index]} alt="product" />
                 <div className={"other-information"}>
                   <h4>{ itemnames[index] }</h4>
-                  <h4>Current price:
-                  { currprices[index] }
-                  </h4>
-                  <h4>Posted by:  
-                  <ProfileButton
+                  <h4>Current price:{ currprices[index] }</h4>
+                  <h4>Posted by: <ProfileButton
                     activeOnlyWhenExact={true}
                     to={'/' + usernames[index]}
                     label={ usernames[index] }
                     username ={ usernames[index] }
-                  />
-                   on  
-                  { times[index] }</h4>
+                  /> on { times[index] }</h4>
                   <DetailedViewButton
                   itemname={ itemnames[index] }
                   />

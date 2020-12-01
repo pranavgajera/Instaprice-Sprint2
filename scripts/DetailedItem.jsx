@@ -23,7 +23,6 @@ export default function DetailedView(props) {
   const [likes, setLikes ] = useState(0);
   const [dataset, setDataset] = useState([]);
   const [datapts, setDatapts] = useState([]);
-
   useEffect(() => {
     Socket.on('detail view response', (data) => {
         setTitle(data.itemname);
@@ -41,6 +40,7 @@ export default function DetailedView(props) {
         setDataset(data.dataset);
         setDatapts(data.datapts);
     });
+
   }, []);
 
   return (
@@ -50,11 +50,8 @@ export default function DetailedView(props) {
     datapts = {datapts}
     dataset = {dataset}
     />
-    Mean: {mean} <br />
-    Variance: {variance} <br />
-    Historical low: ${min} <br />
-    Historical high: ${max} <br />
-    Posted by: {user} <img className="user-photo" src={profpic} alt={ user } />
+    <h4>Mean: {mean}, Variance: {variance} , Historical low: ${min}, Historical high: ${max}</h4>
+        <h4>Posted by: {user} <img className="user-photo" src={profpic} alt={ user } /> </h4>
     Likes: {likes} <button type="button"> Like </button>
     <a href={"https://www.amazon.com/dp/" + asin} >Buy it on Amazon!</a></div>
   );
