@@ -51,6 +51,8 @@ export default function DetailedView(props) {
     });
   }
 
+  getNewItems();
+
   function handleBack(e) {
     Socket.emit("go back");
   }
