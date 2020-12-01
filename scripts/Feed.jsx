@@ -68,7 +68,7 @@ export default function Feed() {
                   <DetailedViewButton
                     activeOnlyWhenExact={true}
                     to={'/item/' + asins[index]}
-                    label={ itemnames[index] }
+                    label={ "View More Details" }
                     itemname ={ itemnames[index] }
                   />
                 </div>
