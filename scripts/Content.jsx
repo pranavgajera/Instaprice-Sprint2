@@ -46,8 +46,8 @@ export default function Content() {
   function getDetailsPage() {
     React.useEffect(() => {
       Socket.on('detail view response', (data) => {
-        setDetailOf(data.itemname);
-        console.log("This is the item page for: /" + data.itemname);
+        setDetailOf(data.asin);
+        console.log("This is the item page for: /" + data.asin);
       });
     }, []);
   }

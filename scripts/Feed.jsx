@@ -7,6 +7,7 @@ import '../style/Feed.css';
 
 export default function Feed() {
   const [itemnames, setItemname] = useState([]);
+  const [asins, setAsin] = useState([]);
   const [imageurls, setImageurl] = useState([]);
   const [currprices, setCurrprice] = useState('');
   const [pricehists, setPricehist] = useState([]);
@@ -23,6 +24,7 @@ export default function Feed() {
     setPricehist(data.allPricehists);
     setUsername(data.allUsernames);
     setPfp(data.allPfps);
+    setAsin(data.allAsins);
     setTime(data.allTimes);
     setLikes(data.allLikes);
     const feedBody = document.querySelector('#feedBody');
@@ -65,7 +67,7 @@ export default function Feed() {
                   { times[index] }</h4>
                   <DetailedViewButton
                     activeOnlyWhenExact={true}
-                    to={'/item/' + itemnames[index]}
+                    to={'/item/' + asins[index]}
                     label={ itemnames[index] }
                     itemname ={ itemnames[index] }
                   />

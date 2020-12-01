@@ -58,7 +58,9 @@ def emit_all_items(channel):
     all_likes = [
         db_likes.likes for db_likes in DB.session.query(
             models.Posts).all()]
-
+    all_asins = [
+        db_asin.asin for db_asin in DB.session.query(
+            models.Posts).all()]
     SOCKETIO.emit(
         channel,
         {
@@ -68,7 +70,8 @@ def emit_all_items(channel):
             "allUsernames": all_usernames,
             "allPfps": all_pfps,
             "allTimes": all_times,
-            "allLikes": all_likes
+            "allLikes": all_likes,
+            "allAsins": all_asins
         },
     )
 
@@ -221,6 +224,7 @@ def get_post_details(data):
     """sends itemname to database, and fetches
     graph data, and math"""
     item_data = get_item_data(data['title'])
+    print('request for: ')
     print(data['title'])
     SOCKETIO.emit('detail view response', {
         "pricehistory": item_data['pricehistory'],
