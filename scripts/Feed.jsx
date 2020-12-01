@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Socket from './Socket';
 import DetailedViewButton from './DetailedViewButton';
-import { Link } from 'react-router-dom';
 import ProfileButton from './ProfileButton'
 
 import '../style/Feed.css';
@@ -58,14 +57,17 @@ export default function Feed() {
                   <h4>Posted by:  
                   <ProfileButton
                     activeOnlyWhenExact={true}
-                    to={'/' + usernames[index]}
+                    to={'/profile/' + usernames[index]}
                     label={ usernames[index] }
                     username ={ usernames[index] }
                   />
                    on  
                   { times[index] }</h4>
                   <DetailedViewButton
-                  itemname={ itemnames[index] }
+                    activeOnlyWhenExact={true}
+                    to={'/item/' + itemnames[index]}
+                    label={ itemnames[index] }
+                    itemname ={ itemnames[index] }
                   />
                 </div>
               </div>

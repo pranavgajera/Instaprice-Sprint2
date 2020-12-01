@@ -7,6 +7,7 @@ import ProfilePage from './ProfilePage';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import NavBar from './NavBar';
+import DetailedItem from './DetailedItem';
 
 import '../style/Content.css';
 
@@ -18,6 +19,7 @@ export default function Content() {
   const [username, setUsername] = useState('');
   const [profpic, setProfpic] = useState('');
   const [profileOf, setProfileOf] = useState("");
+  const [detailOf, setDetailOf] = useState("");
 
   function getSearchList() {
     React.useEffect(() => {
@@ -41,7 +43,17 @@ export default function Content() {
     }, []);
   }
   
+  function getDetailsPage() {
+    React.useEffect(() => {
+      Socket.on('detail view response', (data) => {
+        setDetailOf(data.itemname);
+        console.log("This is the item page for: /" + data.itemname);
+      });
+    }, []);
+  }
+  
   getProfilePage();
+  getDetailsPage();
   getSearchList();
   
   useEffect(() => {
@@ -90,9 +102,14 @@ export default function Content() {
               </div>
           </div>
           </Route>
-          <Route path={'/' + profileOf}>
+          <Route path={'/profile/' + profileOf}>
             <ProfilePage
               username={profileOf}
+            />
+          </Route>
+          <Route path={'/item/' + detailOf}>
+            <DetailedItem
+              username={detailOf}
             />
           </Route>
         </Switch>
