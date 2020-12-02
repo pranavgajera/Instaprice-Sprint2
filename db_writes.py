@@ -47,6 +47,7 @@ def get_posts(username):
         cur.execute(f"SELECT * FROM posts WHERE username = '{username}'")
         rows = cur.fetchall()
         item_data = {
+            'postid' :rows[0][0],
             'itemname': rows[0][1],
             'imgurl': rows[0][2],
             'pricehistory': rows[0][3],
