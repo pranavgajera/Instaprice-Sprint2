@@ -62,7 +62,7 @@ export default function Feed() {
                     label={ usernames[index] }
                     username ={ usernames[index] }
                   />
-                   on  
+                   on 
                   { times[index] }</h4>
                   <DetailedViewButton
                   itemname={ itemnames[index] }

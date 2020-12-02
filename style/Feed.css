@@ -42,7 +42,7 @@ h1 {
     bottom: 10px;
     margin-bottom: 20px;
     display: grid;
-    grid-template-columns: 160px auto;
+    grid-template-columns: 30% auto;
 }
 
 .product-image {
@@ -55,6 +55,7 @@ h1 {
     height: auto;
     top: 50%;
     transform: translate(0, -50%);
+    mix-blend-mode: multiply;        /* white to transparent*/
 }
 
 .other-information {
