@@ -32,6 +32,14 @@ export default function Content() {
     }, []);
   }
   
+  function searchRequestReceived() {
+    React.useEffect(() => {
+      Socket.on('search request received', (data) => {
+        setSearched(false);
+      })
+    })
+  }
+  
   function getProfilePage() {
     React.useEffect(() => {
       Socket.on('make profile page', (data) => {

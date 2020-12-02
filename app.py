@@ -35,7 +35,7 @@ DB.app = APP
 
 import models
 
-def emit_all_items(channel):
+def emit_all_items(channel, room=None):
     """socket emits information on every item in the database"""
     all_itemnames = [
         db_itemname.itemname for db_itemname in DB.session.query(
@@ -69,7 +69,7 @@ def emit_all_items(channel):
             "allPfps": all_pfps,
             "allTimes": all_times,
             "allLikes": all_likes
-        },
+        }, room=room
     )
 
 @APP.route('/')
@@ -92,7 +92,7 @@ def on_new_google_user(data):
         'email': data['email'],
         'profilepicture': data['profilepicture']
     }, room=request.sid)
-    emit_all_items(FEED_UPDATE_CHANNEL)
+    emit_all_items(FEED_UPDATE_CHANNEL, request.sid)
 
 @SOCKETIO.on('disconnect')
 def on_disconnect():
@@ -137,7 +137,7 @@ def get_price_history(data):
             'mean_price':0,
             'var_price':0,
         }, room=request.sid)
-        emit_all_items(FEED_UPDATE_CHANNEL)
+        #emit_all_items(FEED_UPDATE_CHANNEL)        #?????????
         return
     return_array = []
     statistical_array =[]
@@ -172,7 +172,7 @@ def get_price_history(data):
         'mean_price':mean_price,
         'var_price':var_price
     }, room=request.sid)
-    emit_all_items(FEED_UPDATE_CHANNEL)
+    #emit_all_items(FEED_UPDATE_CHANNEL)            #?????????
 
 @SOCKETIO.on('get profile page')
 def get_profile_page(data):
@@ -205,7 +205,7 @@ def get_profile_page(data):
 
 @SOCKETIO.on('go back')
 def go_back():
-    emit_all_items(FEED_UPDATE_CHANNEL)
+    emit_all_items(FEED_UPDATE_CHANNEL, request.sid)
 
 @SOCKETIO.on('post price history')
 def post_price_history(data):

@@ -38,7 +38,14 @@ export default function Feed() {
       };
     });
   }
+  
+  function getNewPost() {
+    React.useEffect(() => {
+      
+    })
+  }
 
+  getNewPost();
   getNewItems();
 
   return (
