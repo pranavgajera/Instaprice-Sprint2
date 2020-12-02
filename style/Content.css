@@ -1,5 +1,6 @@
 .main-container {
     text-align: center;
+
 }
 
 .Content {
@@ -62,6 +63,7 @@ h1 {
 body {
     margin: 0;
     padding: 0;
+    background: #1c2237
 }
 button {
     background-color: cornflowerblue;

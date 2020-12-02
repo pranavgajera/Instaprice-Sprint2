@@ -18,9 +18,12 @@ h1 {
     align-items: center;
     height: 500px;
     width: 1400px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+
     /* border: 3px solid red; */
     overflow-y: scroll;
-    background-color: gray;
+    background-color: white;
+    opacity: 0.9;
     border-radius: 10px;
 }
 

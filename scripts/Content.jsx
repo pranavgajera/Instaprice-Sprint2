@@ -62,7 +62,7 @@ export default function Content() {
   }
 
   return (
-    <div>
+    <div className={".main-container"}>
       <BrowserRouter>
         <Switch>
           <Route exact path='/'>
