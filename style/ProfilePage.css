@@ -1,6 +1,6 @@
 .profile {
     display: grid;
-    grid-template-rows: 500px 500px
+    grid-template-columns: 1.25fr 2fr;
 }
 
 .profile-navbar {
@@ -11,76 +11,108 @@
   display: flex;
 }
 
-.topPage {
-    /*display: flex;*/
-    /*max-height: 50%;*/
-    /*justify-content: space-between;*/
-    /*overflow: hidden;*/
-    border: 3px solid red;
+.leftPage {
+    height: 100%;
+    margin: 25px;
+    /*border: 3px solid red;*/
 }
 
-.bottomPage {
-    border: 3px solid blue;
+.rightPage {
+    height: 100%;
+    margin: 25px;
+    /*border: 3px solid blue;*/
 }
-
-/*.comments {*/
-/*    border: 3px solid red;*/
-/*    border: 3px solid blue;*/
-/*}*/
 
 /*Biography*/
 
 .bio-content {
     border: 1px solid green;
-    /*margin: 75px;*/
-    /*max-width: 50%;*/
-    /*display: flex;*/
-    /*justify-content: space-between;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 2;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: gray;
 }
 
 .bio-pfp {
-    width: 175px;
-    height: 175px;
+    width: 150px;
+    height: 150px;
+    margin: 50px;
 }
 
 .bio-info {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
-    position: relative;
-    max-width: 50%;
+    justify-content: space-between;
+    
 }
 
 .bio-name {
-    font-size: 2rem;
-    font-weight: 200;
-}
-
-.bio-bio {
-    align-items: center;
+    font-size: 4rem;
+    font-weight: 800;
 }
 
 .likes-posts {
-    font-size: 1rem;
-    font-weight: 200;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    column-gap: 100px;
+    justify-items: center;
+    align-items: center;
+    list-style: none;
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin: 100px;
 }
 
 /*Profile Feed*/
 
 .profile-feed {
-    display: flex;
-    flex-direction: column;
-    /*max-width: 50%;*/
     align-items: center;
-    border: 1px solid green;
     overflow-y: scroll;
+    height: 750px;
+    width: 100%;
     background-color: gray;
-    /*border-radius: 10px;*/
-    /*max-height: 100%;*/
 }
 
 .profile-feed-image {
     width: 150px;
     height: 150px;
+}
+
+.PostItem {
+    position: relative;
+    float: left;
+    margin-bottom: 20px;
+    margin-left: -10px;
+    margin-right: 20px;
+    background-color: lightgray;
+    overflow: auto;
+    border-radius: 10px;
+}
+
+.PostGrid {
+    position: relative;
+    top: 10px;
+    bottom: 10px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 160px auto;
+}
+
+.product-image {
+    position: relative;
+    left: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 140px;
+    height: auto;
+    top: 50%;
+    transform: translate(0, -50%);
 }

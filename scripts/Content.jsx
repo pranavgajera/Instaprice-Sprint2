@@ -48,6 +48,7 @@ export default function Content() {
   const [usernames, setUsernames] = useState([]);
   const [pfps, setPfp] = useState([]);
   const [times, setTime] = useState([]);
+  const [currprices, setCurrprices] = useState([]);
   
   function getProfilePage() {
     React.useEffect(() => {
@@ -60,6 +61,7 @@ export default function Content() {
         setUsernames(data.usernames);
         setPfp(data.pfps);
         setTime(data.times);
+        setCurrprices(data.currprices);
       });
     }, []);
   }
@@ -113,6 +115,7 @@ export default function Content() {
               usernames={usernames}
               pfps={pfps}
               times={times}
+              currprices={currprices}
             />
           </Route>
         </Switch>

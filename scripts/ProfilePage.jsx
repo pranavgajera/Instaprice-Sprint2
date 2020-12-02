@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
 import Socket from './Socket';
 import { Link } from 'react-router-dom';
 import Biography from './Biography';
+import ProfileFeed from './ProfileFeed';
 import { GiPriceTag } from "react-icons/gi"; 
 
 import '../style/NavBar.css';
@@ -26,55 +26,25 @@ return (
     </nav>
 
     <div className="profile">
-      <div className="topPage">
+      <div className="leftPage">
         <Biography
           name = {props.username}
           pfp = {props.pfps}
           bio = "Hello, this is my profile page."
         />
-        <div className="profile-feed">
-          <h1>{props.username}'s Recent searches!</h1>
-          <ol>
-            {props.itemnames.map((itemname, index) => (
-              <li key={itemname}>
-                <img className="profile-feed-image" src={props.imageurls[index]} alt="product" />
-                <br />
-                { props.itemnames[index] }
-                {' '}
-                <br />
-                {' '}
-                Historical price:
-                { props.pricehists[index] }
-                {' '}
-                <br />
-                {' '}
-                Posted by:
-                {' '}
-                { props.usernames[index] }
-                {' '}
-                on
-                {' '}
-                { props.times[index] }
-                {' '}
-              </li>
-            ))}
-          </ol>
-        </div>
       </div>
       
-      <div className="bottomPage">
-        <div className="comments">
-          PLACEHOLDER
-          PLACEHOLDER
-          PLACEHOLDER
-          PLACEHOLDER
-          PLACEHOLDER
-          PLACEHOLDER
-          PLACEHOLDER
-          PLACEHOLDER
-          PLACEHOLDER
-          PLACEHOLDER
-        </div>
+      <div className="rightPage">
+        <ProfileFeed
+          username={props.username}
+          itemnames={props.itemnames}
+          imageurls={props.imageurls}
+          pricehists={props.pricehists}
+          usernames={props.usernames}
+          pfps={props.pfps}
+          times={props.times}
+          currprices={props.currprices}
+        />
       </div>
     </div>
   </div>
