@@ -36,10 +36,18 @@ class Posts(DB.Model):
         self.meanprice = meanprice
         self.varianceprice = varianceprice
         self.currprice = currprice
-
-    def __repr__(self):
-        return "<Message by user %s with content: %s>" % (
-            self.username,
-            self.pricehist,
-        )
         
+class Comment(DB.Model):
+    """Table for comments"""
+    comment_id = DB.Column(DB.Integer, primary_key=True)
+    post_id = DB.Column(DB.Integer)
+    username = DB.Column(DB.String(225))
+    pfp = DB.Column(DB.String(225))
+    comment_text = DB.Column(DB.String(600))
+
+    def __init__(self, post_id, username, pfp, comment_text):
+        """Constructor for writing to table"""
+        self.post_id = post_id
+        self.username = username
+        self.pfp = pfp
+        self.comment_text = comment_text

@@ -84,6 +84,7 @@ def get_item_data(itemdata):
             'meanprice': rows[0][12],
             'varianceprice': rows[0][13],
             'dataset': dataset,
-            'datapts': datapts
+            'datapts': datapts,
+            'post_id': rows[0][0]
             }
         return item_data
