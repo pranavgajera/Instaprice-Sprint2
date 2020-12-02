@@ -79,7 +79,7 @@ export default function Content() {
                 
               <div className="Content">
                 <h1>
-                  <img src="./static/instapricelogo.png" alt="InstaPrice" />
+                  <img className={"main-picture"} src="./static/instapricelogo.png" alt="InstaPrice" />
                 </h1>
                 <div className="searchbar">
                   <SearchBar />
