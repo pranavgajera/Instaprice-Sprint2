@@ -67,7 +67,7 @@ body {
     font-family: 'Trebuchet MS', sans-serif;
 
 }
-button {
+.submit-button {
     background-color: cornflowerblue;
     border: none;
     color: white;
