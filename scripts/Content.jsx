@@ -28,7 +28,7 @@ export default function Content() {
       setProfpic(data.profilepicture);
     });
   }, []);
-
+  
   function getSearchList() {
     React.useEffect(() => {
       Socket.on('search response', (data) => {
@@ -44,11 +44,26 @@ export default function Content() {
   
   getSearchList();
   
+  const [itemnames, setItemname] = useState([]);
+  const [imageurls, setImageurl] = useState([]);
+  const [pricehists, setPricehist] = useState([]);
+  const [usernames, setUsernames] = useState([]);
+  const [userpfps, setUserpfps] = useState([]);
+  const [times, setTime] = useState([]);
+  const [currprices, setCurrprices] = useState([]);
+  
   function getProfilePage() {
     React.useEffect(() => {
       Socket.on('make profile page', (data) => {
         setProfileOf(data.username);
         console.log("This is the page for: /" + data.username);
+        setItemname(data.itemnames);
+        setImageurl(data.imageurls);
+        setPricehist(data.pricehists);
+        setUsernames(data.usernames);
+        setUserpfps(data.pfps);
+        setTime(data.times);
+        setCurrprices(data.currprices);
       });
     }, []);
   }
@@ -139,6 +154,13 @@ export default function Content() {
           <Route path={'/profile/' + profileOf}>
             <ProfilePage
               username={profileOf}
+              itemnames={itemnames}
+              imageurls={imageurls}
+              pricehists={pricehists}
+              usernames={usernames}
+              pfps={userpfps}
+              times={times}
+              currprices={currprices}
             />
           </Route>
           <Route path={'/item/' + detailOf}>

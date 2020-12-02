@@ -182,7 +182,9 @@ def get_profile_page(data):
     usernames = []
     pfps = []
     times = []
+    currprices = []
     posts = DB.session.query(models.Posts).filter_by(username=data['username']).all()
+    # SOCKETIO.close('get profile page')
     for post in posts:
         itemnames.append(post.itemname)
         imageurls.append(post.imageurl)
@@ -190,6 +192,7 @@ def get_profile_page(data):
         usernames.append(post.username)
         pfps.append(post.pfp)
         times.append(post.time)
+        currprices.append(post.currprice)
     SOCKETIO.emit('make profile page', {
         'username': data['username'],
         'itemnames': itemnames,
@@ -198,8 +201,9 @@ def get_profile_page(data):
         'usernames': usernames,
         'pfps': pfps,
         'times': times,
+        'currprices': currprices
     })
-    print ("This is the profile page for: " + data['username'])
+    print ("THIS IS THE PROFILE PAGE FOR: " + data['username'])
 
 @SOCKETIO.on('go back')
 def go_back():
