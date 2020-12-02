@@ -1,18 +1,16 @@
 """Flask backend for InstaPrice"""
-import json
 import os
 from datetime import datetime
 import flask
 import flask_socketio
 import flask_sqlalchemy
-from flask import request, jsonify
-from sqlalchemy import text
 from flask import request
+# from sqlalchemy import text
 import numpy as np
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from api_calls import mock_search_response
-from api_calls import mock_price_history
+# from api_calls import mock_price_history
 from db_writes import price_write
 from db_writes import get_item_data
 
@@ -58,7 +56,9 @@ def emit_all_items(channel):
     all_likes = [
         db_likes.likes for db_likes in DB.session.query(
             models.Posts).all()]
-
+    all_asins = [
+        db_asin.asin for db_asin in DB.session.query(
+            models.Posts).all()]
     SOCKETIO.emit(
         channel,
         {
@@ -68,7 +68,8 @@ def emit_all_items(channel):
             "allUsernames": all_usernames,
             "allPfps": all_pfps,
             "allTimes": all_times,
-            "allLikes": all_likes
+            "allLikes": all_likes,
+            "allAsins": all_asins
         },
     )
 
@@ -78,7 +79,7 @@ def hello():
     return flask.render_template('index.html')
 
 @APP.errorhandler(404)
-def cool(e):
+def cool():
     """load webpage from html"""
     return flask.render_template('index.html')
 
@@ -108,10 +109,7 @@ def search_request(data):
     else:
         search_list = search_amazon(data['query'])
     # print(search_list)
-
-
     # search_amazon(data['query'])
-
     SOCKETIO.emit(SEARCH_RESPONSE_CHANNEL, {
         "search_list": search_list
     }, room=request.sid)
@@ -119,7 +117,6 @@ def search_request(data):
 @SOCKETIO.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
     """send price histoy request to api_calls with given data"""
-
     # price_history = mock_price_history(data['ASIN'])
     price_history = fetch_price_history(data['ASIN'])
     # print(price_history)
@@ -176,7 +173,9 @@ def get_price_history(data):
 
 @SOCKETIO.on('get profile page')
 def get_profile_page(data):
-    #make it so that i can loop through db with data['username'] and find only those posts then make Feed in propage with those posts as well as display propic name and other stuff
+    """make it so that i can loop through db with data['username'] and find only those
+     posts then make Feed in propage with those posts as well
+     as display propic name and other stuff"""
     itemnames = []
     imageurls = []
     pricehists = []
@@ -208,6 +207,7 @@ def get_profile_page(data):
 
 @SOCKETIO.on('go back')
 def go_back():
+    """go back function"""
     emit_all_items(FEED_UPDATE_CHANNEL)
 
 @SOCKETIO.on('post price history')
@@ -215,8 +215,6 @@ def post_price_history(data):
     """sends post information to database, updates posts, and
     sends updated list of posts to users"""
     post_list = []
-
-
     # postList.update({data['ASIN']: data['priceHistory']})
     post_list.append(data['priceHistory'])
     now = datetime.now()
@@ -231,6 +229,8 @@ def get_post_details(data):
     """sends itemname to database, and fetches
     graph data, and math"""
     item_data = get_item_data(data['title'])
+    print('request for: ')
+    print(data['title'])
     SOCKETIO.emit('detail view response', {
         "pricehistory": item_data['pricehistory'],
         'asin': item_data['asin'],

@@ -1,6 +1,6 @@
 import React from 'react';
 import Socket from './Socket';
-
+import '../style/Content.css';
 
 export default function SearchBar() {
   const [input, setInput] = React.useState('');
@@ -22,7 +22,7 @@ export default function SearchBar() {
           onChange={(e) => setInput(e.target.value)}
         />
       </label>
-      <button onClick={makeSearchRequest} variant="primary" type="submit" value="Submit">Submit</button>
+      <button className={"submit-button"} onClick={makeSearchRequest} variant="primary" type="submit" value="Submit">Submit</button>
     </form>
   );
 }
