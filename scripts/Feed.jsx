@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Socket from './Socket';
 import DetailedViewButton from './DetailedViewButton';
-import { Link } from 'react-router-dom';
 import ProfileButton from './ProfileButton'
 
 import '../style/Feed.css';
 
 export default function Feed() {
   const [itemnames, setItemname] = useState([]);
+  const [asins, setAsin] = useState([]);
   const [imageurls, setImageurl] = useState([]);
   const [currprices, setCurrprice] = useState('');
   const [pricehists, setPricehist] = useState([]);
@@ -24,6 +24,7 @@ export default function Feed() {
     setPricehist(data.allPricehists);
     setUsername(data.allUsernames);
     setPfp(data.allPfps);
+    setAsin(data.allAsins);
     setTime(data.allTimes);
     setLikes(data.allLikes);
     const feedBody = document.querySelector('#feedBody');
@@ -55,12 +56,15 @@ export default function Feed() {
                   <h4>Current price:{ currprices[index] }</h4>
                   <h4>Posted by: <ProfileButton
                     activeOnlyWhenExact={true}
-                    to={'/' + usernames[index]}
+                    to={'/profile/' + usernames[index]}
                     label={ usernames[index] }
                     username ={ usernames[index] }
                   /> on { times[index] }</h4>
                   <DetailedViewButton
-                  itemname={ itemnames[index] }
+                    activeOnlyWhenExact={true}
+                    to={'/item/' + asins[index]}
+                    label={ "View More Details" }
+                    itemname ={ itemnames[index] }
                   />
                 </div>
               </div>
