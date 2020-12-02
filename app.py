@@ -1,18 +1,16 @@
 """Flask backend for InstaPrice"""
-import json
 import os
 from datetime import datetime
 import flask
 import flask_socketio
 import flask_sqlalchemy
-from flask import request, jsonify
-from sqlalchemy import text
 from flask import request
+# from sqlalchemy import text
 import numpy as np
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from api_calls import mock_search_response
-from api_calls import mock_price_history
+# from api_calls import mock_price_history
 from db_writes import price_write
 from db_writes import get_item_data
 
@@ -78,7 +76,7 @@ def hello():
     return flask.render_template('index.html')
 
 @APP.errorhandler(404)
-def cool(e):
+def cool():
     """load webpage from html"""
     return flask.render_template('index.html')
 
@@ -176,7 +174,9 @@ def get_price_history(data):
 
 @SOCKETIO.on('get profile page')
 def get_profile_page(data):
-    #make it so that i can loop through db with data['username'] and find only those posts then make Feed in propage with those posts as well as display propic name and other stuff
+    """make it so that i can loop through db with data['username'] and find only those
+     posts then make Feed in propage with those posts as well
+     as display propic name and other stuff"""
     itemnames = []
     imageurls = []
     pricehists = []
@@ -205,6 +205,7 @@ def get_profile_page(data):
 
 @SOCKETIO.on('go back')
 def go_back():
+    """go back function"""
     emit_all_items(FEED_UPDATE_CHANNEL)
 
 @SOCKETIO.on('post price history')
