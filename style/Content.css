@@ -10,7 +10,7 @@
 
 .searchbar{
     position: absolute;
-    top: 70%;
+    top: 80%;
     left: 10%;
     align-items: center;
     height: 10px;
@@ -63,7 +63,9 @@ h1 {
 body {
     margin: 0;
     padding: 0;
-    background: #1c2237
+    background: #1c2237;
+    font-family: 'Trebuchet MS', sans-serif;
+
 }
 button {
     background-color: cornflowerblue;
@@ -73,4 +75,5 @@ button {
     text-decoration: none;
     margin: 4px 2px;
     cursor: pointer;
+     border-radius: 10px;
 }
