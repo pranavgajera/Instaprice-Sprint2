@@ -1,6 +1,6 @@
 import React from 'react';
 import Socket from './Socket';
-import '../style/Content.css';
+import '../style/SearchBar.css';
 
 export default function SearchBar() {
   const [input, setInput] = React.useState('');
