@@ -13,12 +13,12 @@ export default function DetailedView(props) {
   }
   return (
     <div>
+      <br />
+      <div className={"more-info-box"}>
       <Link to="/" onClick={handleBack}>
         {" "}
         Go back to searches{" "}
       </Link>{" "}
-      <br />
-      <div className={"more-info-box"}>
           <div className={"info"}>
                <div className={"leftPage"}>
                   <h2>Historical Price</h2> <br />
