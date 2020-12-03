@@ -21,7 +21,7 @@ export default function CommentsSection(props) {
       setComments(data.allCommentTexts);
       setCommentIDs(data.allCommentIDs);
       setGotComments(true);
-    }else{
+    } else {
       // console.log("Not my comments");
     }
   }
@@ -36,7 +36,7 @@ export default function CommentsSection(props) {
     });
   }
   getNewComments();
-  
+
   if (gotComments) {
     return (
       <div className="comments_section" id="comments_section">
