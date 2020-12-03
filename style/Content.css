@@ -1,15 +1,17 @@
 .main-container {
     text-align: center;
+
 }
 
 .Content {
     position: absolute;
+
 }
 
 .searchbar{
     position: absolute;
-    top: 70%;
-    left: 20%;
+    top: 80%;
+    left: 10%;
     align-items: center;
     height: 10px;
     width: 1500px;
@@ -34,12 +36,13 @@ button {
 }
 */
 
-img {
+.main-picture{
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 400px;
     height: auto;
+
 }
 
 .livefeed {
@@ -60,4 +63,17 @@ h1 {
 body {
     margin: 0;
     padding: 0;
+    background: #1c2237;
+    font-family: 'Trebuchet MS', sans-serif;
+
+}
+.submit-button {
+    background-color: cornflowerblue;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+     border-radius: 10px;
 }

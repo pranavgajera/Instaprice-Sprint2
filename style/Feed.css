@@ -13,14 +13,16 @@ h1 {
 
 .feedbox {
     position: absolute;
-    top: 100%;
-    left: 50%;
+    top: 110%;
+    left: 25%;
     align-items: center;
     height: 500px;
-    width: 1200px;
-    border: 3px solid red;
+    width: 1400px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+    /* border: 3px solid red; */
     overflow-y: scroll;
-    background-color: gray;
+    background-color: white;
+    opacity: 0.9;
     border-radius: 10px;
 }
 
@@ -30,8 +32,9 @@ h1 {
     margin-bottom: 20px;
     margin-left: -10px;
     margin-right: 20px;
+    width: 100%;
     background-color: lightgray;
-    overflow: auto;
+    overflow: hidden;
     border-radius: 10px;
 }
 
@@ -41,7 +44,7 @@ h1 {
     bottom: 10px;
     margin-bottom: 20px;
     display: grid;
-    grid-template-columns: 160px auto;
+    grid-template-columns: 30% auto;
 }
 
 .product-image {
@@ -54,8 +57,12 @@ h1 {
     height: auto;
     top: 50%;
     transform: translate(0, -50%);
+    mix-blend-mode: multiply;        /* white to transparent*/
+    border-radius: 10px;
 }
 
 .other-information {
     position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
 }

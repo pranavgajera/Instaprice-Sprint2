@@ -14,6 +14,7 @@ export default function NavBar() {
         <GiPriceTag />
       </h1> 
       <div class="loginButtons">
+        LOGIN HERE
         <GoogleButton />
         <FacebookButton />
       </div>

@@ -21,7 +21,8 @@ class Posts(DB.Model):
     meanprice = DB.Column(DB.Integer)
     currprice = DB.Column(DB.String(225))
 
-    def __init__(self, username, pfp, time, itemname, imageurl, pricehist, likes, graphurl, asin, minprice, maxprice, meanprice, varianceprice, currprice):
+    def __init__(self, username, pfp, time, itemname, imageurl, pricehist, likes,
+                 graphurl, asin, minprice, maxprice, meanprice, varianceprice, currprice):
         self.username = username
         self.pfp = pfp
         self.time = time

@@ -19,9 +19,10 @@
 
 .loginButtons {
     display: grid;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(3, auto);
     grid-gap: 10px;
     justify-content: end;
-    text-align: center;
     margin-right: 2rem;
+    color: white;
+    align-items: center;
 }
