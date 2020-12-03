@@ -2,8 +2,9 @@
 Handles the database writes for app
 """
 import os
-import psycopg2
 import re
+import psycopg2
+
 
 SQL_USER = os.getenv("SQL_USER")
 SQL_PWD = os.getenv("SQL_PASSWORD")
@@ -36,8 +37,11 @@ def price_write(price_data):
         meanprice = price_data['mean']
         varianceprice = price_data['variance']
         currprice = price_data['currprice']
-        cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time, likes, graphurl, asin, minprice, maxprice, varianceprice, meanprice, currprice) " + \
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (item, imageurl, price_list_str, poster, pfp, time, likes, graphurl, asin, minprice, maxprice, meanprice, varianceprice, currprice ))
+        cur.execute("INSERT INTO posts (itemname, imageurl, pricehist, username, pfp, time, likes,"
+                    " graphurl, asin, minprice, maxprice, varianceprice, meanprice, currprice) " + \
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);",
+                    (item, imageurl, price_list_str, poster, pfp, time, likes,
+                     graphurl, asin, minprice, maxprice, meanprice, varianceprice, currprice ))
 
 def get_posts(username):
     """get posts from a specific user from the database"""
@@ -47,6 +51,7 @@ def get_posts(username):
         cur.execute(f"SELECT * FROM posts WHERE username = '{username}'")
         rows = cur.fetchall()
         item_data = {
+            'postid' :rows[0][0],
             'itemname': rows[0][1],
             'imgurl': rows[0][2],
             'pricehistory': rows[0][3],
@@ -58,7 +63,6 @@ def get_posts(username):
             'asin': rows[0][9]
             }
         return item_data
-        
 def get_item_data(itemdata):
     """get data on an item from the database"""
     CON = psycopg2.connect(database=SQL_DB, user=SQL_USER, password=SQL_PWD, host=DB_HOST)
@@ -68,7 +72,7 @@ def get_item_data(itemdata):
         cur.execute(f"SELECT * FROM posts WHERE itemname = '{escaped_itemdata}'")
         rows = cur.fetchall()
         dataset = re.findall(r'\d{2}\/\d{2}\/\d{4}', rows[0][3])
-        datapts = datapt = re.findall(r"\d{1,}\.\d{1,2}", rows[0][3])
+        datapts = re.findall(r"\d{1,}\.\d{1,2}", rows[0][3])
         item_data = {
             'itemname': rows[0][1],
             'imgurl': rows[0][2],

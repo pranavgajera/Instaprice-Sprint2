@@ -1,32 +1,23 @@
 import * as React from 'react';
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import {useRouteMatch, Link } from 'react-router-dom';
 import Socket from './Socket';
-import DetailedItem from './DetailedItem';
 
-export default function DetailedViewButton(props) {
-  const [clicked, setClicked] = useState(false);
-
+export default function DetailedViewButton({ label, to, activeOnlyWhenExact, itemname }) {
+  let match = useRouteMatch({
+    path: to,
+    exact: activeOnlyWhenExact
+  });
+  
   function handleClick(e) {
-    e.preventDefault();
-    setClicked((clicked) => !clicked);
-    if (!clicked) {
-      Socket.emit('detail view request', {
-        title: props.itemname
-      });
-    }
+    Socket.emit('detail view request', {
+      title: itemname
+    });
   }
 
   return (
-    <div>
-    <button type="button" onClick={handleClick}> View Details </button>
-    { clicked
-        ? (
-          <div>
-            <DetailedItem
-            />
-          </div>
-        ) : (null)}
-        </div>
+    <div className={match ? "active" : ""}>
+      {match && "> "}
+      <Link to={to} onClick={handleClick}>{label}</Link>
+    </div>
   );
 }
