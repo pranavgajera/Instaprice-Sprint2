@@ -7,7 +7,12 @@
     width: 100px;
     height: auto;
 }
+.info{
+    display: grid;
+    grid-template-columns: 1.25fr 2fr;
+}
 .more-info-box{
+
     position: absolute;
     top: 10%;
     left: 6%;
@@ -22,6 +27,16 @@
     border-radius: 10px;
 }
 .Linegraph{
-    height: 800px;
+    height: 500px;
     width: 800px;
+}
+.leftPage {
+    height: 100%;
+    margin: 25px;
+    /*border: 3px solid red;*/
+}
+.rightPage {
+    height: 100%;
+    margin: 25px;
+    /*border: 3px solid blue;*/
 }
