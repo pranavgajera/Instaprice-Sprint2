@@ -32,7 +32,15 @@ export default function DetailedView(props) {
                     <li>Historical low: ${props.min}</li>
                     <li>Historical high: ${props.max}</li>
                   </ol>
-
+                   Posted by:
+                  <ProfileButton
+                    activeOnlyWhenExact={true}
+                    to={"/profile/" + props.user}
+                    label={props.user}
+                    username={props.user}
+                  />{" "}
+                  Likes: {props.likes} <button type="button"> Like </button><br />
+                  <a href={"https://www.amazon.com/dp/" + props.asin}>Buy it on Amazon!</a>
               </div>
               <div className={"rightPage"}>
                   <h2>Visualization Graph</h2> <br />
@@ -43,16 +51,7 @@ export default function DetailedView(props) {
                   />
               </div>
           </div>
-          Posted by:
-          <ProfileButton
-            activeOnlyWhenExact={true}
-            to={"/profile/" + props.user}
-            label={props.user}
-            username={props.user}
-          />{" "}
-          <img className="user-photo" src={props.pfp} alt={props.user} />
-          Likes: {props.likes} <button type="button"> Like </button>
-          <a href={"https://www.amazon.com/dp/" + props.asin}>Buy it on Amazon!</a>
+
           <CommentsSection
             username={props.user}
             pfp={props.pfp}
