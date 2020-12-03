@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import Socket from './Socket';
 import PropTypes from 'prop-types';
+import Socket from './Socket';
 
 export default function LikeSection(props) {
   // Contains like counter and like button
   const [alreadyLiked, setAlreadyLiked] = useState(false);
   const [likes, setLikes] = useState(0);
-  
-  function handleLike(e) {
+
+  function handleLike() {
     // Tells server to toggle like
     Socket.emit('Toggle_Like', {
-      username:props.username,
-      postID:props.postID,
-      status:alreadyLiked
+      username: props.username,
+      postID: props.postID,
+      status: alreadyLiked,
     });
   }
-  
-  
-  function updateLikes(data){
+
+  function updateLikes(data) {
     // Updates likes and like status if it changes
     const thisPostID = props.postID;
     const updatedPostID = data.postID;
@@ -39,24 +38,27 @@ export default function LikeSection(props) {
     });
   }
   getNewLikes();
-  
-  if(alreadyLiked){
-    return(
+
+  if (alreadyLiked) {
+    return (
       <div>
-        Likes: {likes}
+        Likes:
+        {' '}
+        {likes}
         <button type="button" onClick={handleLike}> Liked! </button>
       </div>
-      
-    );
-  }else{
-    return(
-      <div>
-        Likes: {likes}
-        <button type="button" onClick={handleLike}> Like </button>
-      </div>
-      
+
     );
   }
+  return (
+    <div>
+      Likes:
+      {' '}
+      {likes}
+      <button type="button" onClick={handleLike}> Like </button>
+    </div>
+
+  );
 }
 
 LikeSection.propTypes = {
