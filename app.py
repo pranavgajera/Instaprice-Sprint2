@@ -79,7 +79,7 @@ def hello():
     return flask.render_template('index.html')
 
 @APP.errorhandler(404)
-def cool():
+def cool(e):
     """load webpage from html"""
     return flask.render_template('index.html')
 
