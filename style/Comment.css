@@ -1,0 +1,34 @@
+.comment_pfp{
+    width:35px;
+    height: auto;
+    float: left;
+}
+
+.comment_pfp img {
+    display: block;
+}
+
+.comment_content{
+    margin-left: 39px
+}
+
+span.comment_text {
+    display: inline; /* the default for span */
+  width: 100px;
+  height: 100px;
+  padding: 5px;
+}
+
+.submit-button {
+    background-color: cornflowerblue;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+     border-radius: 10px;
+}
+.commentbar{
+    position: relative;
+}

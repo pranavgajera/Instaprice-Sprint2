@@ -146,7 +146,7 @@ export default function Content() {
                 </h1>
                 <SearchBar />
                 <div className="Feed">
-                  <Feed />
+                  <Feed username={username}/>
                 </div>
               </div>
           </div>
@@ -177,6 +177,7 @@ export default function Content() {
               dataset={dataset}
               datapts={datapts}
               postOf={postOf}
+              username={username}
             />
           </Route>
         </Switch>

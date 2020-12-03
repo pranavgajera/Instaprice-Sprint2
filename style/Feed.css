@@ -1,6 +1,6 @@
 ol li{
   list-style-type: none;
-  text-align: center;
+  /*text-align: center;*/
 }
 
 h1 {
@@ -13,7 +13,7 @@ h1 {
     margin-right: auto;
     align-items: center;
     height: 500px;
-    width: 1400px;
+    width: 75%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
     /* border: 3px solid red; */
     overflow-y: scroll;

@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Line } from "react-chartjs-2";
+import "../style/DetailedItem.css";
 
 export default function LineGraph(props) {
   const data = {

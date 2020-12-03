@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Socket from './Socket';
+import PropTypes from 'prop-types';
 import DetailedViewButton from './DetailedViewButton';
-import ProfileButton from './ProfileButton'
+import ProfileButton from './ProfileButton';
 
 import '../style/Feed.css';
 
-export default function Feed() {
+export default function Feed(props) {
   const [itemnames, setItemname] = useState([]);
   const [asins, setAsin] = useState([]);
   const [imageurls, setImageurl] = useState([]);
@@ -65,6 +66,7 @@ export default function Feed() {
                     to={'/item/' + asins[index]}
                     label={ "View More Details" }
                     itemname ={ itemnames[index] }
+                    username = { props.username }
                   />
                 </div>
               </div>
@@ -75,3 +77,7 @@ export default function Feed() {
     </div>
   );
 }
+
+Feed.propTypes = {
+  username: PropTypes.string.isRequired,
+};
