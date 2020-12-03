@@ -77,7 +77,7 @@ export default function Content() {
   function getDetailsPage() {
     React.useEffect(() => {
       Socket.on("detail view response", (data) => {
-        console.log("This is the page for the product: /" + data.username);
+        console.log("This is the page for the product: /" + data.itemname);
         // setTitle(data.itemname);
         // setImgurl(data.imgurl);
         setPricehistory(data.pricehistory);
