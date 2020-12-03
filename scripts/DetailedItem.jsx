@@ -61,7 +61,6 @@ export default function DetailedView(props) {
             postID={props.postOf}
           />
       </div>
-
     </div>
   );
 }
