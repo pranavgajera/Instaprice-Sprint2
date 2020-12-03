@@ -100,6 +100,24 @@ def emit_comments(post_id):
         },
     )
 
+def emit_likes(post_id, username):
+    """
+    Emits like data for a post with given post_id
+    and the status of the user's like/dislike button
+    """
+    
+    likes = DB.session.query(models.Like).filter_by(post_id=post_id).count()
+    like_status = like_exists(post_id, username)
+    # This is correct
+    SOCKETIO.emit(
+        "update_likes",
+        {
+            "postID": post_id,
+            "likes": likes,
+            "alreadyLiked": like_status,
+        }
+    )
+
 @APP.route('/')
 def hello():
     """load webpage from html"""
@@ -278,11 +296,11 @@ def get_post_details(data):
     
     # Comments now loaded with post details
     emit_comments(item_data["post_id"])
+    emit_likes(item_data["post_id"], data["username"])
 
 @SOCKETIO.on("post comment")
 def post_comment(data):
     """Posts a given comment to the comments"""
-    print("COMMENT POST:{}".format(data))
     # Add comment to DB
     the_comment = models.Comment(
         data["post_id"], data["username"], data["pfp"], data["comment_text"]
@@ -291,6 +309,43 @@ def post_comment(data):
     DB.session.commit()
     # Update comments client-side
     emit_comments(data["post_id"])
+    emit_likes(data["post_id"], data["username"])
+
+def like_exists(post_id, like_user):
+    """Returns true if a user already liked a post"""
+    user_likes = DB.session.query(models.Like).\
+    filter_by(post_id=post_id).\
+    filter_by(username=like_user).all()
+    num_liked = len(user_likes)
+    if num_liked > 0:
+        return True
+    else:
+        return False
+
+@SOCKETIO.on("Toggle_Like")
+def toggle_like(data):
+    """Toggles a like for a user, emits updated likecount/status"""
+
+    # Like or unlike?
+    post_id = data["postID"]
+    like_user = data["username"]
+    new_status = not data["status"]
+    
+    already_liked = like_exists(post_id, like_user)
+    if new_status == True and not already_liked:
+        # Add Like to DB
+        new_like = models.Like(post_id, like_user)
+        DB.session.add(new_like)
+        DB.session.commit()
+    elif new_status == False and already_liked:
+        # Remove like from DB
+        DB.session.query(models.Like).\
+        filter_by(username=like_user).\
+        filter_by(post_id=post_id).delete()
+        DB.session.commit()
+    else:
+        print("status/liked mismatch.")
+    emit_likes(post_id, like_user)
 
 if __name__ == '__main__':
     # Don't test with these

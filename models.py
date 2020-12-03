@@ -52,3 +52,14 @@ class Comment(DB.Model):
         self.username = username
         self.pfp = pfp
         self.comment_text = comment_text
+
+class Like(DB.Model):
+    """Table for Likes"""
+    like_id = DB.Column(DB.Integer, primary_key=True)
+    post_id = DB.Column(DB.Integer)
+    username = DB.Column(DB.String(225))
+    
+    def __init__(self, post_id, username):
+        """Constructor for adding Like to table"""
+        self.post_id = post_id
+        self.username = username

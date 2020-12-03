@@ -72,5 +72,5 @@ export default function CommentsSection(props) {
 CommentsSection.propTypes = {
   username: PropTypes.string.isRequired,
   pfp: PropTypes.string.isRequired,
-  postID: PropTypes.string.isRequired,
+  postID: PropTypes.number.isRequired,
 };
