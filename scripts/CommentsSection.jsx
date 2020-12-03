@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Socket from './Socket';
 import CommentBar from './CommentBar';
-
+import "../style/Comment.css";
 export default function CommentsSection(props) {
   const [gotComments, setGotComments] = useState(false);
   const [usernames, setUsernames] = useState([]);
@@ -40,24 +40,22 @@ export default function CommentsSection(props) {
   if (gotComments) {
     return (
       <div className="comments_section" id="comments_section">
-        <h1>Comments Section here</h1>
+        <h1>Comments Section</h1>
         <ol>
           {commentIDs.map((commentID, index) => (
             <li key={commentID}>
               <img src={pfps[index]} alt="User Profile" className="comment_pfp" />
               <h4>
-                Name:
+                User:
                 {usernames[index]}
               </h4>
               <h4>
-                Text:
                 {comments[index]}
               </h4>
               <br />
             </li>
           ))}
         </ol>
-        <h1>End comments</h1>
         <CommentBar
           username={props.username}
           pfp={props.pfp}
