@@ -21,10 +21,13 @@ export default function CommentsSection(props) {
       setComments(data.allCommentTexts);
       setCommentIDs(data.allCommentIDs);
       setGotComments(true);
+    }else{
+      // console.log("Not my comments");
     }
   }
 
   function getNewComments() {
+    // Recieve Update from server
     React.useEffect(() => {
       Socket.on('fetching comments', updateItems);
       return () => {
@@ -32,8 +35,8 @@ export default function CommentsSection(props) {
       };
     });
   }
-
   getNewComments();
+  
   if (gotComments) {
     return (
       <div className="comments_section" id="comments_section">

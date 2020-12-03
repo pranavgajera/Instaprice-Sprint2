@@ -33,5 +33,5 @@ export default function CommentBar(props) {
 CommentBar.propTypes = {
   username: PropTypes.string.isRequired,
   pfp: PropTypes.string.isRequired,
-  postID: PropTypes.string.isRequired,
+  postID: PropTypes.number.isRequired,
 };
