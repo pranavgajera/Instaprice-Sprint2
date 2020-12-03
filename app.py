@@ -19,6 +19,7 @@ SEARCH_RESPONSE_CHANNEL = "search response"
 PRICE_HISTORY_REQUEST_CHANNEL = 'price history request'
 PRICE_HISTORY_RESPONSE_CHANNEL = 'price history response'
 FEED_UPDATE_CHANNEL = 'its feeding time'
+COMMENT_UPDATE_CHANNEL = "fetching comments"
 
 APP = flask.Flask(__name__)
 SOCKETIO = flask_socketio.SocketIO(APP)
@@ -35,30 +36,27 @@ import models
 
 def emit_all_items(channel):
     """socket emits information on every item in the database"""
-    all_itemnames = [
-        db_itemname.itemname for db_itemname in DB.session.query(
-            models.Posts).all()]
-    all_imageurls = [
-        db_imageurl.imageurl for db_imageurl in DB.session.query(
-            models.Posts).all()]
-    all_currprices = [
-        db_currprice.currprice for db_currprice in DB.session.query(
-            models.Posts).all()]
-    all_usernames = [
-        db_username.username for db_username in DB.session.query(
-            models.Posts).all()]
-    all_pfps = [
-        db_pfp.pfp for db_pfp in DB.session.query(
-            models.Posts).all()]
-    all_times = [
-        db_time.time for db_time in DB.session.query(
-            models.Posts).all()]
-    all_likes = [
-        db_likes.likes for db_likes in DB.session.query(
-            models.Posts).all()]
-    all_asins = [
-        db_asin.asin for db_asin in DB.session.query(
-            models.Posts).all()]
+
+    all_itemnames = []
+    all_imageurls = []
+    all_currprices = []
+    all_usernames = []
+    all_pfps = []
+    all_times = []
+    all_post_ids = []
+    all_likes = []
+    all_asins = []
+    for post in DB.session.query(models.Posts).all():
+        all_itemnames.append(post.itemname)
+        all_imageurls.append(post.imageurl)
+        all_currprices.append(post.currprice)
+        all_usernames.append(post.username)
+        all_pfps.append(post.pfp)
+        all_times.append(post.time)
+        all_post_ids.append(post.id)
+        all_likes.append(post.likes)
+        all_asins.append(post.asin)
+    
     SOCKETIO.emit(
         channel,
         {
@@ -69,7 +67,36 @@ def emit_all_items(channel):
             "allPfps": all_pfps,
             "allTimes": all_times,
             "allLikes": all_likes,
-            "allAsins": all_asins
+            "allAsins": all_asins,
+            "allPostIDs": all_post_ids,
+        },
+    )
+
+def emit_comments(post_id):
+    """Emits all comments for a given post"""
+    print("Attempting to fetch comments for post: {}".format(post_id))
+
+    # Fetch usernames, pfps, comments, and commentID's
+    all_comment_ids = []
+    all_usernames = []
+    all_pfps = []
+    all_comment_texts = []
+
+    # Get comments that match the post's ID
+    for comment in DB.session.query(models.Comment).filter_by(post_id=post_id).all():
+        all_comment_ids.append(comment.comment_id)
+        all_usernames.append(comment.username)
+        all_pfps.append(comment.pfp)
+        all_comment_texts.append(comment.comment_text)
+
+    SOCKETIO.emit(
+        COMMENT_UPDATE_CHANNEL,
+        {
+            "postID": post_id,
+            "allCommentIDs": all_comment_ids,
+            "allUsernames": all_usernames,
+            "allPfps": all_pfps,
+            "allCommentTexts": all_comment_texts,
         },
     )
 
@@ -245,8 +272,25 @@ def get_post_details(data):
         'graphurl': item_data['graphurl'],
         'likes': item_data['likes'],
         'dataset': item_data['dataset'],
-        'datapts': item_data['datapts']
+        'datapts': item_data['datapts'],
+        'postID': item_data['post_id']
     }, room=request.sid)
+    
+    # Comments now loaded with post details
+    emit_comments(item_data["post_id"])
+
+@SOCKETIO.on("post comment")
+def post_comment(data):
+    """Posts a given comment to the comments"""
+    print("COMMENT POST:{}".format(data))
+    # Add comment to DB
+    the_comment = models.Comment(
+        data["post_id"], data["username"], data["pfp"], data["comment_text"]
+    )
+    DB.session.add(the_comment)
+    DB.session.commit()
+    # Update comments client-side
+    emit_comments(data["post_id"])
 
 if __name__ == '__main__':
     # Don't test with these

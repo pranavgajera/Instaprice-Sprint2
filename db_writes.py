@@ -74,6 +74,7 @@ def get_item_data(itemdata):
         dataset = re.findall(r'\d{2}\/\d{2}\/\d{4}', rows[0][3])
         datapts = re.findall(r"\d{1,}\.\d{1,2}", rows[0][3])
         item_data = {
+            'post_id': rows[0][0],
             'itemname': rows[0][1],
             'imgurl': rows[0][2],
             'pricehistory': rows[0][3],
@@ -88,6 +89,6 @@ def get_item_data(itemdata):
             'meanprice': rows[0][12],
             'varianceprice': rows[0][13],
             'dataset': dataset,
-            'datapts': datapts
+            'datapts': datapts,
             }
         return item_data
