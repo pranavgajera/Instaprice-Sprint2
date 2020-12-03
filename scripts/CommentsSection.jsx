@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import Socket from './Socket';
-import CommentBar from './CommentBar';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import Socket from "./Socket";
+import CommentBar from "./CommentBar";
+import ProfileButton from "./ProfileButton";
+
 import "../style/Comment.css";
 export default function CommentsSection(props) {
   const [gotComments, setGotComments] = useState(false);
@@ -29,9 +31,9 @@ export default function CommentsSection(props) {
   function getNewComments() {
     // Recieve Update from server
     React.useEffect(() => {
-      Socket.on('fetching comments', updateItems);
+      Socket.on("fetching comments", updateItems);
       return () => {
-        Socket.off('fetching comments', updateItems);
+        Socket.off("fetching comments", updateItems);
       };
     });
   }
@@ -44,14 +46,22 @@ export default function CommentsSection(props) {
         <ol>
           {commentIDs.map((commentID, index) => (
             <li key={commentID}>
-              <img src={pfps[index]} alt="User Profile" className="comment_pfp" />
-              <h4>
-                User:
-                {usernames[index]}
-              </h4>
-              <h4>
+              <img
+                src={pfps[index]}
+                alt="User Profile"
+                className="comment_pfp"
+              />
+              <div className="comment_content">
+                <strong>
+                  <ProfileButton
+                    activeOnlyWhenExact={true}
+                    to={"/profile/" + usernames[index]}
+                    label={usernames[index]}
+                    username={usernames[index]}
+                  />
+                </strong>{" "}
                 {comments[index]}
-              </h4>
+              </div>
               <br />
             </li>
           ))}
@@ -64,9 +74,7 @@ export default function CommentsSection(props) {
       </div>
     );
   }
-  return (
-    <h1>Loading...</h1>
-  );
+  return <h1>Loading...</h1>;
 }
 
 CommentsSection.propTypes = {
