@@ -10,8 +10,6 @@ export default function DetailedView(props) {
   function handleBack(e) {
     Socket.emit("go back");
   }
-  console.log("DetailedView Props");
-  console.log(props);
   return (
     <div>
       <Link to="/" onClick={handleBack}>
