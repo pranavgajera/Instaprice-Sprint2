@@ -20,7 +20,7 @@ export default function CommentBar(props) {
   return (
     <form htmlFor="newitem" onSubmit={postComment} className="commentbar">
       <label htmlFor="textbox">
-        <input
+        <input className = "inputbox"
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}

@@ -15,51 +15,51 @@ export default function DetailedView(props) {
     <div>
       <br />
       <div className={"more-info-box"}>
-      <Link to="/" onClick={handleBack}>
-        {" "}
-        Go back to searches{" "}
-      </Link>{" "}
-          <div className={"info"}>
-               <div className={"leftPage"}>
-                  <h2>Historical Price</h2> <br />
-                  <ol className="priceList">
-                    {props.dataset.map((date, index) => (
-                      <li key={date}>
-                        {props.dataset[index]} - ${props.datapts[index]}
-                      </li>
-                    ))}
-                    <li> Mean: {props.mean}</li>
-                    <li> Variance: {props.variance}</li>
-                    <li>Historical low: ${props.min}</li>
-                    <li>Historical high: ${props.max}</li>
-                  </ol>
-                   Posted by:
-                  <ProfileButton
-                    activeOnlyWhenExact={true}
-                    to={"/profile/" + props.user}
-                    label={props.user}
-                    username={props.user}
-                  />{" "}
-                  <LikeSection
-                    username={props.username}
-                    postID={props.postOf}
-                  /><br />
-                  <a href={"https://www.amazon.com/dp/" + props.asin}>Buy it on Amazon!</a>
-              </div>
-              <div className={"rightPage"}>
-                  <h2>Visualization Graph</h2> <br />
-                  <LineGraph
-                    className="graphcanvas"
-                    datapts={props.datapts}
-                    dataset={props.dataset}
-                  />
-              </div>
+        <Link to="/" onClick={handleBack}>
+          {" "}
+          Go back to searches{" "}
+        </Link>{" "}
+        <div className={"info"}>
+          <div className={"leftPage"}>
+            <h2>Historical Price</h2> <br />
+            <ol className="priceList">
+              {props.dataset.map((date, index) => (
+                <li key={date}>
+                  {props.dataset[index]} - ${props.datapts[index]}
+                </li>
+              ))}
+              <li> Mean: {props.mean}</li>
+              <li> Variance: {props.variance}</li>
+              <li>Historical low: ${props.min}</li>
+              <li>Historical high: ${props.max}</li>
+            </ol>
+            Posted by:
+            <ProfileButton
+              activeOnlyWhenExact={true}
+              to={"/profile/" + props.user}
+              label={props.user}
+              username={props.user}
+            />{" "}
+            <LikeSection username={props.username} postID={props.postOf} />
+            <br />
+            <a href={"https://www.amazon.com/dp/" + props.asin}>
+              Buy it on Amazon!
+            </a>
           </div>
-          <CommentsSection
-            username={props.user}
-            pfp={props.pfp}
-            postID={props.postOf}
-          />
+          <div className={"rightPage"}>
+            <h2>Visualization Graph</h2> <br />
+            <LineGraph
+              className="graphcanvas"
+              datapts={props.datapts}
+              dataset={props.dataset}
+            />
+          </div>
+        </div>
+        <CommentsSection
+          username={props.user}
+          pfp={props.pfp}
+          postID={props.postOf}
+        />
       </div>
     </div>
   );

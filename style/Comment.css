@@ -13,10 +13,10 @@
 }
 
 span.comment_text {
-    display: inline; /* the default for span */
-  width: 100px;
-  height: 100px;
-  padding: 5px;
+    display: inline;
+    width: 100px;
+    height: 100px;
+    padding: 5px;
 }
 
 .submit-button {
@@ -27,8 +27,10 @@ span.comment_text {
     text-decoration: none;
     margin: 4px 2px;
     cursor: pointer;
-     border-radius: 10px;
+    border-radius: 10px;
 }
-.commentbar{
-    position: relative;
+
+input {
+    width: 80%;
+    height: 20px;
 }
