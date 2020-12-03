@@ -3,6 +3,7 @@ import Socket from "./Socket";
 import LineGraph from "./LineGraph";
 import ProfileButton from "./ProfileButton";
 import CommentsSection from "./CommentsSection";
+import LikeSection from "./LikeSection";
 import { Link } from "react-router-dom";
 import "../style/DetailedItem.css";
 
@@ -44,7 +45,10 @@ export default function DetailedView(props) {
             username={props.user}
           />{" "}
           <img className="user-photo" src={props.pfp} alt={props.user} />
-          Likes: {props.likes} <button type="button"> Like </button>
+          <LikeSection
+            username={props.username}
+            postID={props.postOf}
+          />
           <a href={"https://www.amazon.com/dp/" + props.asin}>Buy it on Amazon!</a>
           <CommentsSection
             username={props.user}
