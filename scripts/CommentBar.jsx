@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Socket from './Socket';
+import "../style/Comment.css";
 
 export default function CommentBar(props) {
   const [input, setInput] = React.useState('');
@@ -25,7 +26,7 @@ export default function CommentBar(props) {
           onChange={(e) => setInput(e.target.value)}
         />
       </label>
-      <button onClick={postComment} variant="primary" type="submit" value="Submit">Post Comment</button>
+      <button className={"submit-button"} onClick={postComment} variant="primary" type="submit" value="Submit">Post Comment</button>
     </form>
   );
 }

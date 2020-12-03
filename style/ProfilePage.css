@@ -1,6 +1,6 @@
 .profile {
     display: grid;
-    grid-template-columns: 1.25fr 2fr;
+    grid-template-columns: 1.10fr 2fr;
 }
 
 .profile-navbar {

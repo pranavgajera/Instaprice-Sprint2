@@ -18,34 +18,40 @@ export default function DetailedView(props) {
       </Link>{" "}
       <br />
       <div className={"more-info-box"}>
-          <h1>Historical Price</h1> <br />
-          <ol className="priceList">
-            {props.dataset.map((date, index) => (
-              <li key={date}>
-                {props.dataset[index]} - ${props.datapts[index]}
-              </li>
-            ))}
-          </ol>
-          <h2>Visualization Graph</h2> <br />
-          <LineGraph
-            className="graphcanvas"
-            datapts={props.datapts}
-            dataset={props.dataset}
-          />
-          Mean: {props.mean} <br />
-          Variance: {props.variance} <br />
-          Historical low: ${props.min} <br />
-          Historical high: ${props.max} <br />
-          Posted by:
-          <ProfileButton
-            activeOnlyWhenExact={true}
-            to={"/profile/" + props.user}
-            label={props.user}
-            username={props.user}
-          />{" "}
-          <img className="user-photo" src={props.pfp} alt={props.user} />
-          Likes: {props.likes} <button type="button"> Like </button>
-          <a href={"https://www.amazon.com/dp/" + props.asin}>Buy it on Amazon!</a>
+          <div className={"info"}>
+               <div className={"leftPage"}>
+                  <h2>Historical Price</h2> <br />
+                  <ol className="priceList">
+                    {props.dataset.map((date, index) => (
+                      <li key={date}>
+                        {props.dataset[index]} - ${props.datapts[index]}
+                      </li>
+                    ))}
+                    <li> Mean: {props.mean}</li>
+                    <li> Variance: {props.variance}</li>
+                    <li>Historical low: ${props.min}</li>
+                    <li>Historical high: ${props.max}</li>
+                  </ol>
+                   Posted by:
+                  <ProfileButton
+                    activeOnlyWhenExact={true}
+                    to={"/profile/" + props.user}
+                    label={props.user}
+                    username={props.user}
+                  />{" "}
+                  Likes: {props.likes} <button type="button"> Like </button><br />
+                  <a href={"https://www.amazon.com/dp/" + props.asin}>Buy it on Amazon!</a>
+              </div>
+              <div className={"rightPage"}>
+                  <h2>Visualization Graph</h2> <br />
+                  <LineGraph
+                    className="graphcanvas"
+                    datapts={props.datapts}
+                    dataset={props.dataset}
+                  />
+              </div>
+          </div>
+
           <CommentsSection
             username={props.user}
             pfp={props.pfp}

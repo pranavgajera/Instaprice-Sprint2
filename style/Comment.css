@@ -1,0 +1,18 @@
+.comment_pfp{
+    width:35px;
+    height: auto;
+    margin-right: 20px;
+}
+.submit-button {
+    background-color: cornflowerblue;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+     border-radius: 10px;
+}
+.commentbar{
+    position: relative;
+}
