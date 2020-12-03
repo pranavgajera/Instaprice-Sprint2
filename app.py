@@ -267,7 +267,8 @@ def get_post_details(data):
         'graphurl': item_data['graphurl'],
         'likes': item_data['likes'],
         'dataset': item_data['dataset'],
-        'datapts': item_data['datapts']
+        'datapts': item_data['datapts'],
+        'postID': item_data['post_id']
     }, room=request.sid)
     
     # Comments now loaded with post details

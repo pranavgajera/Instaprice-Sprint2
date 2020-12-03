@@ -28,6 +28,7 @@ export default function DetailedView(props) {
       Posted by: {props.user} <img className="user-photo" src={props.pfp} alt={props.user} />
       Likes: {props.likes} <button type="button"> Like </button>
       <a href={"https://www.amazon.com/dp/" + props.asin}>Buy it on Amazon!</a>
+      <h4>{props.postOf}</h4>
     </div>
   );
 }

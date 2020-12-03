@@ -72,6 +72,7 @@ export default function Content() {
   const [likes, setLikes] = useState(0);
   const [dataset, setDataset] = useState([]);
   const [datapts, setDatapts] = useState([]);
+  const [postOf, setPostOf] = useState(0); // PostID
   
   function getDetailsPage() {
     React.useEffect(() => {
@@ -92,6 +93,7 @@ export default function Content() {
         setDataset(data.dataset);
         setDatapts(data.datapts);
         setDetailOf(data.asin);
+        setPostOf(data.postID);
       });
     }, []);
   }
@@ -154,6 +156,7 @@ export default function Content() {
               likes={likes}
               dataset={dataset}
               datapts={datapts}
+              postOf={postOf}
             />
           </Route>
         </Switch>
