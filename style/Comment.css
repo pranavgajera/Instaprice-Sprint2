@@ -1,13 +1,22 @@
 .comment_pfp{
     width:35px;
     height: auto;
-    margin-right: 20px;
     float: left;
+}
+
+.comment_pfp img {
     display: block;
 }
 
 .comment_content{
-    margin-left: 36px
+    margin-left: 39px
+}
+
+span.comment_text {
+    display: inline; /* the default for span */
+  width: 100px;
+  height: 100px;
+  padding: 5px;
 }
 
 .submit-button {
