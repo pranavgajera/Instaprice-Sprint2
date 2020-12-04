@@ -12,7 +12,6 @@ export default function Biography(props) {
       Collects comment info and puts them into arrays */
     const thisProfileName = props.name;
     const updatedProfileName = data.username;
-    console.log("ThisName"+thisProfileName+" update:"+updatedProfileName);
     if (thisProfileName === updatedProfileName) {
       setTotalLikes(data.total_likes);
       setTotalPosts(data.total_posts);
@@ -36,7 +35,7 @@ export default function Biography(props) {
   return (
     <div className="bio-content">
       <div>
-        <img src={props.pfp} className="bio-pfp" />
+        <img src={props.pfp} className="bio-pfp" alt="Profile" />
       </div>
       <div className="bio-info">
         <div className="bio-name">{props.name}</div>
