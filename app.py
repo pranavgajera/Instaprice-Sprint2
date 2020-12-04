@@ -129,6 +129,7 @@ def emit_profile_stats(username):
     SOCKETIO.emit(
         "update_profile_stats",
         {
+            "username": username,
             "total_likes": total_likes,
             "total_posts": total_posts,
             "total_comments": total_comments,
