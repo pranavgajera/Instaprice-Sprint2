@@ -22,16 +22,15 @@ export default function ProfilePage(props) {
             alt="InstaPrice"
           />
         </h1>
+      </nav>
+      <div className="profile">
+        <div className="leftPage">
         <div class="loginButtons">
           <Link to="/" onClick={handleBack}>
             {" "}
             Go back to searches{" "}
           </Link>
         </div>
-      </nav>
-
-      <div className="profile">
-        <div className="leftPage">
           <Biography
             name={props.username}
             pfp={props.pfps}
