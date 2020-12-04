@@ -3,7 +3,6 @@ import Socket from "./Socket";
 import { Link } from "react-router-dom";
 import Biography from "./Biography";
 import ProfileFeed from "./ProfileFeed";
-import { GiPriceTag } from "react-icons/gi";
 
 import "../style/NavBar.css";
 
@@ -11,6 +10,7 @@ export default function ProfilePage(props) {
   function handleBack(e) {
     Socket.emit("go back");
   }
+  console.log(props);
 
   return (
     <div>
@@ -22,12 +22,7 @@ export default function ProfilePage(props) {
             alt="InstaPrice"
           />
         </h1>
-        <div class="loginButtons">
-          <Link to="/" onClick={handleBack}>
-            {" "}
-            Go back to searches{" "}
-          </Link>
-        </div>
+
       </nav>
 
       <div className="profile">
@@ -49,6 +44,7 @@ export default function ProfilePage(props) {
             pfps={props.pfps}
             times={props.times}
             currprices={props.currprices}
+            asins={props.asins}
           />
         </div>
       </div>

@@ -7,6 +7,7 @@ import ProfileButton from "./ProfileButton";
 import "../style/ProfilePage.css";
 
 export default function Feed(props) {
+  console.log(props);
   return (
     <div className="profile-feed">
       <h1>{props.username}'s Recent searches!</h1>
@@ -36,7 +37,14 @@ export default function Feed(props) {
                     />
                     on {props.times[index]}
                   </h4>
-                  <DetailedViewButton itemname={props.itemnames[index]} />
+                  <DetailedViewButton
+                    activeOnlyWhenExact={true}
+                    to={"/item/" + props.asins[index]}
+                    label={"View More Details"}
+                    itemname={props.itemnames[index]}
+                    username={props.username}
+                    imgurl={props.imageurls[index]}
+                  />
                 </div>
               </div>
             </div>

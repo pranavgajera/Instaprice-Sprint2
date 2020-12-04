@@ -246,6 +246,7 @@ def get_profile_page(data):
     pfps = []
     times = []
     currprices = []
+    asins = []
     posts = DB.session.query(models.Posts).filter_by(username=data['username']).all()
     # SOCKETIO.close('get profile page')
     for post in posts:
@@ -256,6 +257,7 @@ def get_profile_page(data):
         pfps.append(post.pfp)
         times.append(post.time)
         currprices.append(post.currprice)
+        asins.append(post.asin)
     SOCKETIO.emit('make profile page', {
         'username': data['username'],
         'itemnames': itemnames,
@@ -264,7 +266,8 @@ def get_profile_page(data):
         'usernames': usernames,
         'pfps': pfps,
         'times': times,
-        'currprices': currprices
+        'currprices': currprices,
+        'asins': asins
     })
     print ("THIS IS THE PROFILE PAGE FOR: " + data['username'])
     emit_profile_stats(data["username"])

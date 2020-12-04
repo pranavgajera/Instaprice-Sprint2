@@ -1,11 +1,16 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Socket from './Socket';
+import * as React from "react";
+import { Link } from "react-router-dom";
+import Socket from "./Socket";
+import PropTypes from "prop-types";
 
 export default function Biography(props) {
   const [totalLikes, setTotalLikes] = React.useState(0);
   const [totalPosts, setTotalPosts] = React.useState(0);
   const [totalComments, setTotalComments] = React.useState(0);
+
+  function handleBack(e) {
+    Socket.emit("go back");
+  }
 
   function updateStats(data) {
     /* Catches fetching_comments signal from backend
@@ -24,9 +29,9 @@ export default function Biography(props) {
   function getNewStats() {
     // Recieve Update from server
     React.useEffect(() => {
-      Socket.on('update_profile_stats', updateStats);
+      Socket.on("update_profile_stats", updateStats);
       return () => {
-        Socket.off('update_profile_stats', updateStats);
+        Socket.off("update_profile_stats", updateStats);
       };
     });
   }
@@ -34,6 +39,12 @@ export default function Biography(props) {
 
   return (
     <div className="bio-content">
+      <div class="goback">
+        <Link to="/" onClick={handleBack}>
+          {" "}
+          Go back to searches{" "}
+        </Link>
+      </div>
       <div>
         <img src={props.pfp} className="bio-pfp" alt="Profile" />
       </div>
@@ -41,17 +52,17 @@ export default function Biography(props) {
         <div className="bio-name">{props.name}</div>
         <ul className="likes-posts">
           <li>
-            {' '}
+            {" "}
             Likes:
             {totalLikes}
           </li>
           <li>
-            {' '}
+            {" "}
             Posts:
             {totalPosts}
           </li>
           <li>
-            {' '}
+            {" "}
             Comments:
             {totalComments}
           </li>
