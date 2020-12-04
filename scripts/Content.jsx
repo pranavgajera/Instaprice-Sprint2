@@ -71,8 +71,8 @@ export default function Content() {
 
   const [pricehistory, setPricehistory] = useState([]);
   // const [show, setShow] = useState(false);
-  // const [title, setTitle] = useState("");
-  // const [imgurl, setImgurl] = useState("");
+  const [title, setTitle] = useState("");
+  const [imgurl, setImgurl] = useState("");
   const [user, setUser] = useState("");
   const [pfp, setPfp] = useState("");
   // const [time, setTime] = useState("");
@@ -92,12 +92,11 @@ export default function Content() {
     React.useEffect(() => {
       Socket.on("detail view response", (data) => {
         console.log("This is the page for the product: /" + data.itemname);
-        // setTitle(data.itemname);
-        // setImgurl(data.imgurl);
+        setTitle(data.itemname);
+        setImgurl(data.imgurl);
         setPricehistory(data.pricehistory);
         setUser(data.username);
         setPfp(data.pfp);
-        // setGraphurl(data.graphurl);
         setMean(data.mean);
         setVariance(data.variance);
         setMin(data.min_price);
@@ -167,6 +166,8 @@ export default function Content() {
           </Route>
           <Route path={"/item/" + detailOf}>
             <DetailedItem
+              title={title}
+              imgurl={imgurl}
               pricehistory={pricehistory}
               pfp={pfp}
               user={user}

@@ -68,6 +68,7 @@ export default function Feed(props) {
                     label={"View More Details"}
                     itemname={itemnames[index]}
                     username={props.username}
+                    imgurl={imageurls[index]}
                   />
                 </div>
               </div>
