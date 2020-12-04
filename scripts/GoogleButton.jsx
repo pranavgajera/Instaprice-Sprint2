@@ -27,7 +27,7 @@ export default function GoogleButton() {
         clientId="938017382447-u5e1vhhggfpi3rf2ifl94gs8030v6d1s.apps.googleusercontent.com"
         render={(renderProps) => (
           <button onClick={renderProps.onClick} disabled={renderProps.disabled}>
-            <FcGoogle class="loginButton" />
+            <FcGoogle className="loginButton" />
           </button>
         )}
         onSuccess={handleSubmit}
