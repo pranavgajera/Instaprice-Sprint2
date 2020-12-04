@@ -1,15 +1,15 @@
-import * as React from 'react';
-import {useRouteMatch, Link } from 'react-router-dom';
-import Socket from './Socket';
+import * as React from "react";
+import { useRouteMatch, Link } from "react-router-dom";
+import Socket from "./Socket";
 
 export default function DetailedViewButton(props) {
   let match = useRouteMatch({
     path: props.to,
-    exact: props.activeOnlyWhenExact
+    exact: props.activeOnlyWhenExact,
   });
-  
+
   function handleClick(e) {
-    Socket.emit('detail view request', {
+    Socket.emit("detail view request", {
       title: props.itemname,
       username: props.username,
     });
@@ -18,7 +18,9 @@ export default function DetailedViewButton(props) {
   return (
     <div className={match ? "active" : ""}>
       {match && "> "}
-      <Link to={props.to} onClick={handleClick}>{props.label}</Link>
+      <Link to={props.to} onClick={handleClick}>
+        {props.label}
+      </Link>
     </div>
   );
 }

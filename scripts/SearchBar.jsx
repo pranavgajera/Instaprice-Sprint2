@@ -1,16 +1,16 @@
-import React from 'react';
-import Socket from './Socket';
-import '../style/SearchBar.css';
+import React from "react";
+import Socket from "./Socket";
+import "../style/SearchBar.css";
 
 export default function SearchBar() {
-  const [input, setInput] = React.useState('');
+  const [input, setInput] = React.useState("");
 
   const makeSearchRequest = (e) => {
     e.preventDefault();
-    Socket.emit('search request', {
+    Socket.emit("search request", {
       query: input,
     });
-    setInput('');
+    setInput("");
   };
 
   return (
@@ -22,7 +22,15 @@ export default function SearchBar() {
           onChange={(e) => setInput(e.target.value)}
         />
       </label>
-      <button className={"submit-button"} onClick={makeSearchRequest} variant="primary" type="submit" value="Submit">Submit</button>
+      <button
+        className={"submit-button"}
+        onClick={makeSearchRequest}
+        variant="primary"
+        type="submit"
+        value="Submit"
+      >
+        Submit
+      </button>
     </form>
   );
 }

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import Socket from './Socket';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import Socket from "./Socket";
 
 export default function LikeSection(props) {
   // Contains like counter and like button
@@ -9,7 +9,7 @@ export default function LikeSection(props) {
 
   function handleLike() {
     // Tells server to toggle like
-    Socket.emit('Toggle_Like', {
+    Socket.emit("Toggle_Like", {
       username: props.username,
       postID: props.postID,
       status: alreadyLiked,
@@ -31,9 +31,9 @@ export default function LikeSection(props) {
   function getNewLikes() {
     // Recieve Socket Update from server
     React.useEffect(() => {
-      Socket.on('update_likes', updateLikes);
+      Socket.on("update_likes", updateLikes);
       return () => {
-        Socket.off('update_likes', updateLikes);
+        Socket.off("update_likes", updateLikes);
       };
     });
   }
@@ -42,22 +42,24 @@ export default function LikeSection(props) {
   if (alreadyLiked) {
     return (
       <div>
-        Likes:
-        {' '}
-        {likes}<br />
-        <button type="button" onClick={handleLike}> Liked! </button>
+        Likes: {likes}
+        <br />
+        <button type="button" onClick={handleLike}>
+          {" "}
+          Liked!{" "}
+        </button>
       </div>
-
     );
   }
   return (
     <div>
-      Likes:
-      {' '}
-      {likes}<br />
-      <button type="button" onClick={handleLike}> Like </button>
+      Likes: {likes}
+      <br />
+      <button type="button" onClick={handleLike}>
+        {" "}
+        Like{" "}
+      </button>
     </div>
-
   );
 }
 

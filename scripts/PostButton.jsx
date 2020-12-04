@@ -1,12 +1,12 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Socket from './Socket';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Socket from "./Socket";
 
 export default function PostButton(props) {
   function handlePost(e) {
     e.preventDefault();
     // console.log(`Button worked with: ${props.ASIN}`);
-    Socket.emit('post price history', {
+    Socket.emit("post price history", {
       ASIN: props.ASIN,
       priceHistory: props.priceHistory,
       title: props.title,
@@ -18,12 +18,15 @@ export default function PostButton(props) {
       max: props.max,
       mean: props.mean,
       variance: props.variance,
-      currprice: props.currprice
+      currprice: props.currprice,
     });
   }
 
   return (
-    <button type="button" onClick={handlePost}> Post </button>
+    <button type="button" onClick={handlePost}>
+      {" "}
+      Post{" "}
+    </button>
   );
 }
 

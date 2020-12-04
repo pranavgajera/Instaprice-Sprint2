@@ -1,182 +1,182 @@
 .hero-section1 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
 .hero1-title {
-    font-size: 5rem;
-    font-weight: 650;
+  font-size: 5rem;
+  font-weight: 650;
 }
 
 .hero1-subtitle {
-    display: grid;
-    grid-template-columns: repeat(5, auto);
-    column-gap: 125px;
-    /*justify-content: center;*/
-    /*align-items: center;*/
-    justify-items: center;
-    list-style: none;
-    font-size: 2.5rem;
-    font-weight: 200;
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  column-gap: 125px;
+  /*justify-content: center;*/
+  /*align-items: center;*/
+  justify-items: center;
+  list-style: none;
+  font-size: 2.5rem;
+  font-weight: 200;
 }
 
 .hero1-bio {
-    margin-top: 3rem;
-    font-size: 1.25rem;
-    align-items: center;
+  margin-top: 3rem;
+  font-size: 1.25rem;
+  align-items: center;
 }
 
 .hero-section1::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: url(/static/njit.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    filter: brightness(45%);
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: url(/static/njit.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  filter: brightness(45%);
 }
 
 .hero1-content {
-    position: relative;
-    bottom: 120px;
-    color: white;
-    text-align: center;
+  position: relative;
+  bottom: 120px;
+  color: white;
+  text-align: center;
 }
 
 /*SECTION 2*/
 
 .hero-section2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: green;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: green;
 }
 
 .hero2-title {
-    font-size: 5rem;
-    font-weight: 650;
+  font-size: 5rem;
+  font-weight: 650;
 }
 
 .hero2-subtitle {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    column-gap: 125px;
-    justify-items: center;
-    list-style: none;
-    font-size: 2.5rem;
-    font-weight: 200;
-    margin: 50px;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  column-gap: 125px;
+  justify-items: center;
+  list-style: none;
+  font-size: 2.5rem;
+  font-weight: 200;
+  margin: 50px;
 }
 
 .hero2-bio {
-    margin-top: 3rem;
-    font-size: 1.25rem;
-    align-items: center;
-    margin: 75px;
+  margin-top: 3rem;
+  font-size: 1.25rem;
+  align-items: center;
+  margin: 75px;
 }
 
 .hero2-content {
-    position: relative;
-    color: white;
-    text-align: center;
+  position: relative;
+  color: white;
+  text-align: center;
 }
 
 /*SECTION 3*/
 
 .hero-section3 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: grey;
 }
 
 .hero3-title {
-    font-size: 5rem;
-    font-weight: 650;
+  font-size: 5rem;
+  font-weight: 650;
 }
 
 .hero3-subtitle {
-    display: grid;
-    grid-template-columns: repeat(7, auto);
-    column-gap: 125px;
-    justify-items: center;
-    list-style: none;
-    font-size: 2.25rem;
-    font-weight: 200;
-    margin: 50px;
+  display: grid;
+  grid-template-columns: repeat(7, auto);
+  column-gap: 125px;
+  justify-items: center;
+  list-style: none;
+  font-size: 2.25rem;
+  font-weight: 200;
+  margin: 50px;
 }
 
 .hero3-bio {
-    margin-top: 3rem;
-    font-size: 1.25rem;
-    align-items: center;
-    margin: 75px;
+  margin-top: 3rem;
+  font-size: 1.25rem;
+  align-items: center;
+  margin: 75px;
 }
 
 .hero3-content {
-    position: relative;
-    color: white;
-    text-align: center;
+  position: relative;
+  color: white;
+  text-align: center;
 }
 
 /*SECTION 4*/
 
 .hero-section4 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: black;
 }
 
 .hero4-title {
-    font-size: 5rem;
-    font-weight: 650;
+  font-size: 5rem;
+  font-weight: 650;
 }
 
 .hero4-subtitle {
-    display: grid;
-    grid-template-columns: repeat(1, auto);
-    column-gap: 125px;
-    justify-items: center;
-    list-style: none;
-    font-size: 2.5rem;
-    font-weight: 200;
-    margin: 50px;
+  display: grid;
+  grid-template-columns: repeat(1, auto);
+  column-gap: 125px;
+  justify-items: center;
+  list-style: none;
+  font-size: 2.5rem;
+  font-weight: 200;
+  margin: 50px;
 }
 
 .hero4-bio {
-    margin-top: 3rem;
-    font-size: 1.25rem;
-    align-items: center;
-    margin: 75px;
+  margin-top: 3rem;
+  font-size: 1.25rem;
+  align-items: center;
+  margin: 75px;
 }
 
 .hero4-content {
-    position: relative;
-    color: white;
-    text-align: center;
+  position: relative;
+  color: white;
+  text-align: center;
 }

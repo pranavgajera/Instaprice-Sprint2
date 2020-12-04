@@ -1,38 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import SearchResults from './SearchResults';
-import SearchBar from './SearchBar';
-import Socket from './Socket';
-import Feed from './Feed';
-import ProfilePage from './ProfilePage';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import LandingPage from './LandingPage';
-import NavBar from './NavBar';
-import DetailedItem from './DetailedItem';
+import React, { useState, useEffect } from "react";
+import SearchResults from "./SearchResults";
+import SearchBar from "./SearchBar";
+import Socket from "./Socket";
+import Feed from "./Feed";
+import ProfilePage from "./ProfilePage";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import LandingPage from "./LandingPage";
+import NavBar from "./NavBar";
+import DetailedItem from "./DetailedItem";
 
-import '../style/Content.css';
-
+import "../style/Content.css";
 
 export default function Content() {
   const [authenticated, setAuthentication] = useState(false);
   const [searched, setSearched] = React.useState(false); // true if we need to display a search list
   const [searchList, setSearchList] = React.useState([]);
-  const [username, setUsername] = useState('');
-  const [profpic, setProfpic] = useState('');
+  const [username, setUsername] = useState("");
+  const [profpic, setProfpic] = useState("");
   const [profileOf, setProfileOf] = useState("");
   const [detailOf, setDetailOf] = useState("");
-  
+
   useEffect(() => {
-    Socket.on('connected', (data) => {
+    Socket.on("connected", (data) => {
       setAuthentication(true);
       setUsername(data.username);
       setProfpic(data.profilepicture);
     });
   }, []);
-  
+
   function getSearchList() {
     React.useEffect(() => {
-      Socket.on('search response', (data) => {
-        if(Array.isArray(data.search_list)) {
+      Socket.on("search response", (data) => {
+        if (Array.isArray(data.search_list)) {
           setSearchList(data.search_list);
         } else {
           setSearchList([]);
@@ -41,9 +40,9 @@ export default function Content() {
       });
     }, []);
   }
-  
+
   getSearchList();
-  
+
   const [itemnames, setItemname] = useState([]);
   const [imageurls, setImageurl] = useState([]);
   const [pricehists, setPricehist] = useState([]);
@@ -51,10 +50,10 @@ export default function Content() {
   const [userpfps, setUserpfps] = useState([]);
   const [times, setTime] = useState([]);
   const [currprices, setCurrprices] = useState([]);
-  
+
   function getProfilePage() {
     React.useEffect(() => {
-      Socket.on('make profile page', (data) => {
+      Socket.on("make profile page", (data) => {
         setProfileOf(data.username);
         console.log("This is the page for: /" + data.username);
         setItemname(data.itemnames);
@@ -67,9 +66,9 @@ export default function Content() {
       });
     }, []);
   }
-  
+
   getProfilePage();
-  
+
   const [pricehistory, setPricehistory] = useState([]);
   // const [show, setShow] = useState(false);
   // const [title, setTitle] = useState("");
@@ -88,7 +87,7 @@ export default function Content() {
   const [dataset, setDataset] = useState([]);
   const [datapts, setDatapts] = useState([]);
   const [postOf, setPostOf] = useState(0); // PostID
-  
+
   function getDetailsPage() {
     React.useEffect(() => {
       Socket.on("detail view response", (data) => {
@@ -112,7 +111,7 @@ export default function Content() {
       });
     }, []);
   }
-  
+
   getDetailsPage();
 
   if (!authenticated) {
@@ -128,30 +127,33 @@ export default function Content() {
     <div className={".main-container"}>
       <BrowserRouter>
         <Switch>
-          <Route exact path='/'>
+          <Route exact path="/">
             <div className="HomePage">
-              { searched
-                ? (
-                  <SearchResults
-                    searchList={searchList}
-                    username={username}
-                    pfp={profpic}
-                    closeSearchList={() => setSearched(false)}
-                  />
-                ) : (null)}
-                
+              {searched ? (
+                <SearchResults
+                  searchList={searchList}
+                  username={username}
+                  pfp={profpic}
+                  closeSearchList={() => setSearched(false)}
+                />
+              ) : null}
+
               <div className="Content">
                 <h1>
-                  <img className={"main-picture"} src="./static/instapricelogo.png" alt="InstaPrice" />
+                  <img
+                    className={"main-picture"}
+                    src="./static/instapricelogo.png"
+                    alt="InstaPrice"
+                  />
                 </h1>
                 <SearchBar />
                 <div className="Feed">
-                  <Feed username={username}/>
+                  <Feed username={username} />
                 </div>
               </div>
-          </div>
+            </div>
           </Route>
-          <Route path={'/profile/' + profileOf}>
+          <Route path={"/profile/" + profileOf}>
             <ProfilePage
               username={profileOf}
               itemnames={itemnames}
@@ -163,7 +165,7 @@ export default function Content() {
               currprices={currprices}
             />
           </Route>
-          <Route path={'/item/' + detailOf}>
+          <Route path={"/item/" + detailOf}>
             <DetailedItem
               pricehistory={pricehistory}
               pfp={pfp}
@@ -183,7 +185,5 @@ export default function Content() {
         </Switch>
       </BrowserRouter>
     </div>
-    
-    
   );
 }

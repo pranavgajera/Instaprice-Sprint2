@@ -2,34 +2,33 @@
 }
 
 .Content {
-    position: relative;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+  position: relative;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.main-picture{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 400px;
-    height: auto;
+.main-picture {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  height: auto;
 }
 
 .Feed {
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background: #1c2237;
-    font-family: 'Trebuchet MS', sans-serif;
-
+  margin: 0;
+  padding: 0;
+  background: #1c2237;
+  font-family: "Trebuchet MS", sans-serif;
 }
