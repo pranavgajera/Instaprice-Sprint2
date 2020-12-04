@@ -49,7 +49,7 @@ export default function DetailedView(props) {
             </a>
           </div>
           <div className={"rightPage"}>
-            <h2>Visualization Graph</h2> <br />
+            <h2>Visualization Graph</h2><br/>
             <LineGraph
               className="graphcanvas"
               datapts={props.datapts}
@@ -58,8 +58,8 @@ export default function DetailedView(props) {
           </div>
         </div>
         <CommentsSection
-          username={props.user}
-          pfp={props.pfp}
+          username={props.username}
+          pfp={props.profPic}
           postID={props.postOf}
         />
       </div>

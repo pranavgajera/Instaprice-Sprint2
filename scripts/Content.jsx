@@ -181,6 +181,7 @@ export default function Content() {
               datapts={datapts}
               postOf={postOf}
               username={username}
+              profPic={profpic}
             />
           </Route>
         </Switch>
