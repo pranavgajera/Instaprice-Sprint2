@@ -39,3 +39,6 @@
   margin: 25px;
   /*border: 3px solid blue;*/
 }
+.item_image{
+  justify-content: center;
+}
