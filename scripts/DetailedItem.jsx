@@ -21,7 +21,7 @@ export default function DetailedView(props) {
         </Link>{" "}
         <div className={"info"}>
           <div className={"leftPage"}>
-            <h2>Historical Price</h2> <br />
+            <h2>Last 10 Price Changes for This Item</h2> <br />
             <ol className="priceList">
               {props.dataset.map((date, index) => (
                 <li key={date}>
