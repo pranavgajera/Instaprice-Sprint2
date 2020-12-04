@@ -1,5 +1,5 @@
-import * as SocketIO from 'socket.io-client';
+import * as SocketIO from "socket.io-client";
 
-const Socket = SocketIO.connect('/');
+const Socket = SocketIO.connect("/");
 
 export default Socket;

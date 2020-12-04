@@ -1,18 +1,16 @@
 """Flask backend for InstaPrice"""
-import json
 import os
 from datetime import datetime
 import flask
 import flask_socketio
 import flask_sqlalchemy
-from flask import request, jsonify
-from sqlalchemy import text
 from flask import request
+# from sqlalchemy import text
 import numpy as np
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from api_calls import mock_search_response
-from api_calls import mock_price_history
+# from api_calls import mock_price_history
 from db_writes import price_write
 from db_writes import get_item_data
 
@@ -21,6 +19,8 @@ SEARCH_RESPONSE_CHANNEL = "search response"
 PRICE_HISTORY_REQUEST_CHANNEL = 'price history request'
 PRICE_HISTORY_RESPONSE_CHANNEL = 'price history response'
 FEED_UPDATE_CHANNEL = 'its feeding time'
+COMMENT_UPDATE_CHANNEL = "fetching comments"
+LATEST_POST_CHANNEL = 'latest post'
 
 APP = flask.Flask(__name__)
 SOCKETIO = flask_socketio.SocketIO(APP)
@@ -37,28 +37,27 @@ import models
 
 def emit_all_items(channel, room=None):
     """socket emits information on every item in the database"""
-    all_itemnames = [
-        db_itemname.itemname for db_itemname in DB.session.query(
-            models.Posts).all()]
-    all_imageurls = [
-        db_imageurl.imageurl for db_imageurl in DB.session.query(
-            models.Posts).all()]
-    all_currprices = [
-        db_currprice.currprice for db_currprice in DB.session.query(
-            models.Posts).all()]
-    all_usernames = [
-        db_username.username for db_username in DB.session.query(
-            models.Posts).all()]
-    all_pfps = [
-        db_pfp.pfp for db_pfp in DB.session.query(
-            models.Posts).all()]
-    all_times = [
-        db_time.time for db_time in DB.session.query(
-            models.Posts).all()]
-    all_likes = [
-        db_likes.likes for db_likes in DB.session.query(
-            models.Posts).all()]
 
+    all_itemnames = []
+    all_imageurls = []
+    all_currprices = []
+    all_usernames = []
+    all_pfps = []
+    all_times = []
+    all_post_ids = []
+    all_likes = []
+    all_asins = []
+    for post in DB.session.query(models.Posts).all():
+        all_itemnames.append(post.itemname)
+        all_imageurls.append(post.imageurl)
+        all_currprices.append(post.currprice)
+        all_usernames.append(post.username)
+        all_pfps.append(post.pfp)
+        all_times.append(post.time)
+        all_post_ids.append(post.id)
+        all_likes.append(post.likes)
+        all_asins.append(post.asin)
+    
     SOCKETIO.emit(
         channel,
         {
@@ -68,8 +67,92 @@ def emit_all_items(channel, room=None):
             "allUsernames": all_usernames,
             "allPfps": all_pfps,
             "allTimes": all_times,
-            "allLikes": all_likes
+            "allLikes": all_likes,
+            "allAsins": all_asins,
+            "allPostIDs": all_post_ids,
         }, room=room
+    )
+    
+def emit_latest_post():
+    post = DB.session.query(models.Posts).order_by(models.Posts.id.desc()).limit(1)[0]
+    SOCKETIO.emit(
+        LATEST_POST_CHANNEL,
+        {
+            "itemname": post.itemname,
+            "imageurl": post.imageurl,
+            "currprice": post.currprice,
+            "username": post.username,
+            "Pfp": post.pfp,
+            "Time": post.time,
+            "Likes": post.likes,
+            "ASIN": post.asin,
+            "postID": post.id,
+        }
+    )
+
+
+def emit_comments(post_id):
+    """Emits all comments for a given post"""
+    print("Attempting to fetch comments for post: {}".format(post_id))
+
+    # Fetch usernames, pfps, comments, and commentID's
+    all_comment_ids = []
+    all_usernames = []
+    all_pfps = []
+    all_comment_texts = []
+
+    # Get comments that match the post's ID
+    for comment in DB.session.query(models.Comment).filter_by(post_id=post_id).all():
+        all_comment_ids.append(comment.comment_id)
+        all_usernames.append(comment.username)
+        all_pfps.append(comment.pfp)
+        all_comment_texts.append(comment.comment_text)
+
+    SOCKETIO.emit(
+        COMMENT_UPDATE_CHANNEL,
+        {
+            "postID": post_id,
+            "allCommentIDs": all_comment_ids,
+            "allUsernames": all_usernames,
+            "allPfps": all_pfps,
+            "allCommentTexts": all_comment_texts,
+        },
+    )
+
+def emit_likes(post_id, username):
+    """
+    Emits like data for a post with given post_id
+    and the status of the user's like/dislike button
+    """
+    
+    likes = DB.session.query(models.Like).filter_by(post_id=post_id).count()
+    like_status = like_exists(post_id, username)
+    # This is correct
+    SOCKETIO.emit(
+        "update_likes",
+        {
+            "postID": post_id,
+            "likes": likes,
+            "alreadyLiked": like_status,
+        }
+    )
+
+def emit_profile_stats(username):
+    """
+    Emits stats for a given username's profile
+    Stats include total counts for Likes, Posts, and Comments
+    """
+    total_likes = DB.session.query(models.Like).filter_by(username=username).count()
+    total_posts = DB.session.query(models.Posts).filter_by(username=username).count()
+    total_comments = DB.session.query(models.Comment).filter_by(username=username).count()
+    SOCKETIO.emit(
+        "update_profile_stats",
+        {
+            "username": username,
+            "total_likes": total_likes,
+            "total_posts": total_posts,
+            "total_comments": total_comments,
+        }
     )
 
 @APP.route('/')
@@ -108,10 +191,7 @@ def search_request(data):
     else:
         search_list = search_amazon(data['query'])
     # print(search_list)
-
-
     # search_amazon(data['query'])
-
     SOCKETIO.emit(SEARCH_RESPONSE_CHANNEL, {
         "search_list": search_list
     }, room=request.sid)
@@ -119,7 +199,6 @@ def search_request(data):
 @SOCKETIO.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
     """send price histoy request to api_calls with given data"""
-
     # price_history = mock_price_history(data['ASIN'])
     price_history = fetch_price_history(data['ASIN'])
     # print(price_history)
@@ -176,14 +255,19 @@ def get_price_history(data):
 
 @SOCKETIO.on('get profile page')
 def get_profile_page(data):
-    #make it so that i can loop through db with data['username'] and find only those posts then make Feed in propage with those posts as well as display propic name and other stuff
+    """make it so that i can loop through db with data['username'] and find only those
+     posts then make Feed in propage with those posts as well
+     as display propic name and other stuff"""
     itemnames = []
     imageurls = []
     pricehists = []
     usernames = []
     pfps = []
     times = []
+    currprices = []
+    asins = []
     posts = DB.session.query(models.Posts).filter_by(username=data['username']).all()
+    # SOCKETIO.close('get profile page')
     for post in posts:
         itemnames.append(post.itemname)
         imageurls.append(post.imageurl)
@@ -191,6 +275,8 @@ def get_profile_page(data):
         usernames.append(post.username)
         pfps.append(post.pfp)
         times.append(post.time)
+        currprices.append(post.currprice)
+        asins.append(post.asin)
     SOCKETIO.emit('make profile page', {
         'username': data['username'],
         'itemnames': itemnames,
@@ -199,9 +285,11 @@ def get_profile_page(data):
         'usernames': usernames,
         'pfps': pfps,
         'times': times,
-
+        'currprices': currprices,
+        'asins': asins
     })
-    print ("This is the profile page for: " + data['username'])
+    print ("THIS IS THE PROFILE PAGE FOR: " + data['username'])
+    emit_profile_stats(data["username"])
 
 @SOCKETIO.on('go back')
 def go_back():
@@ -212,8 +300,6 @@ def post_price_history(data):
     """sends post information to database, updates posts, and
     sends updated list of posts to users"""
     post_list = []
-
-
     # postList.update({data['ASIN']: data['priceHistory']})
     post_list.append(data['priceHistory'])
     now = datetime.now()
@@ -228,6 +314,8 @@ def get_post_details(data):
     """sends itemname to database, and fetches
     graph data, and math"""
     item_data = get_item_data(data['title'])
+    print('request for: ')
+    print(data['title'])
     SOCKETIO.emit('detail view response', {
         "pricehistory": item_data['pricehistory'],
         'asin': item_data['asin'],
@@ -242,8 +330,62 @@ def get_post_details(data):
         'graphurl': item_data['graphurl'],
         'likes': item_data['likes'],
         'dataset': item_data['dataset'],
-        'datapts': item_data['datapts']
+        'datapts': item_data['datapts'],
+        'postID': item_data['post_id']
     }, room=request.sid)
+    
+    # Comments now loaded with post details
+    emit_comments(item_data["post_id"])
+    emit_likes(item_data["post_id"], data["username"])
+
+@SOCKETIO.on("post comment")
+def post_comment(data):
+    """Posts a given comment to the comments"""
+    # Add comment to DB
+    the_comment = models.Comment(
+        data["post_id"], data["username"], data["pfp"], data["comment_text"]
+    )
+    DB.session.add(the_comment)
+    DB.session.commit()
+    # Update comments client-side
+    emit_comments(data["post_id"])
+    emit_likes(data["post_id"], data["username"])
+
+def like_exists(post_id, like_user):
+    """Returns true if a user already liked a post"""
+    user_likes = DB.session.query(models.Like).\
+    filter_by(post_id=post_id).\
+    filter_by(username=like_user).all()
+    num_liked = len(user_likes)
+    if num_liked > 0:
+        return True
+    else:
+        return False
+
+@SOCKETIO.on("Toggle_Like")
+def toggle_like(data):
+    """Toggles a like for a user, emits updated likecount/status"""
+
+    # Like or unlike?
+    post_id = data["postID"]
+    like_user = data["username"]
+    new_status = not data["status"]
+    
+    already_liked = like_exists(post_id, like_user)
+    if new_status == True and not already_liked:
+        # Add Like to DB
+        new_like = models.Like(post_id, like_user)
+        DB.session.add(new_like)
+        DB.session.commit()
+    elif new_status == False and already_liked:
+        # Remove like from DB
+        DB.session.query(models.Like).\
+        filter_by(username=like_user).\
+        filter_by(post_id=post_id).delete()
+        DB.session.commit()
+    else:
+        print("status/liked mismatch.")
+    emit_likes(post_id, like_user)
 
 if __name__ == '__main__':
     # Don't test with these

@@ -6,3 +6,5 @@ postgres-data
 docker-compose.yml
 .eslintrc.js
 .venv
+.eslintrc.js
+pylintrc

@@ -1,40 +1,35 @@
-import React, { useState } from 'react';
-import Socket from './Socket';
-import DetailedViewButton from './DetailedViewButton';
-import { Link } from 'react-router-dom';
-import ProfileButton from './ProfileButton'
+import React, { useState } from "react";
+import Socket from "./Socket";
+import PropTypes from "prop-types";
+import DetailedViewButton from "./DetailedViewButton";
+import ProfileButton from "./ProfileButton";
 
-import '../style/Feed.css';
+import "../style/Feed.css";
 
-export default function Feed() {
+export default function Feed(props) {
   const [itemnames, setItemname] = useState([]);
+  const [asins, setAsin] = useState([]);
   const [imageurls, setImageurl] = useState([]);
-  const [currprices, setCurrprice] = useState('');
-  const [pricehists, setPricehist] = useState([]);
+  const [currprices, setCurrprice] = useState("");
   const [usernames, setUsername] = useState([]);
-  const [pfps, setPfp] = useState([]);
   const [times, setTime] = useState([]);
-  const [clicked, setClicked] = useState(false);
-  const [likes, setLikes] = useState([]);
 
   function updateItems(data) {
     setItemname(data.allItemnames);
     setImageurl(data.allImageurls);
     setCurrprice(data.allCurrprices);
-    setPricehist(data.allPricehists);
     setUsername(data.allUsernames);
-    setPfp(data.allPfps);
+    setAsin(data.allAsins);
     setTime(data.allTimes);
-    setLikes(data.allLikes);
-    const feedBody = document.querySelector('#feedBody');
+    const feedBody = document.querySelector("#feedBody");
     feedBody.scrollTop = feedBody.scrollHeight - feedBody.clientHeight;
   }
 
   function getNewItems() {
     React.useEffect(() => {
-      Socket.on('its feeding time', updateItems);
+      Socket.on("its feeding time", updateItems);
       return () => {
-        Socket.off('its feeding time', updateItems);
+        Socket.off("its feeding time", updateItems);
       };
     });
   }
@@ -50,29 +45,37 @@ export default function Feed() {
 
   return (
     <div className="feedbox" id="feedBody">
-      <h1>Recent searches!</h1>
+      <h1>Recent Posts!</h1>
       <ol>
         {itemnames.map((itemname, index) => (
           <li key={itemname}>
             <div className="PostItem">
               <div className="PostGrid">
-                <img className={"product-image"} src={imageurls[index]} alt="product" />
+                <img
+                  className={"product-image"}
+                  src={imageurls[index]}
+                  alt="product"
+                />
                 <div className={"other-information"}>
-                  <h4>{ itemnames[index] }</h4>
-                  <h4>Current price:
-                  { currprices[index] }
+                  <h4>{itemnames[index]}</h4>
+                  <h4>Current price:{currprices[index]}</h4>
+                  <h4>
+                    Posted by:{" "}
+                    <ProfileButton
+                      activeOnlyWhenExact={true}
+                      to={"/profile/" + usernames[index]}
+                      label={usernames[index]}
+                      username={usernames[index]}
+                    />{" "}
+                    on {times[index]}
                   </h4>
-                  <h4>Posted by:  
-                  <ProfileButton
-                    activeOnlyWhenExact={true}
-                    to={'/' + usernames[index]}
-                    label={ usernames[index] }
-                    username ={ usernames[index] }
-                  />
-                   on  
-                  { times[index] }</h4>
                   <DetailedViewButton
-                  itemname={ itemnames[index] }
+                    activeOnlyWhenExact={true}
+                    to={"/item/" + asins[index]}
+                    label={"View More Details"}
+                    itemname={itemnames[index]}
+                    username={props.username}
+                    imgurl={imageurls[index]}
                   />
                 </div>
               </div>
@@ -83,3 +86,7 @@ export default function Feed() {
     </div>
   );
 }
+
+Feed.propTypes = {
+  username: PropTypes.string.isRequired,
+};

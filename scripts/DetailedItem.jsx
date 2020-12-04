@@ -1,61 +1,68 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import Socket from './Socket';
-import LineGraph from './LineGraph';
-import '../style/DetailedItem.css';
+import React from "react";
+import Socket from "./Socket";
+import LineGraph from "./LineGraph";
+import ProfileButton from "./ProfileButton";
+import CommentsSection from "./CommentsSection";
+import LikeSection from "./LikeSection";
+import { Link } from "react-router-dom";
+import "../style/DetailedItem.css";
 
 export default function DetailedView(props) {
-  const [pricehistory, setPricehistory] = useState([]);
-  const [show, setShow] = useState(false);
-  const [title, setTitle] = useState('');
-  const [imgurl, setImgurl] = useState('');
-  const [user, setUser] = useState('');
-  const [profpic, setProfpic] = useState('');
-  const [time, setTime] = useState('');
-  const [error, setError] = useState(true)
-  const [graphurl, setGraphurl] = useState('');
-  const [asin, setAsin] = useState('');
-  const [mean, setMean] = useState(0);
-  const [variance, setVariance] = useState(0);
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(0);
-  const [likes, setLikes ] = useState(0);
-  const [dataset, setDataset] = useState([]);
-  const [datapts, setDatapts] = useState([]);
-
-  useEffect(() => {
-    Socket.on('detail view response', (data) => {
-        setTitle(data.itemname);
-        setImgurl(data.imgurl);
-        setPricehistory(data.pricehistory);
-        setUser(data.username);
-        setProfpic(data.pfp);
-        setGraphurl(data.graphurl);
-        setMean(data.mean);
-        setVariance(data.variance);
-        setMin(data.min_price);
-        setMax(data.max_price);
-        setAsin(data.asin);
-        setLikes(data.likes);
-        setDataset(data.dataset);
-        setDatapts(data.datapts);
-    });
-  }, []);
-
+  function handleBack(e) {
+    Socket.emit("go back");
+  }
   return (
-    <div> Historical Price: {pricehistory} <br />
-    Visualization Graph: <br />
-    <LineGraph 
-    datapts = {datapts}
-    dataset = {dataset}
-    />
-    Mean: {mean} <br />
-    Variance: {variance} <br />
-    Historical low: ${min} <br />
-    Historical high: ${max} <br />
-    Posted by: {user} <img className="user-photo" src={profpic} alt={ user } />
-    Likes: {likes} <button type="button"> Like </button>
-    <a href={"https://www.amazon.com/dp/" + asin} >Buy it on Amazon!</a></div>
+    <div>
+      <br />
+      <div className={"more-info-box"}>
+        <Link to="/" onClick={handleBack}>
+          {" "}
+          Go back to searches{" "}
+        </Link>{" "}
+        <div className={"info"}>
+          <div className={"leftPage"}>
+            <h1>{props.title}</h1>
+            <img className="item_image" src={props.imgurl} alt="product" />
+            <h2>Last 10 Price Changes for This Item</h2> <br />
+            <ol className="priceList">
+              {props.dataset.map((date, index) => (
+                <li key={date}>
+                  {props.dataset[index]} - ${props.datapts[index]}
+                </li>
+              ))}
+              <li> Mean: {props.mean}</li>
+              <li> Variance: {props.variance}</li>
+              <li>Historical low: ${props.min}</li>
+              <li>Historical high: ${props.max}</li>
+            </ol>
+            Posted by:
+            <ProfileButton
+              activeOnlyWhenExact={true}
+              to={"/profile/" + props.user}
+              label={props.user}
+              username={props.user}
+            />{" "}
+            <LikeSection username={props.username} postID={props.postOf} />
+            <br />
+            <a href={"https://www.amazon.com/dp/" + props.asin}>
+              Buy it on Amazon!
+            </a>
+          </div>
+          <div className={"rightPage"}>
+            <h2>Visualization Graph</h2><br/>
+            <LineGraph
+              className="graphcanvas"
+              datapts={props.datapts}
+              dataset={props.dataset}
+            />
+          </div>
+        </div>
+        <CommentsSection
+          username={props.username}
+          pfp={props.profPic}
+          postID={props.postOf}
+        />
+      </div>
+    </div>
   );
 }

@@ -6,22 +6,23 @@
   display: flex;
   position: sticky;
   top: 0;
-  overflow:visible;
+  overflow: visible;
 }
 
-.logo {
-    font-size: 50px;
-    justify-self: start;
-    margin-left: 20px;
-    color: white;
-    align-items: center;
+.logo img {
+  justify-self: start;
+  margin-left: 20px;
+  align-items: center;
+  height: 70%;
+  width: auto;
 }
 
 .loginButtons {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    grid-gap: 10px;
-    justify-content: end;
-    text-align: center;
-    margin-right: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-gap: 10px;
+  justify-content: end;
+  margin-right: 2rem;
+  color: white;
+  align-items: center;
 }

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Socket from './Socket';
+import * as React from "react";
+import Socket from "./Socket";
 import ReactDOM from "react-dom";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import "../style/Buttons.css";
@@ -13,7 +13,7 @@ function handleSubmit(response) {
   Socket.emit("new user", {
     name,
     email,
-    profilepicture
+    profilepicture,
   });
 }
 

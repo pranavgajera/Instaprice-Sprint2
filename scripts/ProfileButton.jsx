@@ -1,6 +1,6 @@
-import * as React from 'react';
-import {useRouteMatch, Link } from 'react-router-dom';
-import Socket from './Socket';
+import * as React from "react";
+import { useRouteMatch, Link } from "react-router-dom";
+import Socket from "./Socket";
 
 // export default function ProfileButton({ label}) {
 //   let match = useRouteMatch({
@@ -24,23 +24,30 @@ import Socket from './Socket';
 //   );
 // }
 
-export default function ProfileButton({ label, to, activeOnlyWhenExact, username }) {
+export default function ProfileButton({
+  label,
+  to,
+  activeOnlyWhenExact,
+  username,
+}) {
   let match = useRouteMatch({
     path: to,
-    exact: activeOnlyWhenExact
+    exact: activeOnlyWhenExact,
   });
-  
+
   function handleClick(e) {
     console.log("Link worked with: " + to);
-    Socket.emit('get profile page', {
-      username: username
+    Socket.emit("get profile page", {
+      username: username,
     });
   }
 
   return (
     <div className={match ? "active" : ""}>
       {match && "> "}
-      <Link to={to} onClick={handleClick}>{label}</Link>
+      <Link to={to} onClick={handleClick}>
+        {label}
+      </Link>
     </div>
   );
 }
