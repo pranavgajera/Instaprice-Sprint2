@@ -50,6 +50,7 @@ export default function Content() {
   const [userpfps, setUserpfps] = useState([]);
   const [times, setTime] = useState([]);
   const [currprices, setCurrprices] = useState([]);
+  const [asins, setAsins] = useState([]);
 
   function getProfilePage() {
     React.useEffect(() => {
@@ -63,6 +64,7 @@ export default function Content() {
         setUserpfps(data.pfps);
         setTime(data.times);
         setCurrprices(data.currprices);
+        setAsins(data.asins);
       });
     }, []);
   }
@@ -162,6 +164,7 @@ export default function Content() {
               pfps={userpfps}
               times={times}
               currprices={currprices}
+              asins = {asins}
             />
           </Route>
           <Route path={"/item/" + detailOf}>

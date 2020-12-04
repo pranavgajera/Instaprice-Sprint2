@@ -1,8 +1,19 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
+import Socket from "./Socket";
 
 export default function Biography(props) {
+  function handleBack(e) {
+    Socket.emit("go back");
+  }
   return (
     <div className="bio-content">
+      <div class="goback">
+        <Link to="/" onClick={handleBack}>
+          {" "}
+          Go back to searches{" "}
+        </Link>
+      </div>
       <div>
         <img src={props.pfp} className="bio-pfp" />
       </div>
