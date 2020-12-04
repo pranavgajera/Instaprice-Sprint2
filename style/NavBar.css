@@ -9,12 +9,12 @@
   overflow:visible;
 }
 
-.logo {
-    font-size: 50px;
+.logo img {
     justify-self: start;
     margin-left: 20px;
-    color: white;
     align-items: center;
+    height: 70%;
+    width: auto;
 }
 
 .loginButtons {

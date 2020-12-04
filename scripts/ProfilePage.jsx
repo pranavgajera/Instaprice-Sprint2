@@ -17,8 +17,7 @@ return (
   <div>
     <nav className="profile-navbar">
       <h1 className="logo">
-        InstaPrice
-        <GiPriceTag />
+        <img className={"main-picture"} src="https://eef44eccb63b4f79bc4a056e986acf39.vfs.cloud9.us-east-1.amazonaws.com/static/instapricelogo.png" alt="InstaPrice" />
       </h1> 
       <div class="loginButtons">
         <Link to='/' onClick={handleBack}> Go back to searches </Link>

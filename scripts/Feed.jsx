@@ -11,23 +11,16 @@ export default function Feed(props) {
   const [asins, setAsin] = useState([]);
   const [imageurls, setImageurl] = useState([]);
   const [currprices, setCurrprice] = useState('');
-  const [pricehists, setPricehist] = useState([]);
   const [usernames, setUsername] = useState([]);
-  const [pfps, setPfp] = useState([]);
   const [times, setTime] = useState([]);
-  const [clicked, setClicked] = useState(false);
-  const [likes, setLikes] = useState([]);
-
+  
   function updateItems(data) {
     setItemname(data.allItemnames);
     setImageurl(data.allImageurls);
     setCurrprice(data.allCurrprices);
-    setPricehist(data.allPricehists);
     setUsername(data.allUsernames);
-    setPfp(data.allPfps);
     setAsin(data.allAsins);
     setTime(data.allTimes);
-    setLikes(data.allLikes);
     const feedBody = document.querySelector('#feedBody');
     feedBody.scrollTop = feedBody.scrollHeight - feedBody.clientHeight;
   }

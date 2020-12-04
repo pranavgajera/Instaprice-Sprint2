@@ -55,7 +55,7 @@ export default function PriceHistoryResults(props) {
                   ))}
                   <li>Minimum Historical Price - ${min}</li>
                   <li>Maximum Historical Price - ${max}</li>
-                  <li>Mean- {mean}</li>
+                  <li>Mean - {mean}</li>
                   <li>Variance - {variance}</li>
 
                 </ul>)

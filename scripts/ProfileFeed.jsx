@@ -29,8 +29,8 @@ export default function Feed(props) {
                     label={ props.usernames[index] }
                     username ={ props.usernames[index] }
                   />
-                   on  
-                  { props.times[index] }</h4>
+                   on 
+                  {" "}{ props.times[index] }</h4>
                   <DetailedViewButton
                   itemname={ props.itemnames[index] }
                   />
