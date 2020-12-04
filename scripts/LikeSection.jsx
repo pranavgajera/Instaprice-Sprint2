@@ -44,7 +44,7 @@ export default function LikeSection(props) {
       <div>
         Likes:
         {' '}
-        {likes}
+        {likes}<br />
         <button type="button" onClick={handleLike}> Liked! </button>
       </div>
 
@@ -54,7 +54,7 @@ export default function LikeSection(props) {
     <div>
       Likes:
       {' '}
-      {likes}
+      {likes}<br />
       <button type="button" onClick={handleLike}> Like </button>
     </div>
 

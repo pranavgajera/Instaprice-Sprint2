@@ -42,7 +42,7 @@ export default function CommentsSection(props) {
   if (gotComments) {
     return (
       <div className="comments_section" id="comments_section">
-        <h1>Comments Section</h1>
+        <h1>Comments</h1>
         <ol>
           {commentIDs.map((commentID, index) => (
             <li key={commentID}>
