@@ -118,6 +118,23 @@ def emit_likes(post_id, username):
         }
     )
 
+def emit_profile_stats(username):
+    """
+    Emits stats for a given username's profile
+    Stats include total counts for Likes, Posts, and Comments
+    """
+    total_likes = DB.session.query(models.Like).filter_by(username=username).count()
+    total_posts = DB.session.query(models.Posts).filter_by(username=username).count()
+    total_comments = DB.session.query(models.Comment).filter_by(username=username).count()
+    SOCKETIO.emit(
+        "update_profile_stats",
+        {
+            "total_likes": total_likes,
+            "total_posts": total_posts,
+            "total_comments": total_comments,
+        }
+    )
+
 @APP.route('/')
 def hello():
     """load webpage from html"""
@@ -249,6 +266,7 @@ def get_profile_page(data):
         'currprices': currprices
     })
     print ("THIS IS THE PROFILE PAGE FOR: " + data['username'])
+    emit_profile_stats(data["username"])
 
 @SOCKETIO.on('go back')
 def go_back():
