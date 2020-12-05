@@ -20,6 +20,7 @@ PRICE_HISTORY_REQUEST_CHANNEL = 'price history request'
 PRICE_HISTORY_RESPONSE_CHANNEL = 'price history response'
 FEED_UPDATE_CHANNEL = 'its feeding time'
 COMMENT_UPDATE_CHANNEL = "fetching comments"
+LATEST_POST_CHANNEL = 'latest post'
 
 APP = flask.Flask(__name__)
 SOCKETIO = flask_socketio.SocketIO(APP)
@@ -34,7 +35,7 @@ DB.app = APP
 
 import models
 
-def emit_all_items(channel):
+def emit_all_items(channel, room=None):
     """socket emits information on every item in the database"""
 
     all_itemnames = []
@@ -69,8 +70,26 @@ def emit_all_items(channel):
             "allLikes": all_likes,
             "allAsins": all_asins,
             "allPostIDs": all_post_ids,
-        },
+        }, room=room
     )
+    
+def emit_latest_post():
+    post = DB.session.query(models.Posts).order_by(models.Posts.id.desc()).limit(1)[0]
+    SOCKETIO.emit(
+        LATEST_POST_CHANNEL,
+        {
+            "itemname": post.itemname,
+            "imageurl": post.imageurl,
+            "currprice": post.currprice,
+            "username": post.username,
+            "pfp": post.pfp,
+            "time": post.time,
+            "likes": post.likes,
+            "ASIN": post.asin,
+            "postID": post.id,
+        }
+    )
+
 
 def emit_comments(post_id):
     """Emits all comments for a given post"""
@@ -100,7 +119,7 @@ def emit_comments(post_id):
         },
     )
 
-def emit_likes(post_id, username):
+def emit_likes(post_id, username, room=None):
     """
     Emits like data for a post with given post_id
     and the status of the user's like/dislike button
@@ -115,10 +134,10 @@ def emit_likes(post_id, username):
             "postID": post_id,
             "likes": likes,
             "alreadyLiked": like_status,
-        }
+        }, room=room
     )
 
-def emit_profile_stats(username):
+def emit_profile_stats(username, room=None):
     """
     Emits stats for a given username's profile
     Stats include total counts for Likes, Posts, and Comments
@@ -133,7 +152,7 @@ def emit_profile_stats(username):
             "total_likes": total_likes,
             "total_posts": total_posts,
             "total_comments": total_comments,
-        }
+        }, room=room
     )
 
 @APP.route('/')
@@ -156,7 +175,7 @@ def on_new_google_user(data):
         'email': data['email'],
         'profilepicture': data['profilepicture']
     }, room=request.sid)
-    emit_all_items(FEED_UPDATE_CHANNEL)
+    emit_all_items(FEED_UPDATE_CHANNEL, request.sid)
 
 @SOCKETIO.on('disconnect')
 def on_disconnect():
@@ -197,7 +216,7 @@ def get_price_history(data):
             'mean_price':0,
             'var_price':0,
         }, room=request.sid)
-        emit_all_items(FEED_UPDATE_CHANNEL)
+        #emit_all_items(FEED_UPDATE_CHANNEL)        #?????????
         return
     return_array = []
     statistical_array =[]
@@ -232,7 +251,7 @@ def get_price_history(data):
         'mean_price':mean_price,
         'var_price':var_price
     }, room=request.sid)
-    emit_all_items(FEED_UPDATE_CHANNEL)
+    #emit_all_items(FEED_UPDATE_CHANNEL)            #?????????
 
 @SOCKETIO.on('get profile page')
 def get_profile_page(data):
@@ -268,14 +287,13 @@ def get_profile_page(data):
         'times': times,
         'currprices': currprices,
         'asins': asins
-    })
+    }, room=request.sid)
     print ("THIS IS THE PROFILE PAGE FOR: " + data['username'])
     emit_profile_stats(data["username"])
 
 @SOCKETIO.on('go back')
 def go_back():
-    """go back function"""
-    emit_all_items(FEED_UPDATE_CHANNEL)
+    emit_all_items(FEED_UPDATE_CHANNEL, request.sid)
 
 @SOCKETIO.on('post price history')
 def post_price_history(data):
@@ -289,7 +307,8 @@ def post_price_history(data):
     data['time'] = dt_string
     price_write(data)
     print("This is the price history:", data['ASIN'], data['priceHistory'])
-    emit_all_items(FEED_UPDATE_CHANNEL)
+    #emit_all_items(FEED_UPDATE_CHANNEL)
+    emit_latest_post()
 
 @SOCKETIO.on('detail view request')
 def get_post_details(data):
@@ -367,7 +386,7 @@ def toggle_like(data):
         DB.session.commit()
     else:
         print("status/liked mismatch.")
-    emit_likes(post_id, like_user)
+    emit_likes(post_id, like_user, request.sid)
 
 if __name__ == '__main__':
     # Don't test with these
