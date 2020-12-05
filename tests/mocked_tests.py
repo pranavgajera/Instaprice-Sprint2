@@ -152,7 +152,7 @@ class TestBot(unittest.TestCase):
             mock_cur = mock_con.cursor.return_value
             mock_cur.fetchall.return_value = KEY_EXPECTED
 
-            #self.assertEquals(KEY_EXPECTED, feteched_data)
+            self.assertEquals(KEY_EXPECTED, feteched_data)
 
     # Test api_calls
     def test_load_pickle(self):
@@ -258,8 +258,8 @@ class TestBot(unittest.TestCase):
             self.assertTrue("There was an error with fetching price history." in price_history)
             self.assertNotEqual(type(price_history), list)
 
-    
-    # Testing graph_functions.py
+    '''
+    # Don't need anymore
     def test_generate_graph(self):
         """Tests graph_functions.generate_graph() and main()"""
         mocked_price_history = api_calls.mock_price_history("B07X6C9RMF")
@@ -270,6 +270,26 @@ class TestBot(unittest.TestCase):
     
         return_main = graph_functions.main()
         self.assertIsNone(return_main)
+    '''    
+    
+    def test_get_profile_page(self):
+        with mock.patch('models.DB.session.query') as mock_fetch:
+            mock_item = {
+                'itemname': Sony Camera,
+                'imgurl': "www.sony.com/camera.jpg",
+                'priceHistory': [{'price': 420.42, 'price_date': '08/04/2020'}],
+                'usernames':'john',
+                'pfps': 'john.jpg',
+                'time': '12:00',
+                'currprice': 111,
+                'asin': 'B0897VCSXQ'
+            }
+            mock_fetch.return_value.filter_by.return_value.all.return_value = mock_item
+            posts = DB.session.query(models.Posts).filter_by('john').all()
+            print(posts)
+        
+              
+              
         
     
 
