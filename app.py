@@ -54,9 +54,11 @@ def emit_all_items(channel):
         all_pfps.append(post.pfp)
         all_times.append(post.time)
         all_post_ids.append(post.id)
-        all_likes.append(post.likes)
+        # all_likes.append(post.likes)
         all_asins.append(post.asin)
-    
+    for id in all_post_ids:
+        likes = DB.session.query(models.Like).filter_by(post_id=id).count()
+        all_likes.append(likes)
     SOCKETIO.emit(
         channel,
         {
