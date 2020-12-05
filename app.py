@@ -119,7 +119,7 @@ def emit_comments(post_id):
         },
     )
 
-def emit_likes(post_id, username):
+def emit_likes(post_id, username, room=None):
     """
     Emits like data for a post with given post_id
     and the status of the user's like/dislike button
@@ -134,10 +134,10 @@ def emit_likes(post_id, username):
             "postID": post_id,
             "likes": likes,
             "alreadyLiked": like_status,
-        }
+        }, room=room
     )
 
-def emit_profile_stats(username):
+def emit_profile_stats(username, room=None):
     """
     Emits stats for a given username's profile
     Stats include total counts for Likes, Posts, and Comments
@@ -152,7 +152,7 @@ def emit_profile_stats(username):
             "total_likes": total_likes,
             "total_posts": total_posts,
             "total_comments": total_comments,
-        }
+        }, room=room
     )
 
 @APP.route('/')
@@ -287,7 +287,7 @@ def get_profile_page(data):
         'times': times,
         'currprices': currprices,
         'asins': asins
-    })
+    }, room=request.sid)
     print ("THIS IS THE PROFILE PAGE FOR: " + data['username'])
     emit_profile_stats(data["username"])
 
@@ -307,7 +307,8 @@ def post_price_history(data):
     data['time'] = dt_string
     price_write(data)
     print("This is the price history:", data['ASIN'], data['priceHistory'])
-    emit_all_items(FEED_UPDATE_CHANNEL)
+    #emit_all_items(FEED_UPDATE_CHANNEL)
+    emit_latest_post()
 
 @SOCKETIO.on('detail view request')
 def get_post_details(data):
@@ -385,7 +386,7 @@ def toggle_like(data):
         DB.session.commit()
     else:
         print("status/liked mismatch.")
-    emit_likes(post_id, like_user)
+    emit_likes(post_id, like_user, request.sid)
 
 if __name__ == '__main__':
     # Don't test with these

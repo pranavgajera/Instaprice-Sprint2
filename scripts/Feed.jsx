@@ -44,7 +44,7 @@ export default function Feed(props) {
         setUsername((usernames) => [...usernames, data.username]);
         setTime((times) => [...times, data.time]);
       });
-    });
+    }, []);
   }
 
   getNewPost();
