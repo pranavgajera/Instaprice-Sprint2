@@ -20,6 +20,7 @@ export default function SearchBar() {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          className={"main-searchbar"}
         />
       </label>
       <button
