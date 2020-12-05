@@ -275,7 +275,7 @@ class TestBot(unittest.TestCase):
     def test_get_profile_page(self):
         with mock.patch('models.DB.session.query') as mock_fetch:
             mock_item = {
-                'itemname': Sony Camera,
+                'itemname': 'Sony Camera',
                 'imgurl': "www.sony.com/camera.jpg",
                 'priceHistory': [{'price': 420.42, 'price_date': '08/04/2020'}],
                 'usernames':'john',
@@ -288,12 +288,6 @@ class TestBot(unittest.TestCase):
             posts = DB.session.query(models.Posts).filter_by('john').all()
             print(posts)
         
-              
-              
-        
-    
-
-
 
 if __name__ == '__main__':
     unittest.main()
