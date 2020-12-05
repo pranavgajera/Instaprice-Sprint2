@@ -19,11 +19,11 @@ export default function DetailedView(props) {
           {" "}
           Go back to searches{" "}
         </Link>{" "}
-        <div className={"info"}>
+         <h2>{props.title}</h2>
+         <img className="item_image" src={props.imgurl} alt="product" />
+         <div className={"info"}>
           <div className={"leftPage"}>
-            <h1>{props.title}</h1>
-            <img className="item_image" src={props.imgurl} alt="product" />
-            <h2>Last 10 Price Changes for This Item</h2> <br />
+            <h2>Price Changes for This Item</h2> <br />
             <ol className="priceList">
               {props.dataset.map((date, index) => (
                 <li key={date}>
@@ -34,19 +34,15 @@ export default function DetailedView(props) {
               <li> Variance: {props.variance}</li>
               <li>Historical low: ${props.min}</li>
               <li>Historical high: ${props.max}</li>
+               <br />
+              <li>
+                   Posted by: <ProfileButton  activeOnlyWhenExact={true}  to={"/profile/" + props.user}  label={props.user}   username={props.user}    />{" "}
+                   <LikeSection username={props.username} postID={props.postOf} />  
+              </li>
+              <li>
+                    <a href={"https://www.amazon.com/dp/" + props.asin}>Buy it on Amazon!</a>
+              </li>
             </ol>
-            Posted by:
-            <ProfileButton
-              activeOnlyWhenExact={true}
-              to={"/profile/" + props.user}
-              label={props.user}
-              username={props.user}
-            />{" "}
-            <LikeSection username={props.username} postID={props.postOf} />
-            <br />
-            <a href={"https://www.amazon.com/dp/" + props.asin}>
-              Buy it on Amazon!
-            </a>
           </div>
           <div className={"rightPage"}>
             <h2>Visualization Graph</h2><br/>
