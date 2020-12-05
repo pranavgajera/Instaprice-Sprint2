@@ -82,9 +82,9 @@ def emit_latest_post():
             "imageurl": post.imageurl,
             "currprice": post.currprice,
             "username": post.username,
-            "Pfp": post.pfp,
-            "Time": post.time,
-            "Likes": post.likes,
+            "pfp": post.pfp,
+            "time": post.time,
+            "likes": post.likes,
             "ASIN": post.asin,
             "postID": post.id,
         }

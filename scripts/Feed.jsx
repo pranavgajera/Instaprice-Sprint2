@@ -36,8 +36,15 @@ export default function Feed(props) {
   
   function getNewPost() {
     React.useEffect(() => {
-      
-    })
+      Socket.on("latest post", (data) => {
+        setItemname((itemnames) => [...itemnames, data.itemname]);
+        setAsin((asins) => [...asins, data.ASIN]);
+        setImageurl((imageurls) => [...imageurls, data.imageurl]);
+        setCurrprice((currprices) => [...currprices, data.currprice]);
+        setUsername((usernames) => [...usernames, data.username]);
+        setTime((times) => [...times, data.time]);
+      });
+    });
   }
 
   getNewPost();
