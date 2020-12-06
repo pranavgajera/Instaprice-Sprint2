@@ -17,7 +17,7 @@
   box-sizing: border-box;
 }
 
-.submit-button {
+.searchbar.submit-button {
   background-color: cornflowerblue;
   border: none;
   color: white;

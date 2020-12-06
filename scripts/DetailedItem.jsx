@@ -15,13 +15,15 @@ export default function DetailedView(props) {
     <div>
       <br />
       <div className={"more-info-box"}>
-        <Link to="/" onClick={handleBack}>
-          {" "}
-          Go back to searches{" "}
-        </Link>{" "}
-         <h2>{props.title}</h2>
-         <img className="item_image" src={props.imgurl} alt="product" />
-         <div className={"info"}>
+        <div className="backButton">
+          <Link to="/" onClick={handleBack}>
+            {" "}
+            Go back to searches{" "}
+          </Link>{" "}
+        </div>
+        <h2>{props.title}</h2>
+        <img className="item_image" src={props.imgurl} alt="product" />
+        <div className={"info"}>
           <div className={"leftPage"}>
             <h2>Price Changes for This Item</h2> <br />
             <ol className="priceList">
