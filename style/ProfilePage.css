@@ -25,6 +25,21 @@
 
 /*Biography*/
 
+.backButton {
+  background-color: cornflowerblue;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  border-radius: 10px;
+  display: inline-block
+}
+
+.backButton Link {
+  cursor: pointer;
+}
+
 .bio-content {
   border: 1px solid green;
   display: flex;

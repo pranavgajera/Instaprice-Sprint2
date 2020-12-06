@@ -24,7 +24,7 @@ export default function SearchBar() {
         />
       </label>
       <button
-        className={"submit-button"}
+        className="submit-button"
         onClick={makeSearchRequest}
         variant="primary"
         type="submit"

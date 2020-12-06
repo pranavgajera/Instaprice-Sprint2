@@ -42,7 +42,7 @@ export default function Biography(props) {
 
   return (
     <div className="bio-content">
-      <div class="goback">
+      <div class="backButton">
         <Link to="/" onClick={handleBack}>
           {" "}
           Go back to searches{" "}
