@@ -262,7 +262,7 @@ class TestBot(unittest.TestCase):
         )
         with patch("models.DB.session.commit") as mock_write:
             with patch("app.emit_latest_post") as mock_emit:
-                emit_all.return_value = None
+                mock_emit.return_value = None
                 socketio_test_client.emit(
                     "post price history",
                     {
