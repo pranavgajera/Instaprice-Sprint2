@@ -10,7 +10,6 @@ export default function ProfilePage(props) {
   function handleBack(e) {
     Socket.emit("go back");
   }
-  console.log(props);
 
   return (
     <div>
@@ -39,9 +38,7 @@ export default function ProfilePage(props) {
             username={props.username}
             itemnames={props.itemnames}
             imageurls={props.imageurls}
-            pricehists={props.pricehists}
             usernames={props.usernames}
-            pfps={props.pfps}
             times={props.times}
             currprices={props.currprices}
             asins={props.asins}
