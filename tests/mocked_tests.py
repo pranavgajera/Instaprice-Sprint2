@@ -245,13 +245,14 @@ class TestBot(unittest.TestCase):
 
     def test_go_back(self):
          """tests the go back socket emit"""
-         flask_test_client = app.APP.test_client()
-         socketio_test_client = app.SOCKETIO.test_client(
-             app.APP, flask_test_client=flask_test_client
-         )
+         with patch('app.emit_all_items') as mock_emit:
+            flask_test_client = app.APP.test_client()
+            socketio_test_client = app.SOCKETIO.test_client(
+                 app.APP, flask_test_client=flask_test_client
+             )
 
-         socketio_test_client.emit("go back")
-         response = socketio_test_client.get_received()
+            socketio_test_client.emit("go back")
+            response = socketio_test_client.get_received()
 
     # def test_post_price_history(self):
     #     """test function for posting price history info"""
