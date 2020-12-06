@@ -239,54 +239,53 @@ class TestBot(unittest.TestCase):
                 "asin": "B0897VCSXQ",
             }
             mock_fetch.return_value.filter_by.return_value.all.return_value = mock_item
-            posts = app.DB.session.query(models.Posts).filter_by(username = "john").all()
+            posts = app.DB.session.query(models.Posts).filter_by(username="john").all()
             self.assertEqual(type(posts["itemname"]), str)
             self.assertEqual("john.jpg", posts["pfps"])
-'''
-    def test_go_back(self):
-        """tests the go back socket emit"""
-        flask_test_client = app.APP.test_client()
-        socketio_test_client = app.SOCKETIO.test_client(
-            app.APP, flask_test_client=flask_test_client
-        )
-      
-        socketio_test_client.emit("go back")
-        response = socketio_test_client.get_received()
-'''        
-'''broke
-    def test_post_price_history(self):
-        """test function for posting price history info"""
-        flask_test_client = app.APP.test_client()
-        socketio_test_client = app.SOCKETIO.test_client(
-            app.APP, flask_test_client=flask_test_client
-        )
-        with patch("models.DB.session.commit") as mock_write:
-            socketio_test_client.emit(
-                "post price history",
-                {
-                    "ASIN": "B07X27VK3D",
-                    "priceHistory": [
-                        {"price": 9.04, "price_date": "05/13/2020"},
-                        {"price": 29.35, "price_date": "08/02/2020"},
-                        {"price": 9.04, "price_date": "08/11/2020"},
-                        {"price": 29.35, "price_date": "08/30/2020"},
-                        {"price": 9.04, "price_date": "09/05/2020"},
-                        {"price": 69.97, "price_date": "10/29/2020"},
-                        {"price": 9.04, "price_date": "11/08/2020"},
-                        {"price": 69.97, "price_date": "11/21/2020"},
-                    ],
-                    "title": "Blink Mini – Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa – 2 cameras",
-                    "imgurl": "https://m.media-amazon.com/images/I/310uqvbRv5L._SL160_.jpg",
-                    "user": "Shuo Zhang",
-                    "profpic": "https://lh5.googleusercontent.com/-BFcNgoqIEVc/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckluE-aEAacvaiHpjpD54Hk-CU51w/s96-c/photo.jpg",
-                    "min": 9,
-                    "max": 69,
-                    "mean": 17.446601941747574,
-                    "variance": 377.1986049580545,
-                    "currprice": "$49.98",
-                },
-            )
-'''
+
+    # def test_go_back(self):
+    #     """tests the go back socket emit"""
+    #     flask_test_client = app.APP.test_client()
+    #     socketio_test_client = app.SOCKETIO.test_client(
+    #         app.APP, flask_test_client=flask_test_client
+    #     )
+
+    #     socketio_test_client.emit("go back")
+    #     response = socketio_test_client.get_received()
+
+    # def test_post_price_history(self):
+    #     """test function for posting price history info"""
+    #     flask_test_client = app.APP.test_client()
+    #     socketio_test_client = app.SOCKETIO.test_client(
+    #         app.APP, flask_test_client=flask_test_client
+    #     )
+    #     with patch("models.DB.session.commit") as mock_write:
+    #         socketio_test_client.emit(
+    #             "post price history",
+    #             {
+    #                 "ASIN": "B07X27VK3D",
+    #                 "priceHistory": [
+    #                     {"price": 9.04, "price_date": "05/13/2020"},
+    #                     {"price": 29.35, "price_date": "08/02/2020"},
+    #                     {"price": 9.04, "price_date": "08/11/2020"},
+    #                     {"price": 29.35, "price_date": "08/30/2020"},
+    #                     {"price": 9.04, "price_date": "09/05/2020"},
+    #                     {"price": 69.97, "price_date": "10/29/2020"},
+    #                     {"price": 9.04, "price_date": "11/08/2020"},
+    #                     {"price": 69.97, "price_date": "11/21/2020"},
+    #                 ],
+    #                 "title": "Blink Mini – Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa – 2 cameras",
+    #                 "imgurl": "https://m.media-amazon.com/images/I/310uqvbRv5L._SL160_.jpg",
+    #                 "user": "Shuo Zhang",
+    #                 "profpic": "https://lh5.googleusercontent.com/-BFcNgoqIEVc/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckluE-aEAacvaiHpjpD54Hk-CU51w/s96-c/photo.jpg",
+    #                 "min": 9,
+    #                 "max": 69,
+    #                 "mean": 17.446601941747574,
+    #                 "variance": 377.1986049580545,
+    #                 "currprice": "$49.98",
+    #             },
+    #         )
+
     def test_get_post_details(self):
         """test function for fetching item detail info"""
         flask_test_client = app.APP.test_client()
@@ -307,39 +306,64 @@ class TestBot(unittest.TestCase):
                 "username": "john",
                 "pfps": "john.jpg",
                 "likes": 0,
-                "datasets": ['05/13/2020', '08/02/2020', '08/11/2020', '08/30/2020', '09/05/2020', '10/29/2020', '11/08/2020', '11/21/2020'],
-                "datapts": ['9.04', '29.35', '9.04', '29.35', '9.04', '69.97', '9.04', '69.97'],
+                "datasets": [
+                    "05/13/2020",
+                    "08/02/2020",
+                    "08/11/2020",
+                    "08/30/2020",
+                    "09/05/2020",
+                    "10/29/2020",
+                    "11/08/2020",
+                    "11/21/2020",
+                ],
+                "datapts": [
+                    "9.04",
+                    "29.35",
+                    "9.04",
+                    "29.35",
+                    "9.04",
+                    "69.97",
+                    "9.04",
+                    "69.97",
+                ],
                 "post_id": "13",
             }
             mock_fetch.return_value.filter_by.return_value.all.return_value = mock_item
-            post = app.DB.session.query(models.Posts).filter_by(itemname = 'PlayStation 6').all()
+            post = (
+                app.DB.session.query(models.Posts)
+                .filter_by(itemname="PlayStation 6")
+                .all()
+            )
             self.assertEqual(type(post["post_id"]), str)
             self.assertEqual("www.sony.com/ps6.jpg", post["imgurl"])
-'''    
-    def test_post_comments(self):
-        """test function for the postage of comments"""
-        flask_test_client = app.APP.test_client()
-        socketio_test_client = app.SOCKETIO.test_client(
-            app.APP, flask_test_client=flask_test_client
-        )
-        with patch("models.DB.session.commit") as mock_write:
-            socketio_test_client.emit(
-                "post comment",
-                {
-                    "post_id": 1,
-                    "username": 'john',
-                    "pfp": 'john.jpg',
-                    'comment_text': 'hi'
-                },
-            )
-            mock_comment = {
-                "post_id": 1,
-                "username": 'john',
-                "pfp": 'john.jpg',
-                'comment_text': 'hi'
-            }
-            mock_write.return_value.filter_by.return_value.all.return_value = mock_comment
-            assert mock_write.called
-'''            
+
+    # def test_post_comments(self):
+    #     """test function for the postage of comments"""
+    #     flask_test_client = app.APP.test_client()
+    #     socketio_test_client = app.SOCKETIO.test_client(
+    #         app.APP, flask_test_client=flask_test_client
+    #     )
+    #     with patch("models.DB.session.commit") as mock_write:
+    #         socketio_test_client.emit(
+    #             "post comment",
+    #             {
+    #                 "post_id": 1,
+    #                 "username": "john",
+    #                 "pfp": "john.jpg",
+    #                 "comment_text": "hi",
+    #             },
+    #         )
+    #         mock_comment = {
+    #             "post_id": 1,
+    #             "username": "john",
+    #             "pfp": "john.jpg",
+    #             "comment_text": "hi",
+    #         }
+    #         mock_write.return_value.filter_by.return_value.all.return_value = (
+    #             mock_comment
+    #         )
+    #         assert mock_write.called
+
+
 if __name__ == "__main__":
     unittest.main()
