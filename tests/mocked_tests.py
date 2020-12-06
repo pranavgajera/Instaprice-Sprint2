@@ -353,7 +353,7 @@ class TestBot(unittest.TestCase):
                     mock_emit_comments.return_value = None
                     with patch("app.emit_likes") as mock_emit_likes:
                         mock_emit_likes.return_value = None
-                       socketio_test_client.emit(
+                        socketio_test_client.emit(
                             "post comment",
                             {
                                 "post_id": 1,
