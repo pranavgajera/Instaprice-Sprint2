@@ -373,6 +373,19 @@ class TestBot(unittest.TestCase):
                         )
                         assert mock_write.called
 
+    def test_emit(self):
+        flask_test_client = app.APP.test_client()
+        socketio_test_client = app.SOCKETIO.test_client(
+            app.APP, flask_test_client=flask_test_client
+        )
+        with patch("models.DB.session.query") as mock_fetch:
+            app.emit_all_items("random chan")
+            response = socketio_test_client.get_received()
+            print("resp")
+            print(response)
+            self.assertEqual(type(response[0]["args"][0]["allItemnames"]), list)
+            self.assertEqual(response[0]["name"], "random chan")
+
 
 if __name__ == "__main__":
     unittest.main()
