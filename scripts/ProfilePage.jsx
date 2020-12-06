@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Biography from "./Biography";
 import ProfileFeed from "./ProfileFeed";
 
-import "../style/NavBar.css";
+import "../style/ProfilePage.css";
 
 export default function ProfilePage(props) {
   function handleBack(e) {
