@@ -7,7 +7,6 @@ import ProfileButton from "./ProfileButton";
 import "../style/ProfilePage.css";
 
 export default function Feed(props) {
-  console.log(props);
   return (
     <div className="profile-feed">
       <h1>{props.username}'s Recent searches!</h1>

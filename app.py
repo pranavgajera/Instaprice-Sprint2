@@ -147,6 +147,16 @@ def emit_profile_stats(username, room=None):
     total_likes = DB.session.query(models.Like).filter_by(username=username).count()
     total_posts = DB.session.query(models.Posts).filter_by(username=username).count()
     total_comments = DB.session.query(models.Comment).filter_by(username=username).count()
+    
+    # Fetch pfp
+    pfp = ""
+    if total_posts > 0:
+        sample_post = DB.session.query(models.Posts).filter_by(username=username).first()
+        pfp = sample_post.pfp
+    elif total_comments > 0:
+        sample_comment = DB.session.query(models.Comment).filter_by(username=username).first()
+        pfp = sample_comment.pfp
+    
     SOCKETIO.emit(
         "update_profile_stats",
         {
@@ -154,6 +164,7 @@ def emit_profile_stats(username, room=None):
             "total_likes": total_likes,
             "total_posts": total_posts,
             "total_comments": total_comments,
+            "pfp": pfp,
         }, room=room
     )
 
