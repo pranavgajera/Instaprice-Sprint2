@@ -341,32 +341,32 @@ class TestBot(unittest.TestCase):
             self.assertEqual(type(post["post_id"]), str)
             self.assertEqual("www.sony.com/ps6.jpg", post["imgurl"])
 
-    # def test_post_comments(self):
-    #     """test function for the postage of comments"""
-    #     flask_test_client = app.APP.test_client()
-    #     socketio_test_client = app.SOCKETIO.test_client(
-    #         app.APP, flask_test_client=flask_test_client
-    #     )
-    #     with patch("models.DB.session.commit") as mock_write:
-    #         socketio_test_client.emit(
-    #             "post comment",
-    #             {
-    #                 "post_id": 1,
-    #                 "username": "john",
-    #                 "pfp": "john.jpg",
-    #                 "comment_text": "hi",
-    #             },
-    #         )
-    #         mock_comment = {
-    #             "post_id": 1,
-    #             "username": "john",
-    #             "pfp": "john.jpg",
-    #             "comment_text": "hi",
-    #         }
-    #         mock_write.return_value.filter_by.return_value.all.return_value = (
-    #             mock_comment
-    #         )
-    #         assert mock_write.called
+    def test_post_comments(self):
+        """test function for the postage of comments"""
+        flask_test_client = app.APP.test_client()
+        socketio_test_client = app.SOCKETIO.test_client(
+            app.APP, flask_test_client=flask_test_client
+        )
+        with patch("models.DB.session.commit") as mock_write:
+            socketio_test_client.emit(
+                "post comment",
+                {
+                    "post_id": 1,
+                    "username": "john",
+                    "pfp": "john.jpg",
+                    "comment_text": "hi",
+                },
+            )
+            mock_comment = {
+                "post_id": 1,
+                "username": "john",
+                "pfp": "john.jpg",
+                "comment_text": "hi",
+            }
+            mock_write.return_value.filter_by.return_value.all.return_value = (
+                mock_comment
+            )
+            assert mock_write.called
 
 
 if __name__ == "__main__":
