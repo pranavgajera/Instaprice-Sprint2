@@ -349,27 +349,29 @@ class TestBot(unittest.TestCase):
         )
         with patch("models.DB.session.add") as mock_write:
             with patch("models.DB.session.commit") as mock_commit:
-                with patch("app.emit.comments") as mock_emit:
-                    mock_emit.return_value = None
-                    socketio_test_client.emit(
-                        "post comment",
-                        {
+                with patch("app.emit_comments") as mock_emit_comments:
+                    mock_emit_comments.return_value = None
+                    with patch("app.emit_likes") as mock_emit_likes:
+                        mock_emit_likes.return_value = None
+                       socketio_test_client.emit(
+                            "post comment",
+                            {
+                                "post_id": 1,
+                                "username": "john",
+                                "pfp": "john.jpg",
+                                "comment_text": "hi",
+                            },
+                        )
+                        mock_comment = {
                             "post_id": 1,
                             "username": "john",
                             "pfp": "john.jpg",
                             "comment_text": "hi",
-                        },
-                    )
-                    mock_comment = {
-                        "post_id": 1,
-                        "username": "john",
-                        "pfp": "john.jpg",
-                        "comment_text": "hi",
-                    }
-                    mock_write.return_value.filter_by.return_value.all.return_value = (
-                        mock_comment
-                    )
-                    assert mock_write.called
+                        }
+                        mock_write.return_value.filter_by.return_value.all.return_value = (
+                            mock_comment
+                        )
+                        assert mock_write.called
 
 
 if __name__ == "__main__":
