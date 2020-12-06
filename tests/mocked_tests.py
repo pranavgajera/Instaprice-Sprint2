@@ -254,38 +254,40 @@ class TestBot(unittest.TestCase):
             socketio_test_client.emit("go back")
             response = socketio_test_client.get_received()
 
-    # def test_post_price_history(self):
-    #     """test function for posting price history info"""
-    #     flask_test_client = app.APP.test_client()
-    #     socketio_test_client = app.SOCKETIO.test_client(
-    #         app.APP, flask_test_client=flask_test_client
-    #     )
-    #     with patch("models.DB.session.commit") as mock_write:
-    #         socketio_test_client.emit(
-    #             "post price history",
-    #             {
-    #                 "ASIN": "B07X27VK3D",
-    #                 "priceHistory": [
-    #                     {"price": 9.04, "price_date": "05/13/2020"},
-    #                     {"price": 29.35, "price_date": "08/02/2020"},
-    #                     {"price": 9.04, "price_date": "08/11/2020"},
-    #                     {"price": 29.35, "price_date": "08/30/2020"},
-    #                     {"price": 9.04, "price_date": "09/05/2020"},
-    #                     {"price": 69.97, "price_date": "10/29/2020"},
-    #                     {"price": 9.04, "price_date": "11/08/2020"},
-    #                     {"price": 69.97, "price_date": "11/21/2020"},
-    #                 ],
-    #                 "title": "Blink Mini – Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa – 2 cameras",
-    #                 "imgurl": "https://m.media-amazon.com/images/I/310uqvbRv5L._SL160_.jpg",
-    #                 "user": "Shuo Zhang",
-    #                 "profpic": "https://lh5.googleusercontent.com/-BFcNgoqIEVc/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckluE-aEAacvaiHpjpD54Hk-CU51w/s96-c/photo.jpg",
-    #                 "min": 9,
-    #                 "max": 69,
-    #                 "mean": 17.446601941747574,
-    #                 "variance": 377.1986049580545,
-    #                 "currprice": "$49.98",
-    #             },
-    #         )
+    def test_post_price_history(self):
+        """test function for posting price history info"""
+        flask_test_client = app.APP.test_client()
+        socketio_test_client = app.SOCKETIO.test_client(
+            app.APP, flask_test_client=flask_test_client
+        )
+        with patch("models.DB.session.commit") as mock_write:
+            with patch("app.emit_latest_post") as mock_emit:
+                emit_all.return_value = None
+                socketio_test_client.emit(
+                    "post price history",
+                    {
+                        "ASIN": "B07X27VK3D",
+                        "priceHistory": [
+                            {"price": 9.04, "price_date": "05/13/2020"},
+                            {"price": 29.35, "price_date": "08/02/2020"},
+                            {"price": 9.04, "price_date": "08/11/2020"},
+                            {"price": 29.35, "price_date": "08/30/2020"},
+                            {"price": 9.04, "price_date": "09/05/2020"},
+                            {"price": 69.97, "price_date": "10/29/2020"},
+                            {"price": 9.04, "price_date": "11/08/2020"},
+                            {"price": 69.97, "price_date": "11/21/2020"},
+                        ],
+                        "title": "Blink Mini – Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa – 2 cameras",
+                        "imgurl": "https://m.media-amazon.com/images/I/310uqvbRv5L._SL160_.jpg",
+                        "user": "Shuo Zhang",
+                        "profpic": "https://lh5.googleusercontent.com/-BFcNgoqIEVc/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckluE-aEAacvaiHpjpD54Hk-CU51w/s96-c/photo.jpg",
+                        "min": 9,
+                        "max": 69,
+                        "mean": 17.446601941747574,
+                        "variance": 377.1986049580545,
+                        "currprice": "$49.98",
+                    },
+                )
 
     def test_get_post_details(self):
         """test function for fetching item detail info"""
