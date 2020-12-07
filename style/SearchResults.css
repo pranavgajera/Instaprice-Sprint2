@@ -1,8 +1,7 @@
 .SearchResults {
   position: absolute;
   top: 10%;
-  left: 30%;
-  right: 50%;
+  left: 15%;
   width: 50%;
   height: 80%;
   z-index: 10;
