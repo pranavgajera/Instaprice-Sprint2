@@ -2,6 +2,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import Socket from "./Socket";
 import PropTypes from "prop-types";
+import '../style/ProfilePage.css'
 
 export default function Biography(props) {
   const [totalLikes, setTotalLikes] = React.useState(0);
@@ -41,7 +42,7 @@ export default function Biography(props) {
 
   return (
     <div className="bio-content">
-      <div class="goback">
+      <div class="backButton">
         <Link to="/" onClick={handleBack}>
           {" "}
           Go back to searches{" "}

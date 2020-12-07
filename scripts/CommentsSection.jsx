@@ -42,7 +42,11 @@ export default function CommentsSection(props) {
   if (gotComments) {
     return (
       <div className="comments_section" id="comments_section">
-        <h1>Comments</h1>
+        <CommentBar
+          username={props.username}
+          pfp={props.pfp}
+          postID={props.postID}
+        />
         <ol>
           {commentIDs.map((commentID, index) => (
             <li key={commentID}>
@@ -66,11 +70,7 @@ export default function CommentsSection(props) {
             </li>
           ))}
         </ol>
-        <CommentBar
-          username={props.username}
-          pfp={props.pfp}
-          postID={props.postID}
-        />
+        
       </div>
     );
   }
