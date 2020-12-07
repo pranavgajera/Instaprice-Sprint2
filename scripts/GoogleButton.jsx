@@ -5,8 +5,7 @@ import "../style/Buttons.css";
 import { FcGoogle } from "react-icons/fc";
 
 const responseGoogle = (response) => {
-  // eslint-disable-next-line no-alert
-  // console.log(response);
+  alert(response);
 };
 
 function handleSubmit(response) {

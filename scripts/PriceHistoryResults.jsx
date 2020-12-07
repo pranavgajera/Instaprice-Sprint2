@@ -46,8 +46,8 @@ export default function PriceHistoryResults(props) {
             <div>Sorry no price history</div>
           ) : (
             <ul>
-              {pricehistory.map((item) => (
-                <li>
+              {pricehistory.map((item,index) => (
+                <li key={index}>
                   {item.price_date}
                   -${item.price}
                 </li>

@@ -10,8 +10,8 @@ export default function DropDown({ criteria, state, stateSetter }) {
       <button onClick={() => setShowMenu(!showMenu)}>{state}</button>
       {showMenu ? (
         <div className="menu">
-          {criteria.map((criterion) => (
-            <button onClick={() => stateSetter(criterion)}>{criterion}</button>
+          {criteria.map((criterion , index ) => (
+            <button key={index} onClick={() => stateSetter(criterion)}>{criterion}</button>
           ))}
         </div>
       ) : null}

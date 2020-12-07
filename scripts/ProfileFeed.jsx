@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import Socket from "./Socket";
+import React from "react";
 import DetailedViewButton from "./DetailedViewButton";
-import { Link } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 
 import "../style/ProfilePage.css";

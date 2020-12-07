@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import GoogleButton from "./GoogleButton";
 import FacebookButton from "./FacebookButton";
+// import { GiPriceTag } from "react-icons/gi";
+
 
 import "../style/NavBar.css";
 
@@ -14,7 +16,7 @@ export default function NavBar() {
           alt="InstaPrice"
         />
       </h1>
-      <div class="loginButtons">
+      <div className="loginButtons">
         LOGIN HERE
         <GoogleButton />
         <FacebookButton />

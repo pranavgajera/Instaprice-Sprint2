@@ -1,6 +1,5 @@
 import * as React from "react";
 import Socket from "./Socket";
-import ReactDOM from "react-dom";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import "../style/Buttons.css";
 import { FiFacebook } from "react-icons/fi";

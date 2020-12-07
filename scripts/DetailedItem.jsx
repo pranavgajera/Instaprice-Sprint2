@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import "../style/DetailedItem.css";
 
 export default function DetailedView(props) {
-  function handleBack(e) {
+  function handleBack() {
     Socket.emit("go back");
   }
   return (

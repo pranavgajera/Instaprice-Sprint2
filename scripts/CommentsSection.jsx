@@ -64,7 +64,7 @@ export default function CommentsSection(props) {
                     username={usernames[index]}
                   />
                 </strong>
-                <span class="comment_text">{comments[index]}</span>
+                <span className="comment_text">{comments[index]}</span>
               </div>
               <br />
             </li>

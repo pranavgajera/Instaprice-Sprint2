@@ -7,6 +7,7 @@ import { SiCss3 } from "react-icons/si";
 import { SiGoogle } from "react-icons/si";
 import { SiHeroku } from "react-icons/si";
 
+
 import "../style/LandingPage.css";
 
 export default function LandingPage() {

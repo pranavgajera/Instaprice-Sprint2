@@ -8,7 +8,7 @@ export default function DetailedViewButton(props) {
     exact: props.activeOnlyWhenExact,
   });
 
-  function handleClick(e) {
+  function handleClick() {
     Socket.emit("detail view request", {
       title: props.itemname,
       username: props.username,
