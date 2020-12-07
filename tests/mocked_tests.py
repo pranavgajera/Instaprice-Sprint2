@@ -296,7 +296,6 @@ class TestBot(unittest.TestCase):
                     )
                     response = socketio_test_client.get_received()
                     self.assertEqual(type(response), list)
-                    
 
     def test_get_post_details(self):
         """test function for fetching item detail info"""
@@ -421,38 +420,37 @@ class TestBot(unittest.TestCase):
             with patch("models.DB.session.add") as mock_write:
                 with patch("models.DB.session.commit") as mock_commit:
                     with patch("app.like_exists") as mock_like_check:
-                        
 
-                            mock_like_check.return_value = False
-                            socketio_test_client.emit(
-                                "Toggle_Like",
-                                {
-                                    "postID": 8,
-                                    "username": "joe",
-                                    "status": False,
-                                },
-                            )
-                            mock_like_check.return_value = True
-                            socketio_test_client.emit(
-                                "Toggle_Like",
-                                {
-                                    "postID": 23,
-                                    "username": "Lebron James",
-                                    "status": True,
-                                },
-                            )
-                            mock_like_check.return_value = True
-                            socketio_test_client.emit(
-                                "Toggle_Like",
-                                {
-                                    "postID": 23,
-                                    "username": "Lebron James",
-                                    "status": False,
-                                },
-                            )
-                            response = socketio_test_client.get_received()
-                            self.assertEqual(type(response[0]["args"][0]["postID"]), int)
-                            self.assertEqual(response[0]["name"], "update_likes")
+                        mock_like_check.return_value = False
+                        socketio_test_client.emit(
+                            "Toggle_Like",
+                            {
+                                "postID": 8,
+                                "username": "joe",
+                                "status": False,
+                            },
+                        )
+                        mock_like_check.return_value = True
+                        socketio_test_client.emit(
+                            "Toggle_Like",
+                            {
+                                "postID": 23,
+                                "username": "Lebron James",
+                                "status": True,
+                            },
+                        )
+                        mock_like_check.return_value = True
+                        socketio_test_client.emit(
+                            "Toggle_Like",
+                            {
+                                "postID": 23,
+                                "username": "Lebron James",
+                                "status": False,
+                            },
+                        )
+                        response = socketio_test_client.get_received()
+                        self.assertEqual(type(response[0]["args"][0]["postID"]), int)
+                        self.assertEqual(response[0]["name"], "update_likes")
 
 
 if __name__ == "__main__":
