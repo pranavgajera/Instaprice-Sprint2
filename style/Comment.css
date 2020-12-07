@@ -1,3 +1,15 @@
+.comments_section {
+  margin-top: -80px;
+}
+
+.comments_section ol {
+  margin-top: -80px;
+}
+
+.comments_section li {
+  margin-top: 10px;
+}
+  
 .comment_pfp {
   width: 35px;
   height: auto;
@@ -25,16 +37,22 @@
   width: 90%;
 }
 
+.more-info-box {
+  margin-bottom: 25px;
+}
+
 .inputbox {
+  position: relative;
   margin-top: 4.5px;
   padding: 12px 20px;
   border-radius: 10px;
   box-sizing: border-box;
   width: 85%;
   float: left;
+  transform: translate(0, -50%);
 }
 
-.commentbar.submit-button {
+.commentbar .submit-button {
   background-color: cornflowerblue;
   border: none;
   color: white;
@@ -45,4 +63,5 @@
   border-radius: 10px;
   width: 14%;
   float: right;
+  transform: translate(0, -50%);
 }
