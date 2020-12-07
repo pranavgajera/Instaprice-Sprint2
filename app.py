@@ -5,22 +5,19 @@ import flask
 import flask_socketio
 import flask_sqlalchemy
 from flask import request
-# from sqlalchemy import text
 import numpy as np
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from api_calls import mock_search_response
-# from api_calls import mock_price_history
-from db_writes import price_write
-from db_writes import get_item_data
+import re
 
 SEARCH_REQUEST_CHANNEL = "search request"
 SEARCH_RESPONSE_CHANNEL = "search response"
-PRICE_HISTORY_REQUEST_CHANNEL = 'price history request'
-PRICE_HISTORY_RESPONSE_CHANNEL = 'price history response'
-FEED_UPDATE_CHANNEL = 'its feeding time'
+PRICE_HISTORY_REQUEST_CHANNEL = "price history request"
+PRICE_HISTORY_RESPONSE_CHANNEL = "price history response"
+FEED_UPDATE_CHANNEL = "its feeding time"
 COMMENT_UPDATE_CHANNEL = "fetching comments"
-LATEST_POST_CHANNEL = 'latest post'
+LATEST_POST_CHANNEL = "latest post"
 
 APP = flask.Flask(__name__)
 SOCKETIO = flask_socketio.SocketIO(APP)
@@ -34,6 +31,7 @@ DB.init_app(APP)
 DB.app = APP
 
 import models
+
 
 def emit_all_items(channel, room=None):
     """socket emits information on every item in the database"""
@@ -57,6 +55,7 @@ def emit_all_items(channel, room=None):
         all_post_ids.append(post.id)
         # all_likes.append(post.likes)
         all_asins.append(post.asin)
+
     for id in all_post_ids:
         likes = DB.session.query(models.Like).filter_by(post_id=id).count()
         all_likes.append(likes)
@@ -72,9 +71,11 @@ def emit_all_items(channel, room=None):
             "allLikes": all_likes,
             "allAsins": all_asins,
             "allPostIDs": all_post_ids,
-        }, room=room
+        },
+        room=room,
     )
-    
+
+
 def emit_latest_post():
     post = DB.session.query(models.Posts).order_by(models.Posts.id.desc()).limit(1)[0]
     SOCKETIO.emit(
@@ -89,7 +90,7 @@ def emit_latest_post():
             "likes": post.likes,
             "ASIN": post.asin,
             "postID": post.id,
-        }
+        },
     )
 
 
@@ -121,12 +122,13 @@ def emit_comments(post_id):
         },
     )
 
+
 def emit_likes(post_id, username, room=None):
     """
     Emits like data for a post with given post_id
     and the status of the user's like/dislike button
     """
-    
+
     likes = DB.session.query(models.Like).filter_by(post_id=post_id).count()
     like_status = like_exists(post_id, username)
     # This is correct
@@ -136,27 +138,42 @@ def emit_likes(post_id, username, room=None):
             "postID": post_id,
             "likes": likes,
             "alreadyLiked": like_status,
-        }, room=room
+        },
+        room=room,
     )
+
 
 def emit_profile_stats(username, room=None):
     """
     Emits stats for a given username's profile
     Stats include total counts for Likes, Posts, and Comments
     """
+    
     total_likes = DB.session.query(models.Like).filter_by(username=username).count()
     total_posts = DB.session.query(models.Posts).filter_by(username=username).count()
-    total_comments = DB.session.query(models.Comment).filter_by(username=username).count()
-    
+    total_comments = (
+        DB.session.query(models.Comment).filter_by(username=username).count()
+    )
+    print("total_likes")
+    print(total_likes)
+    print("total posts")
+    print(total_posts)
+    print("total_comments")
+    print(total_comments)
+
     # Fetch pfp
     pfp = ""
     if total_posts > 0:
-        sample_post = DB.session.query(models.Posts).filter_by(username=username).first()
+        sample_post = (
+            DB.session.query(models.Posts).filter_by(username=username).first()
+        )
         pfp = sample_post.pfp
     elif total_comments > 0:
-        sample_comment = DB.session.query(models.Comment).filter_by(username=username).first()
+        sample_comment = (
+            DB.session.query(models.Comment).filter_by(username=username).first()
+        )
         pfp = sample_comment.pfp
-    
+
     SOCKETIO.emit(
         "update_profile_stats",
         {
@@ -165,75 +182,90 @@ def emit_profile_stats(username, room=None):
             "total_posts": total_posts,
             "total_comments": total_comments,
             "pfp": pfp,
-        }, room=room
+        },
+        room=room,
     )
 
-@APP.route('/')
+
+@APP.route("/")
 def hello():
     """load webpage from html"""
-    return flask.render_template('index.html')
+    return flask.render_template("index.html")
+
 
 @APP.errorhandler(404)
 def cool(e):
     """load webpage from html"""
-    return flask.render_template('index.html')
+    return flask.render_template("index.html")
 
-@SOCKETIO.on('new user')
+
+@SOCKETIO.on("new user")
 def on_new_google_user(data):
     """authenticates user and sends them their user information"""
     print("Got an event for new user input with data:", data)
-    print('Someone connected!')
-    SOCKETIO.emit('connected', {
-        'username': data['name'],
-        'email': data['email'],
-        'profilepicture': data['profilepicture']
-    }, room=request.sid)
+    print("Someone connected!")
+    SOCKETIO.emit(
+        "connected",
+        {
+            "username": data["name"],
+            "email": data["email"],
+            "profilepicture": data["profilepicture"],
+        },
+        room=request.sid,
+    )
     emit_all_items(FEED_UPDATE_CHANNEL, request.sid)
 
-@SOCKETIO.on('disconnect')
+
+@SOCKETIO.on("disconnect")
 def on_disconnect():
     """disconnect"""
-    print('Someone disconnected!')
+    print("Someone disconnected!")
+
 
 @SOCKETIO.on(SEARCH_REQUEST_CHANNEL)
 def search_request(data):
     """send a search request to api_calls with given data"""
     print("Got an event for search request with data: ", data)
-    if data['query'] == "":
-        search_list = mock_search_response(data['query'])
+    if data["query"] == "":
+        search_list = mock_search_response(data["query"])
     else:
-        search_list = search_amazon(data['query'])
+        search_list = search_amazon(data["query"])
     # print(search_list)
     # search_amazon(data['query'])
-    SOCKETIO.emit(SEARCH_RESPONSE_CHANNEL, {
-        "search_list": search_list
-    }, room=request.sid)
+    SOCKETIO.emit(
+        SEARCH_RESPONSE_CHANNEL, {"search_list": search_list}, room=request.sid
+    )
+
 
 @SOCKETIO.on(PRICE_HISTORY_REQUEST_CHANNEL)
 def get_price_history(data):
     """send price histoy request to api_calls with given data"""
     # price_history = mock_price_history(data['ASIN'])
-    price_history = fetch_price_history(data['ASIN'])
+    price_history = fetch_price_history(data["ASIN"])
     # print(price_history)
     if "404" in price_history:
-        SOCKETIO.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
-            "pricehistory": price_history,
-            'ASIN': data['ASIN'],
-            'title': data['title'],
-            'imgurl': data['imgurl'],
-            'username': data['username'],
-            'pfp': data['pfp'],
-            'error':True,
-            'min':0,
-            'max':0,
-            'mean_price':0,
-            'var_price':0,
-        }, room=request.sid)
-        #emit_all_items(FEED_UPDATE_CHANNEL)        #?????????
+        SOCKETIO.emit(
+            PRICE_HISTORY_RESPONSE_CHANNEL,
+            {
+                "pricehistory": price_history,
+                "ASIN": data["ASIN"],
+                "title": data["title"],
+                "imgurl": data["imgurl"],
+                "username": data["username"],
+                "pfp": data["pfp"],
+                "error": True,
+                "min": 0,
+                "max": 0,
+                "mean_price": 0,
+                "var_price": 0,
+            },
+            room=request.sid,
+        )
+        # emit_all_items(FEED_UPDATE_CHANNEL)        #?????????
         return
     return_array = []
-    statistical_array =[]
-    for i in range(0,len(price_history)-1):
+    statistical_array = []
+    for i in range(0, len(price_history) - 1):
         statistical_array.append(int(price_history[i]["price"]))
     min_price = min(statistical_array)
     max_price = max(statistical_array)
@@ -248,29 +280,33 @@ def get_price_history(data):
     # price_history = price_history[len(price_history)-10:len(price_history)]
     # print(json.dumps(return_array, indent=4))
     if len(return_array) >= 11:
-        return_array = return_array[len(
-            return_array) - 11: len(return_array) - 1]
+        return_array = return_array[len(return_array) - 11 : len(return_array) - 1]
     print("Got an event for price history search with data: ", data)
-    SOCKETIO.emit(PRICE_HISTORY_RESPONSE_CHANNEL, {
-        "pricehistory": return_array,
-        'ASIN': data['ASIN'],
-        'title': data['title'],
-        'imgurl': data['imgurl'],
-        'username': data['username'],
-        'pfp': data['pfp'],
-        'error':False,
-        'min':min_price,
-        'max':max_price,
-        'mean_price':mean_price,
-        'var_price':var_price
-    }, room=request.sid)
-    #emit_all_items(FEED_UPDATE_CHANNEL)            #?????????
+    SOCKETIO.emit(
+        PRICE_HISTORY_RESPONSE_CHANNEL,
+        {
+            "pricehistory": return_array,
+            "ASIN": data["ASIN"],
+            "title": data["title"],
+            "imgurl": data["imgurl"],
+            "username": data["username"],
+            "pfp": data["pfp"],
+            "error": False,
+            "min": min_price,
+            "max": max_price,
+            "mean_price": mean_price,
+            "var_price": var_price,
+        },
+        room=request.sid,
+    )
+    # emit_all_items(FEED_UPDATE_CHANNEL)            #?????????
 
-@SOCKETIO.on('get profile page')
+
+@SOCKETIO.on("get profile page")
 def get_profile_page(data):
     """make it so that i can loop through db with data['username'] and find only those
-     posts then make Feed in propage with those posts as well
-     as display propic name and other stuff"""
+    posts then make Feed in propage with those posts as well
+    as display propic name and other stuff"""
     itemnames = []
     imageurls = []
     pricehists = []
@@ -279,7 +315,7 @@ def get_profile_page(data):
     times = []
     currprices = []
     asins = []
-    posts = DB.session.query(models.Posts).filter_by(username=data['username']).all()
+    posts = DB.session.query(models.Posts).filter_by(username=data["username"]).all()
     # SOCKETIO.close('get profile page')
     for post in posts:
         itemnames.append(post.itemname)
@@ -290,67 +326,125 @@ def get_profile_page(data):
         times.append(post.time)
         currprices.append(post.currprice)
         asins.append(post.asin)
-    SOCKETIO.emit('make profile page', {
-        'username': data['username'],
-        'itemnames': itemnames,
-        'imageurls': imageurls,
-        'pricehists': pricehists,
-        'usernames': usernames,
-        'pfps': pfps,
-        'times': times,
-        'currprices': currprices,
-        'asins': asins
-    }, room=request.sid)
-    print ("THIS IS THE PROFILE PAGE FOR: " + data['username'])
+    SOCKETIO.emit(
+        "make profile page",
+        {
+            "username": data["username"],
+            "itemnames": itemnames,
+            "imageurls": imageurls,
+            "pricehists": pricehists,
+            "usernames": usernames,
+            "pfps": pfps,
+            "times": times,
+            "currprices": currprices,
+            "asins": asins,
+        },
+        room=request.sid,
+    )
+    print("THIS IS THE PROFILE PAGE FOR: " + data["username"])
     emit_profile_stats(data["username"])
 
-@SOCKETIO.on('go back')
+
+@SOCKETIO.on("go back")
 def go_back():
     emit_all_items(FEED_UPDATE_CHANNEL, request.sid)
 
-@SOCKETIO.on('post price history')
+
+@SOCKETIO.on("post price history")
 def post_price_history(data):
     """sends post information to database, updates posts, and
     sends updated list of posts to users"""
-    post_list = []
-    # postList.update({data['ASIN']: data['priceHistory']})
-    post_list.append(data['priceHistory'])
+    print(data)
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M")
-    data['time'] = dt_string
-    price_write(data)
-    print("This is the price history:", data['ASIN'], data['priceHistory'])
-    #emit_all_items(FEED_UPDATE_CHANNEL)
+    data["time"] = dt_string
+    price_list = data["priceHistory"]
+    price_list_str = ""
+    for entry in price_list:
+        price_list_str += entry["price_date"] + " - " + str(entry["price"]) + " "
+    the_post = models.Posts(
+        data["user"],
+        data["profpic"],
+        dt_string,
+        data["title"],
+        data["imgurl"],
+        price_list_str,
+        0,  # INITIAL LIKES
+        "TODO REMOVE GRAPHURL",  # GRAPHURL REMOVE LATER
+        data["ASIN"],
+        data["min"],
+        data["max"],
+        data["mean"],
+        data["variance"],
+        data["currprice"],
+    )
+    DB.session.add(the_post)
+    DB.session.commit()
+    print("This is the price history:", data["ASIN"], data["priceHistory"])
+    # emit_all_items(FEED_UPDATE_CHANNEL)
     emit_latest_post()
 
-@SOCKETIO.on('detail view request')
+
+@SOCKETIO.on("detail view request")
 def get_post_details(data):
     """sends itemname to database, and fetches
     graph data, and math"""
-    item_data = get_item_data(data['title'])
-    print('request for: ')
-    print(data['title'])
-    SOCKETIO.emit('detail view response', {
-        "pricehistory": item_data['pricehistory'],
-        'asin': item_data['asin'],
-        'itemname': item_data['itemname'],
-        'imgurl': item_data['imgurl'],
-        'mean': item_data['meanprice'],
-        'variance': item_data['varianceprice'],
-        'min_price': item_data['minprice'],
-        'max_price': item_data['maxprice'],
-        'username': item_data['user'],
-        'pfp': item_data['pfp'],
-        'graphurl': item_data['graphurl'],
-        'likes': item_data['likes'],
-        'dataset': item_data['dataset'],
-        'datapts': item_data['datapts'],
-        'postID': item_data['post_id']
-    }, room=request.sid)
-    
+    pricehistory = []
+    asin = ""
+    itemname = ""
+    imgurl = ""
+    mean = 0
+    variance = 0
+    min_price = 0
+    max_price = 0
+    username = ""
+    pfp = ""
+    likes = 0
+    dataset = []
+    datapts = []
+    post_id = 0
+    item_data = DB.session.query(models.Posts).filter_by(itemname=data["title"]).all()
+    for item in item_data:
+        pricehistory = item.pricehist
+        asin = item.asin
+        itemname = item.itemname
+        imgurl = item.imageurl
+        mean = item.meanprice
+        variance = item.varianceprice
+        min_price = item.minprice
+        max_price = item.maxprice
+        username = item.username
+        pfp = item.pfp
+        likes = item.likes
+        dataset = re.findall(r"\d{2}\/\d{2}\/\d{4}", pricehistory)
+        datapts = re.findall(r"\d{1,}\.\d{1,2}", pricehistory)
+        post_id = item.id
+
+    SOCKETIO.emit(
+        "detail view response",
+        {
+            "pricehistory": pricehistory,
+            "asin": asin,
+            "itemname": itemname,
+            "imgurl": imgurl,
+            "mean": mean,
+            "variance": variance,
+            "min_price": min_price,
+            "max_price": max_price,
+            "username": username,
+            "pfp": pfp,
+            """need to remove graph url""" "graphurl": "TODO REMOVE",
+            "likes": likes,
+            "dataset": dataset,
+            "datapts": datapts,
+            "postID": post_id,
+        },
+        room=request.sid,
+    )
     # Comments now loaded with post details
-    emit_comments(item_data["post_id"])
-    emit_likes(item_data["post_id"], data["username"])
+    emit_comments(post_id)
+    emit_likes(post_id, username)
+
 
 @SOCKETIO.on("post comment")
 def post_comment(data):
@@ -365,26 +459,31 @@ def post_comment(data):
     emit_comments(data["post_id"])
     emit_likes(data["post_id"], data["username"])
 
+
 def like_exists(post_id, like_user):
     """Returns true if a user already liked a post"""
-    user_likes = DB.session.query(models.Like).\
-    filter_by(post_id=post_id).\
-    filter_by(username=like_user).all()
+    user_likes = (
+        DB.session.query(models.Like)
+        .filter_by(post_id=post_id)
+        .filter_by(username=like_user)
+        .all()
+    )
     num_liked = len(user_likes)
     if num_liked > 0:
         return True
     else:
         return False
 
+
 @SOCKETIO.on("Toggle_Like")
 def toggle_like(data):
     """Toggles a like for a user, emits updated likecount/status"""
-
     # Like or unlike?
+    print(data)
     post_id = data["postID"]
     like_user = data["username"]
     new_status = not data["status"]
-    
+
     already_liked = like_exists(post_id, like_user)
     if new_status == True and not already_liked:
         # Add Like to DB
@@ -393,21 +492,22 @@ def toggle_like(data):
         DB.session.commit()
     elif new_status == False and already_liked:
         # Remove like from DB
-        DB.session.query(models.Like).\
-        filter_by(username=like_user).\
-        filter_by(post_id=post_id).delete()
+        DB.session.query(models.Like).filter_by(username=like_user).filter_by(
+            post_id=post_id
+        ).delete()
         DB.session.commit()
     else:
         print("status/liked mismatch.")
     emit_likes(post_id, like_user, request.sid)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # Don't test with these
     DB.create_all()
     DB.session.commit()
     SOCKETIO.run(
         APP,
-        host=os.getenv('IP', '0.0.0.0'),
-        port=int(os.getenv('PORT', '8080')),
-        debug=True
+        host=os.getenv("IP", "0.0.0.0"),
+        port=int(os.getenv("PORT", "8080")),
+        debug=True,
     )
