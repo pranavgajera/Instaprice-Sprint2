@@ -1,6 +1,7 @@
 """Flask backend for InstaPrice"""
 import os
 from datetime import datetime
+import re
 import flask
 import flask_socketio
 import flask_sqlalchemy
@@ -9,7 +10,6 @@ import numpy as np
 from api_calls import search_amazon
 from api_calls import fetch_price_history
 from api_calls import mock_search_response
-import re
 
 SEARCH_REQUEST_CHANNEL = "search request"
 SEARCH_RESPONSE_CHANNEL = "search response"
@@ -29,9 +29,7 @@ APP.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
 DB = flask_sqlalchemy.SQLAlchemy(APP)
 DB.init_app(APP)
 DB.app = APP
-
 import models
-
 
 def emit_all_items(channel, room=None):
     """socket emits information on every item in the database"""
@@ -75,8 +73,10 @@ def emit_all_items(channel, room=None):
         room=room,
     )
 
-
 def emit_latest_post():
+    """
+    function for emitting latest post
+    """
     post = DB.session.query(models.Posts).order_by(models.Posts.id.desc()).limit(1)[0]
     SOCKETIO.emit(
         LATEST_POST_CHANNEL,
@@ -122,7 +122,6 @@ def emit_comments(post_id):
         },
     )
 
-
 def emit_likes(post_id, username, room=None):
     """
     Emits like data for a post with given post_id
@@ -142,13 +141,11 @@ def emit_likes(post_id, username, room=None):
         room=room,
     )
 
-
 def emit_profile_stats(username, room=None):
     """
     Emits stats for a given username's profile
     Stats include total counts for Likes, Posts, and Comments
     """
-    
     total_likes = DB.session.query(models.Like).filter_by(username=username).count()
     total_posts = DB.session.query(models.Posts).filter_by(username=username).count()
     total_comments = (
@@ -185,7 +182,6 @@ def emit_profile_stats(username, room=None):
         },
         room=room,
     )
-
 
 @APP.route("/")
 def hello():
@@ -347,6 +343,9 @@ def get_profile_page(data):
 
 @SOCKETIO.on("go back")
 def go_back():
+    """
+    function to handle go back
+    """
     emit_all_items(FEED_UPDATE_CHANNEL, request.sid)
 
 

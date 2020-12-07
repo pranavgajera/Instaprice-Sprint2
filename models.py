@@ -37,7 +37,6 @@ class Posts(DB.Model):
         self.meanprice = meanprice
         self.varianceprice = varianceprice
         self.currprice = currprice
-        
 class Comment(DB.Model):
     """Table for comments"""
     comment_id = DB.Column(DB.Integer, primary_key=True)
@@ -58,7 +57,6 @@ class Like(DB.Model):
     like_id = DB.Column(DB.Integer, primary_key=True)
     post_id = DB.Column(DB.Integer)
     username = DB.Column(DB.String(225))
-    
     def __init__(self, post_id, username):
         """Constructor for adding Like to table"""
         self.post_id = post_id

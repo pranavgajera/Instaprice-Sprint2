@@ -8,3 +8,4 @@ docker-compose.yml
 .venv
 .eslintrc.js
 pylintrc
+.DS_Store

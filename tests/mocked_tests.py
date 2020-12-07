@@ -1,20 +1,20 @@
+"""
+unittest file for the application
+"""
 import unittest
 from unittest.mock import patch
 import sys
-import os
 import json
 from os.path import join, dirname
-
-# sys.path.insert(1, os.getcwd())
 sys.path.insert(1, join(dirname(__file__), "../"))
+import pickle
+import requests
 import app
 import api_calls
-import pickle
+
 import models
-import requests
-
-
 class TestBot(unittest.TestCase):
+    """main class"""
     def test_googleconnect(self):
         """test function for login and disconnect function"""
         flask_test_client = app.APP.test_client()
@@ -22,7 +22,6 @@ class TestBot(unittest.TestCase):
             app.APP, flask_test_client=flask_test_client
         )
         # Error Currently Here \/
-
         with patch("app.emit_all_items") as emit_result:
             emit_result.return_value = None
             socketio_test_client.emit(
@@ -30,12 +29,11 @@ class TestBot(unittest.TestCase):
                 {
                     "email": "pranavgajera@gmail.com",
                     "name": "Pranav Gajera",
-                    "profilepicture": "https://miro.medium.com/max/500/1*zzo23Ils3C0ZDbvZakwXlg.png",
+                    "profilepicture": "https://miro.medium.com/max/500/"
+                                      "1*zzo23Ils3C0ZDbvZakwXlg.png",
                 },
             )
             response = socketio_test_client.get_received()
-            # print(json.dumps(response, indent=4))
-
             user = response[0]["args"][0]["username"]
             self.assertEqual(user, "Pranav Gajera")
             response2 = socketio_test_client.disconnect()
@@ -46,7 +44,9 @@ class TestBot(unittest.TestCase):
         with patch("app.search_amazon") as mocked_return:
             mocked_return.return_value = {
                 "ASIN": "B07X6C9RMF",
-                "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
+                "title": "Blink Mini \u2013 Compact indoor plug-in smart security "
+                         "camera, 1080 HD video, motion detection, night vision"
+                         ", Works with Alexa \u2013 1 camera",
                 "price": "$34.99",
                 "listPrice": "",
                 "imageUrl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
@@ -73,7 +73,6 @@ class TestBot(unittest.TestCase):
     def test_amazon_price_search(self):
         """test function for app.py price history request function"""
         with patch("app.fetch_price_history") as mocked_return:
-
             mocked_return.return_value = [
                 {"price": 58.84, "price_date": "06/09/2020"},
                 {"price": 53.89, "price_date": "06/18/2020"},
@@ -92,25 +91,25 @@ class TestBot(unittest.TestCase):
                 socketio_test_client = app.SOCKETIO.test_client(
                     app.APP, flask_test_client=flask_test_client
                 )
-
                 socketio_test_client.emit(
                     app.PRICE_HISTORY_REQUEST_CHANNEL,
                     {
                         "ASIN": "B07X6C9RMF",
-                        "title": "Blink Mini \u2013 Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa \u2013 1 camera",
+                        "title": "Blink Mini \u2013 Compact indoor plug-in smart security"
+                                 " camera, 1080 HD video, motion detection, night vision,"
+                                 " Works with Alexa \u2013 1 camera",
                         "imgurl": "https://m.media-amazon.com/images/I/31Ce3B42urL._SL160_.jpg",
                         "username": "random",
                         "pfp": "pfp",
                     },
                 )
-
                 socket_response = socketio_test_client.get_received()
                 print(json.dumps(socket_response, indent=4))
                 response = socket_response[0]["args"][0]["pricehistory"][0]
-
                 self.assertEquals(response["price"], 58.84)
 
     def test_home(self):
+        """function to test home page"""
         flask_test_client = app.APP.test_client()
         response = flask_test_client.get("/", content_type="html")
         self.assertEqual(response.status_code, 200)
@@ -125,11 +124,9 @@ class TestBot(unittest.TestCase):
 
     def test_mock_search(self):
         """Tests api_calls.mock_search_response()"""
-
         search_results = api_calls.mock_search_response("Arbitrary Search Text")
         self.assertEqual(type(search_results), list)
         self.assertEqual(len(search_results), 10)
-
         first_result = search_results[0]
         self.assertEqual(type(first_result), dict)
         self.assertTrue("ASIN" in first_result)
@@ -141,7 +138,6 @@ class TestBot(unittest.TestCase):
         price_history = api_calls.mock_price_history("Aritrary ASIN")
         self.assertEqual(type(price_history), list)
         self.assertEqual(len(price_history), 333)
-
         first_entry = price_history[0]
         self.assertTrue("price" in first_entry)
         self.assertTrue("price_date" in first_entry)
@@ -154,12 +150,10 @@ class TestBot(unittest.TestCase):
             pickled_resp = pickle.load(pickled_mock_file)
             pickled_mock_file.close()
             mocked_request.return_value = pickled_resp
-
             # Test search_amazon()
             search_results = api_calls.search_amazon("Query Text")
             self.assertEqual(type(search_results), list)
             self.assertEqual(len(search_results), 10)
-
             first_result = search_results[0]
             self.assertEqual(type(first_result), dict)
             self.assertTrue("ASIN" in first_result)
@@ -171,15 +165,13 @@ class TestBot(unittest.TestCase):
         Tests api_calls.fetch_price_history()
         Uses pickled response to mock HTTP response
         """
-
         with patch("api_calls.requests.get") as mocked_request:
             # Patch pickled resp into get() return val
             pickled_mock_file = open("price_history.pkl", "rb")
             pickled_resp = pickle.load(pickled_mock_file)
             pickled_mock_file.close()
             mocked_request.return_value = pickled_resp
-
-            # Test fetch_price_history()
+            #Test fetch_price_history()
             price_history = api_calls.fetch_price_history("Arbitrary ASIN")
             # print("Price History: {}".format(price_history))
             first_entry = price_history[0]
@@ -194,7 +186,6 @@ class TestBot(unittest.TestCase):
             resp_404 = requests.models.Response()
             resp_404.status_code = 404
             mocked_request.return_value = resp_404
-
             # Test fetch_price_history() with 404 reponse
             price_history = api_calls.search_amazon("Query to get error")
             self.assertEqual(type(price_history), str)
@@ -211,7 +202,6 @@ class TestBot(unittest.TestCase):
             resp_404 = requests.models.Response()
             resp_404.status_code = 404
             mocked_request.return_value = resp_404
-
             # Test fetch_price_history() with 404 reponse
             price_history = api_calls.fetch_price_history("B00KPVSZBA")
             self.assertEqual(type(price_history), str)
@@ -283,10 +273,14 @@ class TestBot(unittest.TestCase):
                                 {"price": 9.04, "price_date": "11/08/2020"},
                                 {"price": 69.97, "price_date": "11/21/2020"},
                             ],
-                            "title": "Blink Mini – Compact indoor plug-in smart security camera, 1080 HD video, motion detection, night vision, Works with Alexa – 2 cameras",
+                            "title": "Blink Mini – Compact indoor plug-in smart security "
+                                     "camera, 1080 HD video, motion detection, night "
+                                     "vision, Works with Alexa – 2 cameras",
                             "imgurl": "https://m.media-amazon.com/images/I/310uqvbRv5L._SL160_.jpg",
                             "user": "Shuo Zhang",
-                            "profpic": "https://lh5.googleusercontent.com/-BFcNgoqIEVc/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckluE-aEAacvaiHpjpD54Hk-CU51w/s96-c/photo.jpg",
+                            "profpic": "https://lh5.googleusercontent.com/-BFcNgoqIEVc/AAAAAAAAAAI"
+                                       "/AAAAAAAAAAA/AMZuuckluE-aEAacvaiHpjpD54Hk-CU51w/s96-c/photo"
+                                       ".jpg",
                             "min": 9,
                             "max": 69,
                             "mean": 17.446601941747574,
@@ -398,7 +392,6 @@ class TestBot(unittest.TestCase):
         socketio_test_client = app.SOCKETIO.test_client(
             app.APP, flask_test_client=flask_test_client
         )
-
         with patch("models.DB.session.query") as mock_fetch:
             with patch("models.DB.session.query.filter_by") as mock_fetch2:
                 mock_fetch.return_value.filter_by.return_value.count.return_value = 1
@@ -412,6 +405,7 @@ class TestBot(unittest.TestCase):
                 self.assertEqual(response[0]["name"], "update_profile_stats")
 
     def test_toggle_like(self):
+        """function to test toggle like"""
         flask_test_client = app.APP.test_client()
         socketio_test_client = app.SOCKETIO.test_client(
             app.APP, flask_test_client=flask_test_client
