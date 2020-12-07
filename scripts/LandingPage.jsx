@@ -7,7 +7,6 @@ import { SiCss3 } from "react-icons/si";
 import { SiGoogle } from "react-icons/si";
 import { SiHeroku } from "react-icons/si";
 
-
 import "../style/LandingPage.css";
 
 export default function LandingPage() {
@@ -34,9 +33,21 @@ export default function LandingPage() {
         <div className="hero2-content">
           <h1 className="hero2-title">WHAT WE MADE</h1>
           <ul className="hero2-subtitle">
-            <img src="https://i.imgur.com/YCfyMRm.png" alt="main feed" height="300" /> 
-            <img src="https://i.imgur.com/3ZEwzpZ.png" alt="detail view" height="300" /> 
-            <img src="https://i.imgur.com/qf03YSt.png" alt="profile page" height="300" />
+            <img
+              src="https://i.imgur.com/YCfyMRm.png"
+              alt="main feed"
+              height="300"
+            />
+            <img
+              src="https://i.imgur.com/3ZEwzpZ.png"
+              alt="detail view"
+              height="300"
+            />
+            <img
+              src="https://i.imgur.com/qf03YSt.png"
+              alt="profile page"
+              height="300"
+            />
           </ul>
           <p className="hero2-bio">
             Although there are quite a few applications that track the price
@@ -55,13 +66,34 @@ export default function LandingPage() {
         <div className="hero3-content">
           <h1 className="hero3-title">HOW WE DID IT</h1>
           <ul className="hero3-subtitle">
-            <li> Flask <SiFlask /> </li>
-            <li> PostgreSQL <SiPostgresql /> </li>
-            <li> Flask-Socketio <SiSocketDotIo /> </li>
-            <li> React <SiReact /> </li>
-            <li> CSS <SiCss3 /> </li>
-            <li> OAuth <SiGoogle /> </li>
-            <li> Heroku <SiHeroku /> </li>
+            <li>
+              {" "}
+              Flask <SiFlask />{" "}
+            </li>
+            <li>
+              {" "}
+              PostgreSQL <SiPostgresql />{" "}
+            </li>
+            <li>
+              {" "}
+              Flask-Socketio <SiSocketDotIo />{" "}
+            </li>
+            <li>
+              {" "}
+              React <SiReact />{" "}
+            </li>
+            <li>
+              {" "}
+              CSS <SiCss3 />{" "}
+            </li>
+            <li>
+              {" "}
+              OAuth <SiGoogle />{" "}
+            </li>
+            <li>
+              {" "}
+              Heroku <SiHeroku />{" "}
+            </li>
           </ul>
           <p className="hero3-bio">
             Our web app is built using Flask in the backend and React/JS in the
@@ -82,9 +114,20 @@ export default function LandingPage() {
             <img src="./static/instapricelogo.png" alt="InstaPrice" />
           </h1>
           <ul className="hero4-subtitle">
-            <li> https://instaprice490.herokuapp.com/ </li>
+            <li> https://instaprice-490.herokuapp.com/ </li>
           </ul>
-          <p className="hero4-bio">Contact us</p>
+          <p className="hero4-bio">
+            Contact us <br /> Shuo Zhang -{" "}
+            <a href="mailto:sz376@njit.edu">sz376@njit.edu</a>
+            <br /> Erik Eckenberg -{" "}
+            <a href="mailto:ete2@njit.edu">ete2@njit.edu</a>
+            <br /> Jason Morgado -{" "}
+            <a href="mailto:jm768@njit.edu">jm768@njit.edu</a>
+            <br /> Jeffrey Kuo -{" "}
+            <a href="mailto:jkk24@njit.edu">jkk24@njit.edu</a>
+            <br /> Pranavkumar Gajera -{" "}
+            <a href="mailto:pvg25@njit.edu">pvg25@njit.edu</a>
+          </p>
         </div>
       </section>
     </div>
