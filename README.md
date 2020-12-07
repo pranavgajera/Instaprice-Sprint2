@@ -24,13 +24,14 @@ A browser-based price tracker application where users can type in about a produc
      2. Choose "External" and pick a application name.
      3. Press save.
    - Then after finishing that step, go to credintials -> Create Credentials -> OAuth client ID. Click "web application" and your application 
-     should be readt to go .
+     should be ready to go .
    - Then replace the clientID in the the GoogleButton.jsx file and the application should be ready to start.
 8. To setup facebook login button while starting up the application install this npm package by typing `npm install react-facebook-login` before starting up the application. Additional information about the npm package could be found at [https://www.npmjs.com/package/react-facebook-login](https://www.npmjs.com/package/react-facebook-login). After installing the npm package, follow the below steps to get the facebook login button setup:
-	- TODO
-	- TODO
-	- TODO
-	- DOTO
+	- Firstly go to https://developers.facebook.com/ and sign up using your regular facebook account.
+	- Create a new app and select everything else when it asks for the application purpose and then name it based on your preference.
+	- Use the application app id and replace it in the FacebookButton.jsx file.
+	- Then go to the seetings of the application and enable Client OAuth login and Web OAuth login and in the valid oauth redirect URL add the developemtn url 	      for your working enviroment.
+	- After following all the above steps the facebook login should be ready for the users to login with their facebook accounts.
 9. Install react icons by running `npm install react-icons` see documentation here [https://www.npmjs.com/package/react-icons](https://www.npmjs.com/package/react-icons)
 10. Install chartjs and chartjs2 by running `npm install react-chartjs` and `npm install react-chartjs-2` see documentation here [https://www.npmjs.com/package/react-chartjs-2](https://www.npmjs.com/package/react-chartjs-2)
 11. Install react-router-dom by running `npm install react-router-dom` see documentation here [https://www.npmjs.com/package/react-router-dom](https://www.npmjs.com/package/react-router-dom)
