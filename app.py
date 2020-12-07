@@ -148,11 +148,32 @@ def emit_profile_stats(username, room=None):
     Emits stats for a given username's profile
     Stats include total counts for Likes, Posts, and Comments
     """
+    
     total_likes = DB.session.query(models.Like).filter_by(username=username).count()
     total_posts = DB.session.query(models.Posts).filter_by(username=username).count()
     total_comments = (
         DB.session.query(models.Comment).filter_by(username=username).count()
     )
+    print("total_likes")
+    print(total_likes)
+    print("total posts")
+    print(total_posts)
+    print("total_comments")
+    print(total_comments)
+
+    # Fetch pfp
+    pfp = ""
+    if total_posts > 0:
+        sample_post = (
+            DB.session.query(models.Posts).filter_by(username=username).first()
+        )
+        pfp = sample_post.pfp
+    elif total_comments > 0:
+        sample_comment = (
+            DB.session.query(models.Comment).filter_by(username=username).first()
+        )
+        pfp = sample_comment.pfp
+
     SOCKETIO.emit(
         "update_profile_stats",
         {
@@ -160,6 +181,7 @@ def emit_profile_stats(username, room=None):
             "total_likes": total_likes,
             "total_posts": total_posts,
             "total_comments": total_comments,
+            "pfp": pfp,
         },
         room=room,
     )
@@ -368,15 +390,15 @@ def get_post_details(data):
     """sends itemname to database, and fetches
     graph data, and math"""
     pricehistory = []
-    asin = ''
-    itemname = ''
-    imgurl = ''
+    asin = ""
+    itemname = ""
+    imgurl = ""
     mean = 0
     variance = 0
     min_price = 0
     max_price = 0
-    username = ''
-    pfp = ''
+    username = ""
+    pfp = ""
     likes = 0
     dataset = []
     datapts = []
@@ -397,7 +419,7 @@ def get_post_details(data):
         dataset = re.findall(r"\d{2}\/\d{2}\/\d{4}", pricehistory)
         datapts = re.findall(r"\d{1,}\.\d{1,2}", pricehistory)
         post_id = item.id
-        
+
     SOCKETIO.emit(
         "detail view response",
         {
@@ -419,7 +441,6 @@ def get_post_details(data):
         },
         room=request.sid,
     )
-
     # Comments now loaded with post details
     emit_comments(post_id)
     emit_likes(post_id, username)
@@ -457,9 +478,8 @@ def like_exists(post_id, like_user):
 @SOCKETIO.on("Toggle_Like")
 def toggle_like(data):
     """Toggles a like for a user, emits updated likecount/status"""
-
     # Like or unlike?
-    print (data)
+    print(data)
     post_id = data["postID"]
     like_user = data["username"]
     new_status = not data["status"]
@@ -479,6 +499,7 @@ def toggle_like(data):
     else:
         print("status/liked mismatch.")
     emit_likes(post_id, like_user, request.sid)
+
 
 if __name__ == "__main__":
     # Don't test with these

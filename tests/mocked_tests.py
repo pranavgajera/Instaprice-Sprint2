@@ -227,21 +227,26 @@ class TestBot(unittest.TestCase):
             app.APP, flask_test_client=flask_test_client
         )
         with patch("models.DB.session.query") as mock_fetch:
-            socketio_test_client.emit("get profile page", {"username": "john"})
-            mock_item = {
-                "itemname": "Sony Camera",
-                "imgurl": "www.sony.com/camera.jpg",
-                "priceHistory": [{"price": 420.42, "price_date": "08/04/2020"}],
-                "usernames": "john",
-                "pfps": "john.jpg",
-                "time": "12:00",
-                "currprice": 111,
-                "asin": "B0897VCSXQ",
-            }
-            mock_fetch.return_value.filter_by.return_value.all.return_value = mock_item
-            posts = app.DB.session.query(models.Posts).filter_by(username="john").all()
-            self.assertEqual(type(posts["itemname"]), str)
-            self.assertEqual("john.jpg", posts["pfps"])
+            with patch("app.emit_profile_stats"):
+                socketio_test_client.emit("get profile page", {"username": "john"})
+                mock_item = {
+                    "itemname": "Sony Camera",
+                    "imgurl": "www.sony.com/camera.jpg",
+                    "priceHistory": [{"price": 420.42, "price_date": "08/04/2020"}],
+                    "usernames": "john",
+                    "pfps": "john.jpg",
+                    "time": "12:00",
+                    "currprice": 111,
+                    "asin": "B0897VCSXQ",
+                }
+                mock_fetch.return_value.filter_by.return_value.all.return_value = (
+                    mock_item
+                )
+                posts = (
+                    app.DB.session.query(models.Posts).filter_by(username="john").all()
+                )
+                self.assertEqual(type(posts["itemname"]), str)
+                self.assertEqual("john.jpg", posts["pfps"])
 
     def test_go_back(self):
         """tests the go back socket emit"""
@@ -289,6 +294,9 @@ class TestBot(unittest.TestCase):
                             "currprice": "$49.98",
                         },
                     )
+                    response = socketio_test_client.get_received()
+                    self.assertEqual(type(response), list)
+                    
 
     def test_get_post_details(self):
         """test function for fetching item detail info"""
@@ -373,7 +381,8 @@ class TestBot(unittest.TestCase):
                         )
                         assert mock_write.called
 
-    def test_emit(self):
+    def test_emit_all_items(self):
+        """test emit all items"""
         flask_test_client = app.APP.test_client()
         socketio_test_client = app.SOCKETIO.test_client(
             app.APP, flask_test_client=flask_test_client
@@ -381,11 +390,28 @@ class TestBot(unittest.TestCase):
         with patch("models.DB.session.query") as mock_fetch:
             app.emit_all_items("random chan")
             response = socketio_test_client.get_received()
-            print("resp")
-            print(response)
             self.assertEqual(type(response[0]["args"][0]["allItemnames"]), list)
             self.assertEqual(response[0]["name"], "random chan")
-            
+
+    def test_emit_profile_stats(self):
+        """test emit profile stats"""
+        flask_test_client = app.APP.test_client()
+        socketio_test_client = app.SOCKETIO.test_client(
+            app.APP, flask_test_client=flask_test_client
+        )
+
+        with patch("models.DB.session.query") as mock_fetch:
+            with patch("models.DB.session.query.filter_by") as mock_fetch2:
+                mock_fetch.return_value.filter_by.return_value.count.return_value = 1
+                mock_fetch2.return_value.first.return_value = {"pfp": "randomlad.jpg"}
+                app.emit_profile_stats("random lad")
+                mock_fetch.return_value.filter_by.return_value.count.return_value = 0
+                mock_fetch2.return_value.first.return_value = {"pfp": "randomlad.jpg"}
+                app.emit_profile_stats("random ladd")
+                response = socketio_test_client.get_received()
+                self.assertEqual(type(response[0]["args"][0]["username"]), str)
+                self.assertEqual(response[0]["name"], "update_profile_stats")
+
     def test_toggle_like(self):
         flask_test_client = app.APP.test_client()
         socketio_test_client = app.SOCKETIO.test_client(
@@ -395,27 +421,38 @@ class TestBot(unittest.TestCase):
             with patch("models.DB.session.add") as mock_write:
                 with patch("models.DB.session.commit") as mock_commit:
                     with patch("app.like_exists") as mock_like_check:
-                        with patch("app.emit_likes") as mock_emit:
-                            
-                            mock_like_check.return_value = False;
+                        
+
+                            mock_like_check.return_value = False
                             socketio_test_client.emit(
-                                    "Toggle_Like",
-                                    {
-                                        "postID": 8,
-                                        "username": "joe",
-                                        "status": False,
-                                    },
-                                )
-                            mock_like_check.return_value = True;
+                                "Toggle_Like",
+                                {
+                                    "postID": 8,
+                                    "username": "joe",
+                                    "status": False,
+                                },
+                            )
+                            mock_like_check.return_value = True
                             socketio_test_client.emit(
-                                    "Toggle_Like",
-                                    {
-                                        "postID": 23,
-                                        "username": "Lebron James",
-                                        "status": True,
-                                    },
-                                )
-                    
+                                "Toggle_Like",
+                                {
+                                    "postID": 23,
+                                    "username": "Lebron James",
+                                    "status": True,
+                                },
+                            )
+                            mock_like_check.return_value = True
+                            socketio_test_client.emit(
+                                "Toggle_Like",
+                                {
+                                    "postID": 23,
+                                    "username": "Lebron James",
+                                    "status": False,
+                                },
+                            )
+                            response = socketio_test_client.get_received()
+                            self.assertEqual(type(response[0]["args"][0]["postID"]), int)
+                            self.assertEqual(response[0]["name"], "update_likes")
 
 
 if __name__ == "__main__":

@@ -17,16 +17,17 @@
 .ResultImage {
   position: relative;
   width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .ResultImage img {
   position: relative;
-  left: 5px;
-  display: block;
   margin-left: auto;
   margin-right: auto;
   width: 140px;
-  height: auto;
+  mix-blend-mode: multiply; /* white to transparent*/
 }
 
 .ResultInfo {

@@ -1,3 +1,19 @@
+.backButton {
+  background-color: cornflowerblue;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  border-radius: 10px;
+  display: inline-block
+}
+
+.backButton Link {
+  cursor: pointer;
+}
+
+
 .user-photo {
   position: relative;
   left: 5px;
@@ -15,6 +31,7 @@
   position: relative;
   margin-left: auto;
   margin-right: auto;
+  padding: 25px;
   top: 10%;
   /*left: 6%;*/
   align-items: center;

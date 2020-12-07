@@ -2,11 +2,13 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import Socket from "./Socket";
 import PropTypes from "prop-types";
+import '../style/ProfilePage.css'
 
 export default function Biography(props) {
   const [totalLikes, setTotalLikes] = React.useState(0);
   const [totalPosts, setTotalPosts] = React.useState(0);
   const [totalComments, setTotalComments] = React.useState(0);
+  const [pfp, setPfp] = React.useState("");
 
   function handleBack(e) {
     Socket.emit("go back");
@@ -21,6 +23,7 @@ export default function Biography(props) {
       setTotalLikes(data.total_likes);
       setTotalPosts(data.total_posts);
       setTotalComments(data.total_comments);
+      setPfp(data.pfp);
     } else {
       // Not the same profile
     }
@@ -39,14 +42,14 @@ export default function Biography(props) {
 
   return (
     <div className="bio-content">
-      <div class="goback">
+      <div class="backButton">
         <Link to="/" onClick={handleBack}>
           {" "}
           Go back to searches{" "}
         </Link>
       </div>
       <div>
-        <img src={props.pfp} className="bio-pfp" alt="Profile" />
+        <img src={pfp} className="bio-pfp" alt="Profile" />
       </div>
       <div className="bio-info">
         <div className="bio-name">{props.name}</div>
@@ -74,6 +77,5 @@ export default function Biography(props) {
 
 Biography.propTypes = {
   name: PropTypes.string.isRequired,
-  pfp: PropTypes.string.isRequired,
   bio: PropTypes.string.isRequired,
 };
