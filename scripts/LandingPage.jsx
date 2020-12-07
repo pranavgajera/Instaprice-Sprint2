@@ -34,9 +34,9 @@ export default function LandingPage() {
         <div className="hero2-content">
           <h1 className="hero2-title">WHAT WE MADE</h1>
           <ul className="hero2-subtitle">
-            <li> APP SCREENSHOT 1 </li>
-            <li> APP SCREENSHOT 2 </li>
-            <li> APP SCREENSHOT 3 </li>
+            <img src="https://i.imgur.com/YCfyMRm.png" alt="main feed" height="300" /> 
+            <img src="https://i.imgur.com/3ZEwzpZ.png" alt="detail view" height="300" /> 
+            <img src="https://i.imgur.com/qf03YSt.png" alt="profile page" height="300" />
           </ul>
           <p className="hero2-bio">
             Although there are quite a few applications that track the price
