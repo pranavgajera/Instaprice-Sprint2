@@ -4,7 +4,7 @@ A browser-based price tracker application where users can type in about a produc
 
 ## Heroku Link: https://instaprice-490.herokuapp.com/
 # Cloning this project to the local enviroment
-1. To start using this project clone this repository by running ` https://github.com/pranavgajera/InstaPrice`
+1. To start using this project clone this repository by running `git clone https://github.com/pranavgajera/InstaPrice`
 2. Then install all the dependencies by running ` npm install && pip install -r requirements.txt`
 3. To setup the API's used in the project sign up for both the API's through RapidAPI at https://rapidapi.com/
    to use https://rapidapi.com/ajmorenodelarosa/api/amazon-price1 
