@@ -385,6 +385,37 @@ class TestBot(unittest.TestCase):
             print(response)
             self.assertEqual(type(response[0]["args"][0]["allItemnames"]), list)
             self.assertEqual(response[0]["name"], "random chan")
+            
+    def test_toggle_like(self):
+        flask_test_client = app.APP.test_client()
+        socketio_test_client = app.SOCKETIO.test_client(
+            app.APP, flask_test_client=flask_test_client
+        )
+        with patch("models.DB.session.query") as mock_fetch:
+            with patch("models.DB.session.add") as mock_write:
+                with patch("models.DB.session.commit") as mock_commit:
+                    with patch("app.like_exists") as mock_like_check:
+                        with patch("app.emit_likes") as mock_emit:
+                            
+                            mock_like_check.return_value = False;
+                            socketio_test_client.emit(
+                                    "Toggle_Like",
+                                    {
+                                        "postID": 8,
+                                        "username": "joe",
+                                        "status": False,
+                                    },
+                                )
+                            mock_like_check.return_value = True;
+                            socketio_test_client.emit(
+                                    "Toggle_Like",
+                                    {
+                                        "postID": 23,
+                                        "username": "Lebron James",
+                                        "status": True,
+                                    },
+                                )
+                    
 
 
 if __name__ == "__main__":

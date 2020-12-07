@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for app.py: 71%</title>
+    <title>Coverage for app.py: 77%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="jquery.hotkeys.js"></script>
@@ -17,13 +17,13 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>app.py</b> :
-            <span class="pc_cov">71%</span>
+            <span class="pc_cov">77%</span>
         </h1>
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
         <h2 class="stats">
             217 statements &nbsp;
-            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">155 run</button>
-            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">62 missing</button>
+            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">168 run</button>
+            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">49 missing</button>
             <button type="button" class="exc show_exc shortkey_x button_toggle_exc" title="Toggle lines excluded">0 excluded</button>
         </h2>
     </div>
@@ -512,26 +512,26 @@
     <p id="t459" class="pln"><span class="n"><a href="#t459">459</a></span><span class="t">    <span class="str">"""Toggles a like for a user, emits updated likecount/status"""</span>&nbsp;</span><span class="r"></span></p>
     <p id="t460" class="pln"><span class="n"><a href="#t460">460</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t461" class="pln"><span class="n"><a href="#t461">461</a></span><span class="t">    <span class="com"># Like or unlike?</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t462" class="mis show_mis"><span class="n"><a href="#t462">462</a></span><span class="t">    <span class="nam">print</span> <span class="op">(</span><span class="nam">data</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t463" class="mis show_mis"><span class="n"><a href="#t463">463</a></span><span class="t">    <span class="nam">post_id</span> <span class="op">=</span> <span class="nam">data</span><span class="op">[</span><span class="str">"postID"</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t464" class="mis show_mis"><span class="n"><a href="#t464">464</a></span><span class="t">    <span class="nam">like_user</span> <span class="op">=</span> <span class="nam">data</span><span class="op">[</span><span class="str">"username"</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t465" class="mis show_mis"><span class="n"><a href="#t465">465</a></span><span class="t">    <span class="nam">new_status</span> <span class="op">=</span> <span class="key">not</span> <span class="nam">data</span><span class="op">[</span><span class="str">"status"</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t462" class="run"><span class="n"><a href="#t462">462</a></span><span class="t">    <span class="nam">print</span> <span class="op">(</span><span class="nam">data</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t463" class="run"><span class="n"><a href="#t463">463</a></span><span class="t">    <span class="nam">post_id</span> <span class="op">=</span> <span class="nam">data</span><span class="op">[</span><span class="str">"postID"</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t464" class="run"><span class="n"><a href="#t464">464</a></span><span class="t">    <span class="nam">like_user</span> <span class="op">=</span> <span class="nam">data</span><span class="op">[</span><span class="str">"username"</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t465" class="run"><span class="n"><a href="#t465">465</a></span><span class="t">    <span class="nam">new_status</span> <span class="op">=</span> <span class="key">not</span> <span class="nam">data</span><span class="op">[</span><span class="str">"status"</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
     <p id="t466" class="pln"><span class="n"><a href="#t466">466</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t467" class="mis show_mis"><span class="n"><a href="#t467">467</a></span><span class="t">    <span class="nam">already_liked</span> <span class="op">=</span> <span class="nam">like_exists</span><span class="op">(</span><span class="nam">post_id</span><span class="op">,</span> <span class="nam">like_user</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t468" class="mis show_mis"><span class="n"><a href="#t468">468</a></span><span class="t">    <span class="key">if</span> <span class="nam">new_status</span> <span class="op">==</span> <span class="key">True</span> <span class="key">and</span> <span class="key">not</span> <span class="nam">already_liked</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t467" class="run"><span class="n"><a href="#t467">467</a></span><span class="t">    <span class="nam">already_liked</span> <span class="op">=</span> <span class="nam">like_exists</span><span class="op">(</span><span class="nam">post_id</span><span class="op">,</span> <span class="nam">like_user</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t468" class="run"><span class="n"><a href="#t468">468</a></span><span class="t">    <span class="key">if</span> <span class="nam">new_status</span> <span class="op">==</span> <span class="key">True</span> <span class="key">and</span> <span class="key">not</span> <span class="nam">already_liked</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p id="t469" class="pln"><span class="n"><a href="#t469">469</a></span><span class="t">        <span class="com"># Add Like to DB</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t470" class="mis show_mis"><span class="n"><a href="#t470">470</a></span><span class="t">        <span class="nam">new_like</span> <span class="op">=</span> <span class="nam">models</span><span class="op">.</span><span class="nam">Like</span><span class="op">(</span><span class="nam">post_id</span><span class="op">,</span> <span class="nam">like_user</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t471" class="mis show_mis"><span class="n"><a href="#t471">471</a></span><span class="t">        <span class="nam">DB</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">add</span><span class="op">(</span><span class="nam">new_like</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t472" class="mis show_mis"><span class="n"><a href="#t472">472</a></span><span class="t">        <span class="nam">DB</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">commit</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t473" class="mis show_mis"><span class="n"><a href="#t473">473</a></span><span class="t">    <span class="key">elif</span> <span class="nam">new_status</span> <span class="op">==</span> <span class="key">False</span> <span class="key">and</span> <span class="nam">already_liked</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t470" class="run"><span class="n"><a href="#t470">470</a></span><span class="t">        <span class="nam">new_like</span> <span class="op">=</span> <span class="nam">models</span><span class="op">.</span><span class="nam">Like</span><span class="op">(</span><span class="nam">post_id</span><span class="op">,</span> <span class="nam">like_user</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t471" class="run"><span class="n"><a href="#t471">471</a></span><span class="t">        <span class="nam">DB</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">add</span><span class="op">(</span><span class="nam">new_like</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t472" class="run"><span class="n"><a href="#t472">472</a></span><span class="t">        <span class="nam">DB</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">commit</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t473" class="run"><span class="n"><a href="#t473">473</a></span><span class="t">    <span class="key">elif</span> <span class="nam">new_status</span> <span class="op">==</span> <span class="key">False</span> <span class="key">and</span> <span class="nam">already_liked</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p id="t474" class="pln"><span class="n"><a href="#t474">474</a></span><span class="t">        <span class="com"># Remove like from DB</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t475" class="mis show_mis"><span class="n"><a href="#t475">475</a></span><span class="t">        <span class="nam">DB</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">query</span><span class="op">(</span><span class="nam">models</span><span class="op">.</span><span class="nam">Like</span><span class="op">)</span><span class="op">.</span><span class="nam">filter_by</span><span class="op">(</span><span class="nam">username</span><span class="op">=</span><span class="nam">like_user</span><span class="op">)</span><span class="op">.</span><span class="nam">filter_by</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t475" class="run"><span class="n"><a href="#t475">475</a></span><span class="t">        <span class="nam">DB</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">query</span><span class="op">(</span><span class="nam">models</span><span class="op">.</span><span class="nam">Like</span><span class="op">)</span><span class="op">.</span><span class="nam">filter_by</span><span class="op">(</span><span class="nam">username</span><span class="op">=</span><span class="nam">like_user</span><span class="op">)</span><span class="op">.</span><span class="nam">filter_by</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p id="t476" class="pln"><span class="n"><a href="#t476">476</a></span><span class="t">            <span class="nam">post_id</span><span class="op">=</span><span class="nam">post_id</span>&nbsp;</span><span class="r"></span></p>
     <p id="t477" class="pln"><span class="n"><a href="#t477">477</a></span><span class="t">        <span class="op">)</span><span class="op">.</span><span class="nam">delete</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t478" class="mis show_mis"><span class="n"><a href="#t478">478</a></span><span class="t">        <span class="nam">DB</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">commit</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t478" class="run"><span class="n"><a href="#t478">478</a></span><span class="t">        <span class="nam">DB</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">commit</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t479" class="pln"><span class="n"><a href="#t479">479</a></span><span class="t">    <span class="key">else</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p id="t480" class="mis show_mis"><span class="n"><a href="#t480">480</a></span><span class="t">        <span class="nam">print</span><span class="op">(</span><span class="str">"status/liked mismatch."</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t481" class="mis show_mis"><span class="n"><a href="#t481">481</a></span><span class="t">    <span class="nam">emit_likes</span><span class="op">(</span><span class="nam">post_id</span><span class="op">,</span> <span class="nam">like_user</span><span class="op">,</span> <span class="nam">request</span><span class="op">.</span><span class="nam">sid</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t481" class="run"><span class="n"><a href="#t481">481</a></span><span class="t">    <span class="nam">emit_likes</span><span class="op">(</span><span class="nam">post_id</span><span class="op">,</span> <span class="nam">like_user</span><span class="op">,</span> <span class="nam">request</span><span class="op">.</span><span class="nam">sid</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t482" class="pln"><span class="n"><a href="#t482">482</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t483" class="run"><span class="n"><a href="#t483">483</a></span><span class="t"><span class="key">if</span> <span class="nam">__name__</span> <span class="op">==</span> <span class="str">"__main__"</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p id="t484" class="pln"><span class="n"><a href="#t484">484</a></span><span class="t">    <span class="com"># Don't test with these</span>&nbsp;</span><span class="r"></span></p>
@@ -548,7 +548,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.3</a>,
-            created at 2020-12-06 23:58 +0000
+            created at 2020-12-07 00:11 +0000
         </p>
     </div>
 </div>
