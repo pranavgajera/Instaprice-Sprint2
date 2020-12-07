@@ -18,25 +18,33 @@ export default function CommentBar(props) {
   };
 
   return (
-    <form htmlFor="newitem" onSubmit={postComment} className="commentbar">
-      <label htmlFor="textbox">
-        <input
-          className="inputbox"
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-      </label>
-      <button
-        className={"submit-button"}
-        onClick={postComment}
-        variant="primary"
-        type="submit"
-        value="Submit"
-      >
-        Post Comment
-      </button>
-    </form>
+    <div className="commentbar">
+      <form htmlFor="newitem" onSubmit={postComment}>
+        <div className="commentGrid">
+          <div className="input">
+            <label htmlFor="textbox">
+              <input
+                className="inputbox"
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+            </label>
+          </div>
+          <div>
+            <button
+              className={"submit-button"}
+              onClick={postComment}
+              variant="primary"
+              type="submit"
+              value="Submit"
+            >
+            Post Comment
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }
 

@@ -13,7 +13,7 @@ export default function Feed(props) {
   const [currprices, setCurrprice] = useState("");
   const [usernames, setUsername] = useState([]);
   const [times, setTime] = useState([]);
-
+  const[likes,setLikes] =useState([]);
   function updateItems(data) {
     setItemname(data.allItemnames);
     setImageurl(data.allImageurls);
@@ -21,6 +21,7 @@ export default function Feed(props) {
     setUsername(data.allUsernames);
     setAsin(data.allAsins);
     setTime(data.allTimes);
+    setLikes(data.allLikes)
     const feedBody = document.querySelector("#feedBody");
     feedBody.scrollTop = feedBody.scrollHeight - feedBody.clientHeight;
   }
@@ -33,7 +34,21 @@ export default function Feed(props) {
       };
     });
   }
+  
+  function getNewPost() {
+    React.useEffect(() => {
+      Socket.on("latest post", (data) => {
+        setItemname((itemnames) => [...itemnames, data.itemname]);
+        setAsin((asins) => [...asins, data.ASIN]);
+        setImageurl((imageurls) => [...imageurls, data.imageurl]);
+        setCurrprice((currprices) => [...currprices, data.currprice]);
+        setUsername((usernames) => [...usernames, data.username]);
+        setTime((times) => [...times, data.time]);
+      });
+    }, []);
+  }
 
+  getNewPost();
   getNewItems();
 
   return (
@@ -62,6 +77,7 @@ export default function Feed(props) {
                     />{" "}
                     on {times[index]}
                   </h4>
+                  <h4>likes:{likes[index]}</h4>
                   <DetailedViewButton
                     activeOnlyWhenExact={true}
                     to={"/item/" + asins[index]}
