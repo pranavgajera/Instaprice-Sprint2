@@ -3,6 +3,7 @@ import GoogleButton from "./GoogleButton";
 import FacebookButton from "./FacebookButton";
 // import { GiPriceTag } from "react-icons/gi";
 
+
 import "../style/NavBar.css";
 
 export default function NavBar() {

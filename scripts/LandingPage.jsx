@@ -1,4 +1,12 @@
-import React from "react";
+import * as React from "react";
+import { SiFlask } from "react-icons/si";
+import { SiPostgresql } from "react-icons/si";
+import { SiSocketDotIo } from "react-icons/si";
+import { SiReact } from "react-icons/si";
+import { SiCss3 } from "react-icons/si";
+import { SiGoogle } from "react-icons/si";
+import { SiHeroku } from "react-icons/si";
+
 
 import "../style/LandingPage.css";
 
@@ -47,13 +55,13 @@ export default function LandingPage() {
         <div className="hero3-content">
           <h1 className="hero3-title">HOW WE DID IT</h1>
           <ul className="hero3-subtitle">
-            <li> Flask </li>
-            <li> PostgreSQL </li>
-            <li> Flask-Socketio </li>
-            <li> React </li>
-            <li> CSS </li>
-            <li> OAuth </li>
-            <li> Heroku </li>
+            <li> Flask <SiFlask /> </li>
+            <li> PostgreSQL <SiPostgresql /> </li>
+            <li> Flask-Socketio <SiSocketDotIo /> </li>
+            <li> React <SiReact /> </li>
+            <li> CSS <SiCss3 /> </li>
+            <li> OAuth <SiGoogle /> </li>
+            <li> Heroku <SiHeroku /> </li>
           </ul>
           <p className="hero3-bio">
             Our web app is built using Flask in the backend and React/JS in the
