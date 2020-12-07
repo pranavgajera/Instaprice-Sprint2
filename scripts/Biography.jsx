@@ -10,7 +10,7 @@ export default function Biography(props) {
   const [totalComments, setTotalComments] = React.useState(0);
   const [pfp, setPfp] = React.useState("");
 
-  function handleBack(e) {
+  function handleBack() {
     Socket.emit("go back");
   }
 
@@ -42,7 +42,7 @@ export default function Biography(props) {
 
   return (
     <div className="bio-content">
-      <div class="backButton">
+      <div className="backButton">
         <Link to="/" onClick={handleBack}>
           {" "}
           Go back to searches{" "}

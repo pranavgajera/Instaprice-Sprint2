@@ -44,7 +44,7 @@ export default function Content() {
   function searchRequestReceived() {
     // used to close the search result window once a search request is confirmed by server
     React.useEffect(() => {
-      Socket.on('search request received', (data) => {
+      Socket.on('search request received', () => {
         setSearched(false);
       });
     });

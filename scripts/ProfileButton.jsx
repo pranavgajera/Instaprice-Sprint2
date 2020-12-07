@@ -35,7 +35,7 @@ export default function ProfileButton({
     exact: activeOnlyWhenExact,
   });
 
-  function handleClick(e) {
+  function handleClick() {
     console.log("Link worked with: " + to);
     Socket.emit("get profile page", {
       username: username,

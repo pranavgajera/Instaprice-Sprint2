@@ -1,15 +1,13 @@
 import * as React from "react";
-import Socket from "./Socket";
-import { Link } from "react-router-dom";
 import Biography from "./Biography";
 import ProfileFeed from "./ProfileFeed";
 
 import "../style/ProfilePage.css";
 
 export default function ProfilePage(props) {
-  function handleBack(e) {
-    Socket.emit("go back");
-  }
+  // function handleBack(e) {
+  //   Socket.emit("go back");
+  // }
 
   return (
     <div>
