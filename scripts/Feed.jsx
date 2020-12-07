@@ -14,6 +14,7 @@ export default function Feed(props) {
   const [usernames, setUsername] = useState([]);
   const [times, setTime] = useState([]);
   const[likes,setLikes] =useState([]);
+  const[postID , setpostID] = useState([])
   function updateItems(data) {
     setItemname(data.allItemnames);
     setImageurl(data.allImageurls);
@@ -22,6 +23,7 @@ export default function Feed(props) {
     setAsin(data.allAsins);
     setTime(data.allTimes);
     setLikes(data.allLikes)
+    setpostID(data.allPostIDs)
     const feedBody = document.querySelector("#feedBody");
     feedBody.scrollTop = feedBody.scrollHeight - feedBody.clientHeight;
   }
@@ -44,6 +46,7 @@ export default function Feed(props) {
         setCurrprice((currprices) => [...currprices, data.currprice]);
         setUsername((usernames) => [...usernames, data.username]);
         setTime((times) => [...times, data.time]);
+        setpostID(( postID ) => [...postID,data.postID])
       });
     }, []);
   }
@@ -56,7 +59,7 @@ export default function Feed(props) {
       <h1>Recent Posts!</h1>
       <ol>
         {itemnames.map((itemname, index) => (
-          <li key={itemname}>
+          <li key={postID[index]}>
             <div className="PostItem">
               <div className="PostGrid">
                 <img
