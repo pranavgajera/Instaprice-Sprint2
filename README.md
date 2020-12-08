@@ -1,7 +1,7 @@
 
 # InstaPrice
 
-A browser-based price tracker application where users can type in about a product and the application will respond with the price history of that specific product. User will also be allowed to make a post about a product to the public feeds where other users can view the post with more detailed price information about that perticular product. 
+A browser-based price tracker application where users can type in about a product and the application will respond with the price history of that specific product. User will also be allowed to make a post about a product to the public feed where other users can view the post with more detailed price information about that particular product. 
 
 ## Heroku Link: [https://instaprice-490.herokuapp.com/](https://instaprice-490.herokuapp.com/)
 # Setting up
