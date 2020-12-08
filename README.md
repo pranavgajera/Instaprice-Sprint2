@@ -64,6 +64,15 @@ There's a special file that you need to enable your db admin password to work fo
 If that doesn't work: `sudo vim $(psql -c "show hba_file;" | grep pg_hba.conf)`  
 2. Replace all values of `ident` with `md5` in Vim: `:%s/ident/md5/g`  
 
+# Creating the database via python
+1. Run the following commands
+   ```
+   $python
+   $import models
+   $models.DB.create_all()
+   $models.DB.session.commit()
+   ```
+
 # Running
 1. Run the application by running `npm run watch` on one terminal and `python app.py` in another terminal to start the application.
 
