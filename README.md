@@ -6,7 +6,7 @@ A browser-based price tracker application where users can type in about a produc
 ## Heroku Link: [https://instaprice-490.herokuapp.com/](https://instaprice-490.herokuapp.com/)
 # Setting up
 1. To start using this project clone this repository by running `git clone https://github.com/pranavgajera/Instaprice-Sprint2` and then `cd Instaprice-Sprint2`
-2. Then install all the dependencies by running ` npm install && sudo pip3 install -r requirements.txt`
+2. Then install all the dependencies by running ` npm install && npm install --dev && sudo pip3 install -r requirements.txt`
 3.
 4. Update yum: `sudo yum update` and enter yes to all prompts.
 5. Upgrade pip: `sudo /usr/local/bin/pip install --upgrade pip`  
