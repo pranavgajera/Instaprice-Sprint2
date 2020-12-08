@@ -1,15 +1,15 @@
 
 # InstaPrice
 
-A browser-based price tracker application where users can type in about a product and the application will respond with the price history of that specific product.
+A browser-based price tracker application where users can type in about a product and the application will respond with the price history of that specific product. User will also be allowed to make a post about a product to the public feed where other users can view the post with more detailed price information about that particular product. 
 
 ## Heroku Link: [https://instaprice-490.herokuapp.com/](https://instaprice-490.herokuapp.com/)
 # Setting up
 1. To start using this project clone this repository by running `git clone https://github.com/pranavgajera/Instaprice-Sprint2` and then `cd Instaprice-Sprint2`
 2. Then install all the dependencies by running ` npm install && npm install --dev && sudo pip3 install -r requirements.txt`
-3.
+3. Run `npm install -g webpack && npm install --save-dev webpack && npm install socket.io-client --save`
 4. Update yum: `sudo yum update` and enter yes to all prompts.
-5. Upgrade pip: `sudo /usr/local/bin/pip install --upgrade pip`  
+5. Upgrade pip: `sudo /usr/local/bin/pip install --upgrade pip` and then install python packages by running ` sudo /usr/local/bin/pip install -r requirements.txt` 
 6. To setup the API's used in the project sign up for both the API's through RapidAPI at [https://rapidapi.com/](https://rapidapi.com/)
    to use [https://rapidapi.com/ajmorenodelarosa/api/amazon-price1/](https://rapidapi.com/ajmorenodelarosa/api/amazon-price1)
    and [https://rapidapi.com/Megatvini/api/amazon-price-history](https://rapidapi.com/Megatvini/api/amazon-price-history)
@@ -64,6 +64,15 @@ There's a special file that you need to enable your db admin password to work fo
 If that doesn't work: `sudo vim $(psql -c "show hba_file;" | grep pg_hba.conf)`  
 2. Replace all values of `ident` with `md5` in Vim: `:%s/ident/md5/g`  
 3. Run `sudo service postgresql restart`
+
+# Creating the database via python
+1. Run the following commands
+   ```
+   $python
+   $import models
+   $models.DB.create_all()
+   $models.DB.session.commit()
+   ```
 
 # Running
 1. Run the application by running `npm run watch` on one terminal and `python app.py` in another terminal to start the application.
