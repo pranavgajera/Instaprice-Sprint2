@@ -26,12 +26,9 @@ export default function Feed(props) {
                   </h4>
                   <h4>
                     Posted by:
-                    <ProfileButton
-                      activeOnlyWhenExact={true}
-                      to={"/" + props.usernames[index]}
-                      label={props.usernames[index]}
-                      username={props.usernames[index]}
-                    />
+                    {props.usernames[index]}
+                  </h4>
+                  <h4>
                     on {props.times[index]}
                   </h4>
                   <DetailedViewButton
