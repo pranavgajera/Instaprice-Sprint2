@@ -5,7 +5,7 @@ import "../style/Buttons.css";
 import { FcGoogle } from "react-icons/fc";
 
 const responseGoogle = (response) => {
-  alert(response);
+  console.log(response);
 };
 
 function handleSubmit(response) {

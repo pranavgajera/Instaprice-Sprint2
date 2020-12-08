@@ -1,0 +1,26 @@
+.Sortbar {
+    display: grid;
+    grid-template-columns: 60px 100px;
+    padding: 10px;
+}
+
+.Sort {
+    width: 100%;
+}
+
+.DropDown {
+    z-index: 11;
+    width: 100%;
+}
+
+.DropDown button {
+    width: 100%;
+}
+
+.DropDown .menu {
+    width: 100%;
+}
+
+.DropDown .menu button {
+    width: 100%;
+}
