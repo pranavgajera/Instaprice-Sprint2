@@ -7,14 +7,15 @@ A browser-based price tracker application where users can type in about a produc
 # Setting up
 1. To start using this project clone this repository by running `git clone https://github.com/pranavgajera/Instaprice-Sprint2` and then `cd Instaprice-Sprint2`
 2. Then install all the dependencies by running ` npm install && sudo pip3 install -r requirements.txt`
-3. Update yum: `sudo yum update` and enter yes to all prompts.
-4. Upgrade pip: `sudo /usr/local/bin/pip install --upgrade pip`  
-5. To setup the API's used in the project sign up for both the API's through RapidAPI at [https://rapidapi.com/](https://rapidapi.com/)
+3.
+4. Update yum: `sudo yum update` and enter yes to all prompts.
+5. Upgrade pip: `sudo /usr/local/bin/pip install --upgrade pip`  
+6. To setup the API's used in the project sign up for both the API's through RapidAPI at [https://rapidapi.com/](https://rapidapi.com/)
    to use [https://rapidapi.com/ajmorenodelarosa/api/amazon-price1/](https://rapidapi.com/ajmorenodelarosa/api/amazon-price1)
    and [https://rapidapi.com/Megatvini/api/amazon-price-history](https://rapidapi.com/Megatvini/api/amazon-price-history)
-6. After signing up for the API's create a `secret_tokens.env` file and add the following lines into the file:
+7. After signing up for the API's create a `secret_tokens.env` file and add the following lines into the file:
   ` RAPID_API_KEY=Your Key `
-7. To setup the google login button while starting up the application install this npm package by typing `npm install react-google-login`
+8. To setup the google login button while starting up the application install this npm package by typing `npm install react-google-login`
    before starting up the application. Additional information about the npm package could be found at https://www.npmjs.com/package/react-google-login.
    After installing the npm package, follow the below steps to get the google login button setup:
    - Firstly go to https://console.developers.google.com/ and sign up using for the google developer account using your personal email.
@@ -26,15 +27,15 @@ A browser-based price tracker application where users can type in about a produc
    - Then after finishing that step, go to credintials -> Create Credentials -> OAuth client ID. Click "web application" and your application 
      should be ready to go .
    - Then replace the clientID in the the GoogleButton.jsx file and the application should be ready to start.
-8. To setup facebook login button while starting up the application install this npm package by typing `npm install react-facebook-login` before starting up the application. Additional information about the npm package could be found at [https://www.npmjs.com/package/react-facebook-login](https://www.npmjs.com/package/react-facebook-login). After installing the npm package, follow the below steps to get the facebook login button setup:
+9. To setup facebook login button while starting up the application install this npm package by typing `npm install react-facebook-login` before starting up the application. Additional information about the npm package could be found at [https://www.npmjs.com/package/react-facebook-login](https://www.npmjs.com/package/react-facebook-login). After installing the npm package, follow the below steps to get the facebook login button setup:
 	- Firstly go to https://developers.facebook.com/ and sign up using your regular facebook account.
 	- Create a new app and select everything else when it asks for the application purpose and then name it based on your preference.
 	- Use the application app id and replace it in the FacebookButton.jsx file.
 	- Then go to the seetings of the application and enable Client OAuth login and Web OAuth login and in the valid oauth redirect URL add the developemtn url 	      for your working enviroment.
 	- After following all the above steps the facebook login should be ready for the users to login with their facebook accounts.
-9. Install react icons by running `npm install react-icons` see documentation here [https://www.npmjs.com/package/react-icons](https://www.npmjs.com/package/react-icons)
-10. Install chartjs and chartjs2 by running `npm install react-chartjs` and `npm install react-chartjs-2` see documentation here [https://www.npmjs.com/package/react-chartjs-2](https://www.npmjs.com/package/react-chartjs-2)
-11. Install react-router-dom by running `npm install react-router-dom` see documentation here [https://www.npmjs.com/package/react-router-dom](https://www.npmjs.com/package/react-router-dom)
+10. Install react icons by running `npm install react-icons` see documentation here [https://www.npmjs.com/package/react-icons](https://www.npmjs.com/package/react-icons)
+11. Install chartjs and chartjs2 by running `npm install react-chartjs` and `npm install react-chartjs-2` see documentation here [https://www.npmjs.com/package/react-chartjs-2](https://www.npmjs.com/package/react-chartjs-2)
+12. Install react-router-dom by running `npm install react-router-dom` see documentation here [https://www.npmjs.com/package/react-router-dom](https://www.npmjs.com/package/react-router-dom)
 # Setting up the Database
 1. Install PostGreSQL: `sudo yum install postgresql postgresql-server postgresql-devel postgresql-contrib postgresql-docs`    
     Enter yes to all prompts.    
