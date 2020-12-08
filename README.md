@@ -63,6 +63,7 @@ There's a special file that you need to enable your db admin password to work fo
 1. Open the file in vim: `sudo vim /var/lib/pgsql9/data/pg_hba.conf`
 If that doesn't work: `sudo vim $(psql -c "show hba_file;" | grep pg_hba.conf)`  
 2. Replace all values of `ident` with `md5` in Vim: `:%s/ident/md5/g`  
+3. Run `sudo service postgresql restart`
 
 # Running
 1. Run the application by running `npm run watch` on one terminal and `python app.py` in another terminal to start the application.
