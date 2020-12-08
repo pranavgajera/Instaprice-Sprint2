@@ -90,3 +90,11 @@ If that doesn't work: `sudo vim $(psql -c "show hba_file;" | grep pg_hba.conf)`
 	- enter your password from 7. b)
 6. Commit your changes and then run `git push heroku master`
 7. Your Heroku App should be live!
+
+# Problem we faced
+1. We were facing problems with some of our testing functions on circleci.
+2. We were having problem in finding a way too store our graph using backend.
+
+# How we fixed it
+1. We reviewed the test functions and rewrote the code to fix the problems for circleci.
+2. We then found a way to generate the graphs in frontend using a tool provided by react.
