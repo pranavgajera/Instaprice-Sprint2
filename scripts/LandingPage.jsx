@@ -11,7 +11,7 @@ import "../style/LandingPage.css";
 
 export default function LandingPage() {
   return (
-    <div>
+    <div className="base">
       <section className="hero-section1">
         <div className="hero1-content">
           <h1 className="hero1-title">WHO WE ARE</h1>
@@ -32,23 +32,19 @@ export default function LandingPage() {
       <section className="hero-section2">
         <div className="hero2-content">
           <h1 className="hero2-title">WHAT WE MADE</h1>
-          <ul className="hero2-subtitle">
-            <img
+          <div className="hero2-subtitle">
+            <img className="mainFeedImage"
               src="https://i.imgur.com/YCfyMRm.png"
               alt="main feed"
               height="300"
             />
-            <img
+            <div></div>
+            <img className="detailViewImage"
               src="https://i.imgur.com/3ZEwzpZ.png"
               alt="detail view"
               height="300"
             />
-            <img
-              src="https://i.imgur.com/qf03YSt.png"
-              alt="profile page"
-              height="300"
-            />
-          </ul>
+          </div>
           <p className="hero2-bio">
             Although there are quite a few applications that track the price
             history of products, we’ve found that there is a lack of social
