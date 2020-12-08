@@ -1,3 +1,7 @@
+.base {
+  width: 100%;
+}
+
 .hero-section1 {
   display: flex;
   flex-direction: column;
@@ -79,6 +83,13 @@
   filter: brightness(30%);
 }
 
+.hero2-content {
+  position: relative;
+  color: white;
+  text-align: center;
+  width: 100%;
+}
+
 .hero2-title {
   font-size: 5rem;
   font-weight: 650;
@@ -86,13 +97,22 @@
 
 .hero2-subtitle {
   display: grid;
-  grid-template-columns: repeat(3, auto);
-  column-gap: 125px;
+  grid-template-columns: auto 20px auto;
   justify-items: center;
   list-style: none;
   font-size: 2.5rem;
   font-weight: 200;
-  margin: 50px;
+  margin: auto;
+  text-align: center;
+  width: 80%;
+}
+
+.images .mainFeedImage {
+  float: left;
+}
+
+.images .detailViewImage {
+  float: right;
 }
 
 .hero2-bio {
@@ -102,11 +122,6 @@
   margin: 75px;
 }
 
-.hero2-content {
-  position: relative;
-  color: white;
-  text-align: center;
-}
 
 /*SECTION 3*/
 
