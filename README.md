@@ -14,7 +14,7 @@ A browser-based price tracker application where users can type in about a produc
    to use [https://rapidapi.com/ajmorenodelarosa/api/amazon-price1/](https://rapidapi.com/ajmorenodelarosa/api/amazon-price1)
    and [https://rapidapi.com/Megatvini/api/amazon-price-history](https://rapidapi.com/Megatvini/api/amazon-price-history)
 7. After signing up for the API's create a `secret_tokens.env` file and add the following lines into the file:
-  ` RAPID_API_KEY=Your Key `
+  ` export RAPID_API_KEY=Your Key `
 8. To setup the google login button while starting up the application install this npm package by typing `npm install react-google-login`
    before starting up the application. Additional information about the npm package could be found at https://www.npmjs.com/package/react-google-login.
    After installing the npm package, follow the below steps to get the google login button setup:
@@ -54,7 +54,7 @@ A browser-based price tracker application where users can type in about a produc
     b) :warning: :warning: :warning: REPLACE THE [VALUES] IN THIS COMMAND! Type this with a new (short) unique password. I recommend 4-5 characters - it doesn't have to be very secure. Remember this password!   
         `create user [some_username_here] superuser password '[some_unique_new_password_here]';`    
     d) `\q` to quit out of sql    
-8. `cd` into `InstaPrice-Sprint2` and open `secret_tokens.env` and add `DATABASE_URL='postgresql://[your_unique_sql_username_here]:[your_unique_sql_password_here]@localhost/postgres'`
+8. `cd` into `InstaPrice-Sprint2` and open `secret_tokens.env` and add `export DATABASE_URL='postgresql://[your_unique_sql_username_here]:[your_unique_sql_password_here]@localhost/postgres'`
 9. Fill in SQL_USER and SQL_PASSWORD values with the values you put in 7. b)  
 10. Run `source secret_tokens.env`
 
