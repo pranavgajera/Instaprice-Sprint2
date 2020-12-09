@@ -132,4 +132,14 @@ If that doesn't work: `sudo vim $(psql -c "show hba_file;" | grep pg_hba.conf)`
 	- optimize socket calls to only transmit data when absolutely necessary
 	- limit socket calls to only clients that need the particular update(s)
 	- sorting of search results
-	
+
+- Shuo Zhang
+	- README - Installation Instructions
+	- Mock testing all new functions
+	- Cleaned up code to reach acceptable coverage
+	- Heroku deployment and setting up Heroku Database
+	- Added the DETAILED VIEW page
+	- Added the LIKE button to the detailed view page
+	- Styled the Detailed View page and Recent Feed module
+	- Implemented the front-end Graph/chartjs rendering
+	- Main content page styling
