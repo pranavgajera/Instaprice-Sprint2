@@ -98,3 +98,6 @@ If that doesn't work: `sudo vim $(psql -c "show hba_file;" | grep pg_hba.conf)`
 # How we fixed it
 1. We reviewed the test functions and rewrote the code to fix the problems for circleci.
 2. We then found a way to generate the graphs in frontend using a tool provided by react.
+
+# Current problems in the application
+1. For some of the device there are some formatting problems, some devices seem to have a scrollbar in the feed items and some don't.
