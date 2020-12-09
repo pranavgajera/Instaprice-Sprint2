@@ -124,3 +124,12 @@ If that doesn't work: `sudo vim $(psql -c "show hba_file;" | grep pg_hba.conf)`
   - Helped Pranav get CircleCI up and running
   - Linted files I worked on
   - Minor changes to README installation instructions
+ 
+- Erik Eckenberg
+	- search result, profile page, detailed item view, feed, and homepage styling
+	- cleaning up css files
+	- updating installation instructions to include setting up psql
+	- optimize socket calls to only transmit data when absolutely necessary
+	- limit socket calls to only clients that need the particular update(s)
+	- sorting of search results
+	
