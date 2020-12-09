@@ -354,6 +354,7 @@ def post_price_history(data):
     """sends post information to database, updates posts, and
     sends updated list of posts to users"""
     print(data)
+    SOCKETIO.emit("search request received")
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M")
     data["time"] = dt_string
