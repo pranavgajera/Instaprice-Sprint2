@@ -114,3 +114,13 @@ If that doesn't work: `sudo vim $(psql -c "show hba_file;" | grep pg_hba.conf)`
 	- Implemented likes counter to the feed.
 	- Helped with styling some parts of the application.
 	- Frontend - added more information about results by certain criteria (ratings, current price, # of reviews...)
+
+- Jason Morgado
+  - Generated Price Graphs in backend (removed)
+  - Implemented Comments Section Backend/DB
+  - Implemented Likes Backend/DB
+  - Implemented stats that appear on profile page
+  - Minor fix to how profile pictures get displayed on profile page
+  - Helped Pranav get CircleCI up and running
+  - Linted files I worked on
+  - Minor changes to README installation instructions
