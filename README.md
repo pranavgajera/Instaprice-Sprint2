@@ -101,3 +101,16 @@ If that doesn't work: `sudo vim $(psql -c "show hba_file;" | grep pg_hba.conf)`
 
 # Current problems in the application
 1. For some of the device there are some formatting problems, some devices seem to have a scrollbar in the feed items and some don't.
+
+# Task Distribution
+- Pranavkumar Gajera
+	- README - Installation Instructions
+	- Error Handling- No response from the price history API
+	- Implemented facebook login
+	- Fixed errors related to pricehistory fetching
+	- Added calculation methods for price statistics in the more info page.
+	- Worked and fixed on issues related to CircleCI testing functions
+	- Did Pylint and Eslint for the application
+	- Implemented likes counter to the feed.
+	- Helped with styling some parts of the application.
+	- Frontend - added more information about results by certain criteria (ratings, current price, # of reviews...)
