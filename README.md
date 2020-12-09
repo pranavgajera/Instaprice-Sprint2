@@ -143,3 +143,10 @@ If that doesn't work: `sudo vim $(psql -c "show hba_file;" | grep pg_hba.conf)`
 	- Styled the Detailed View page and Recent Feed module
 	- Implemented the front-end Graph/chartjs rendering
 	- Main content page styling
+- Jeffrey Kuo
+	- Created and styled Landing Page
+	- Created and styled Profile Page
+	- Added loading indicator when waiting for price history API call
+	- Created Navigation bar for Profile and Landing Page
+	- Created back button component used throughout app
+	- Implemented react router for navigation between different components of the app
